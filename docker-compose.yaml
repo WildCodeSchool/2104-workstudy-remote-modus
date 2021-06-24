@@ -10,13 +10,13 @@ services:
         ports:
             -   4000:4000 
         command: npm start
-		links:
-	    -	mongodb:data	
+        links:
+        -	mongodb:data	
         volumes:
             -   ./back/src/:/app/src
     mongodb: 
         image: mongo
-		container_name: mongo
-		restart: always
+        container_name: mongo
+        restart: always
         volumes:
             - ./data:/data/db
