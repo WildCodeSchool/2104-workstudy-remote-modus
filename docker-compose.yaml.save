@@ -1,0 +1,19 @@
+services:
+    modus-front:
+        build: ./front
+        ports:  
+            -   3000:3000
+        volumes:
+            -   ./front/src/:/app/src  
+    modus-back:
+        build: ./back
+        ports:
+            -   4000:4000 
+        command: npm start
+        volumes:
+            -   ./back/src/:/app/src
+    mongodb: 
+	
+        image: mongo
+        volumes:
+            - ./data:/data/db
