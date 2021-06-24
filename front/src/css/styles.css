@@ -1,0 +1,12 @@
+.active {
+    font-weight: bold;
+    color: red;
+}
+
+.container {
+
+    width: 1000px;
+    height: 800px;
+    border: 1px solid red;
+    margin: 0 auto;
+}
