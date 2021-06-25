@@ -22,7 +22,7 @@ jobs:
       -
       # Permet d'accéder au code du Repo, sans ça on peut pas réaliser les actions suivante
         name: Check out code
-        users: actions/checkout@v2
+        uses: actions/checkout@v2
       -
         name: Build and push
         id: docker_build
