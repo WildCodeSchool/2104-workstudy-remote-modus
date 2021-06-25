@@ -7,3 +7,7 @@
 # Then create the container associated from this one : 
 -       docker run nom de l'image que l'on veut créér
 
+# Stop all the containers
+-       docker-compose down
+
+
