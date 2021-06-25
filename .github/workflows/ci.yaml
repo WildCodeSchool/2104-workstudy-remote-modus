@@ -1,4 +1,4 @@
-name: docker-ci
+name: docker-ci 
 on:
   push:
     branches:
@@ -24,7 +24,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: true
+          context: /modus-front
+          file: ./front/Dockerfile
+          push: true,
           # Une des possibilités à essayer serait de créer un repo DockerHub contenant les 3 imagesn et donc le renseigner ici à la place de l'image front
           tags: datebayo350/modus-front:latest
       -
