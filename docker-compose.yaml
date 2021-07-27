@@ -1,5 +1,4 @@
 services:
-    modus-app:    
         # Conteneur modus-front pour la partie front-end de l'application
         modus-front:
             # On indique quel dossier virtualiser
