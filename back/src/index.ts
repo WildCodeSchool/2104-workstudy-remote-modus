@@ -6,7 +6,7 @@ import 'reflect-metadata';
 
 async function start() {
   mongoose
-    .connect('mongodb://127.0.0.1:27017/modussey', {
+    .connect('mongodb://mongodb:27017/modussey', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

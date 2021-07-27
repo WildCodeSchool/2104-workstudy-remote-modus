@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./routes/home/Home";
 import Navbar from "./components/navbar/Navbar";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
-import AskingHelpForm from "./routes/askinghelpform/AskingHelpForm";
+import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 
 const App = (): JSX.Element => {
   return (
