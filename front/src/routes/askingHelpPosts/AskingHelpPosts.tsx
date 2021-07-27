@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/styles.css";
-import fakeDataPosts from "./fakeDataPosts";
+import fakeDataPosts from "./FakeDataPosts";
 import PostContainer from "./PostContainer";
 
 const AskingHelpPosts = (): JSX.Element => {
