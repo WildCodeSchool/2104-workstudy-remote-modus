@@ -30,7 +30,7 @@ jobs:
         with:
           context: ./front
           file: ./front/Dockerfile
-          push: TRUE,
+          push: true,
           # Une des possibilités à essayer serait de créer un repo DockerHub contenant les 3 imagesn et donc le renseigner ici à la place de l'image front
           tags: datebayo350/modus-front:latest
       -
