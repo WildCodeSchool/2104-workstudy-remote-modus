@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
@@ -18,18 +19,16 @@ const GETALLPOSTS = gql`
 `;
 
 const AskingHelpPosts = (): JSX.Element => {
-  const { loading, error, data } = useQuery(GETALLPOSTS);
-  if (data !== undefined) {
-    console.log("coucou", data.allPosts);
-  }
+  // const { loading, error, data } = useQuery(GETALLPOSTS);
+
   return (
     <>
       <h1>HELLO </h1>
       <div className="container">
         {fakeDataPosts.map((objet) => {
-          const { title, techno, summary } = objet;
+          const { title, skills, wysiwyg } = objet;
           return (
-            <PostContainer title={title} techno={techno} summary={summary} />
+            <PostContainer title={title} skills={skills} wysiwyg={wysiwyg} />
           );
         })}
       </div>
