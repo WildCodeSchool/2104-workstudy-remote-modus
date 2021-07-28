@@ -31,7 +31,6 @@
     "node_modules"
   ],
   "include": [
-    "App/back/src/**/*.tsx",
-    "App/back/src/**/*.ts"
+    "./src/**/*.ts",
   ]
 }
