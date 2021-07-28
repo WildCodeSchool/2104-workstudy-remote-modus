@@ -1,11 +1,12 @@
 import { PostResolver } from './PostResolver';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
+import { UserResolver } from './UserResolver';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const server = async () => {
   const schema = await buildSchema({
-    resolvers: [PostResolver],
+    resolvers: [PostResolver, UserResolver],
   });
 
   const apolloServer = new ApolloServer({
