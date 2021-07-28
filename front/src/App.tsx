@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./routes/home/Home";
 import Navbar from "./components/navbar/Navbar";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
-import AskingHelpForm from "./routes/askinghelpform/AskingHelpForm";
+import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 
 const App = (): JSX.Element => {
   return (
@@ -15,7 +15,7 @@ const App = (): JSX.Element => {
           <Home />
         </Route>
         <Route exact path="/asking-help-form">
-          <AskingHelpForm />
+          <AskingHelpForm onSubmit={() => console.log("onsubmit")} />
         </Route>
         <Route exact path="/asking-help-index">
           <AskingHelpPosts />
