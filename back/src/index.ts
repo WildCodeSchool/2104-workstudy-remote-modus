@@ -1,9 +1,9 @@
-import { PostResolver } from './PostResolver';
+import { PostResolver } from './resolvers/PostResolver';
 import { buildSchema } from 'type-graphql';
 import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import 'reflect-metadata';
-import { UserResolver } from './UserResolver';
+import { AuthResolver } from './resolvers/AuthResolver';
 
 async function start() {
   mongoose
@@ -18,7 +18,7 @@ async function start() {
     .catch((err: Error) => console.log(err));
 
   const schema = await buildSchema({
-    resolvers: [PostResolver, UserResolver],
+    resolvers: [PostResolver, AuthResolver],
   });
 
   const apolloServer = new ApolloServer({

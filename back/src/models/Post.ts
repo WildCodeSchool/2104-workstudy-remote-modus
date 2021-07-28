@@ -1,5 +1,5 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
-import { Field as GraphQLField, ObjectType as GraphQLType, InputType as GraphQLInputType, ID } from 'type-graphql';
+import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
 
 @GraphQLType()
 export class Skill {
@@ -25,24 +25,6 @@ export class Post {
   @prop({ type: Skill })
   @GraphQLField(() => [Skill])
   skills!: Skill[];
-}
-
-@GraphQLInputType()
-export class SkillInput {
-  @GraphQLField()
-  value!: string;
-}
-
-@GraphQLInputType()
-export class inputAddPost {
-  @GraphQLField()
-  title!: string;
-
-  @GraphQLField()
-  wysiwyg!: string;
-
-  @GraphQLField(() => [SkillInput])
-  skills!: SkillInput[];
 }
 
 export const PostModel = getModelForClass(Post);
