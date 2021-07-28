@@ -1,4 +1,4 @@
-services:
+services:  
     # Conteneur modus-front pour la partie front-end de l'application
     modus-front:
         # On indique quel dossier virtualiser
@@ -22,7 +22,7 @@ services:
         command: npm start
         # On le lie le conteneur mongodb au conteneur modus-back
         links:
-        -   mongodb:data
+            -   mongodb:data
         volumes:
             -   ./back/src/:/app/src
     # Conteneur Mongo           
