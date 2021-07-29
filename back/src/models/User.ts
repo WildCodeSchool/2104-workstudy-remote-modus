@@ -2,29 +2,22 @@ import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
 
 @GraphQLType()
-export class Skill {
-  @prop()
-  @GraphQLField()
-  value: string;
-}
-
-@GraphQLType()
-export class Post {
+export class User {
   @prop()
   @GraphQLField(() => ID)
   readonly id: string;
 
   @prop({ required: true })
   @GraphQLField()
-  title!: string;
+  nickname: string;
 
   @prop({ required: true })
   @GraphQLField()
-  wysiwyg!: string;
+  email!: string;
 
-  @prop({ type: Skill })
-  @GraphQLField(() => [Skill])
-  skills!: Skill[];
+  @prop({ required: true })
+  @GraphQLField()
+  password!: string;
 }
 
-export const PostModel = getModelForClass(Post);
+export const UserModel = getModelForClass(User);
