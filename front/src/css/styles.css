@@ -1,12 +1,65 @@
+.layout {
+    background-color: #221F2E;
+}
+
 .active {
     font-weight: bold;
     color: red;
 }
 
-.container {
+.help-title {
+    color: #EDAE49;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
 
+.container-helps {
     width: 1000px;
     height: 800px;
-    border: 1px solid red;
     margin: 0 auto;
+    border: solid 1px #EDAE49;
+    border-radius: 5px;
+}
+
+.card-posts {
+    margin-top: 10px;
+    padding: 10px;
+    border: hidden;
+    color: white;
+    background-color: transparent;
+}
+
+.card-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-infos {
+    background-color: transparent;
+    color: white;
+    width: fit-content;
+}
+
+.btn-details {
+    background-color: #7962F2;
+    color: white;
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: fit-content;
+}
+
+.post-footer {
+    color: white;
+}
+
+#post-line {
+    border: solid white 1px;
+}
+
+.skills-logo {
+    max-width: 25px;
 }
