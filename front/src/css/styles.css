@@ -1,6 +1,6 @@
 .layout {
     background-color: #221F2E;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .active {
@@ -127,4 +127,8 @@
     color: #EDAE49;
     border-radius: 20px;
     padding: 2px;
+}
+
+.login-form {
+    color: white;
 }

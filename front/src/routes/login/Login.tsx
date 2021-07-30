@@ -53,7 +53,7 @@ const Login: React.FC = () => {
           }
         }}
       >
-        <Form>
+        <Form className="login-form">
           <label htmlFor="email">Email Address</label>
           <Field name="email" type="email" />
           <ErrorMessage name="email" />
