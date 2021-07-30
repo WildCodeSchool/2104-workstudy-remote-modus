@@ -1,6 +1,12 @@
 .topnav{
-    background-color: #4a4063;
+    background-color: #7962F2;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    max-height: 50px;
 }
 
 .topnav a{
@@ -13,19 +19,19 @@
 }
 
 .topnav a:hover{
-    background-color: #c8c6d7;
-    color: #783f8e;
+    background-color: #272435;
+    color: white;
 }
 
 .topnav a.active{
-    background-color: #bfacc8;
-    color: #783f8e;
+    background-color: #221F2E;
+    color: white;
+    font-weight: normal;
 }
 
 .profileIcon{
-    height: 1.6vw;
+    max-height: 50px;
     float: right;
-    padding: 0.4vw;
 }
 
 .welcomemessage{
