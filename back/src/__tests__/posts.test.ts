@@ -1,15 +1,16 @@
 import { createTestClient } from 'apollo-server-testing';
 import { gql } from 'apollo-server-core';
-import { PostResolver } from '../PostResolver';
+import { PostResolver } from '../resolvers/PostResolver';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
 const CREATE_POST = gql`
-  mutation addPost($data: { title: 'Such Title', wysiwyg: '<p> Hello World </p>', skills: [{ value: 'Node'}] }) {
-      addPost(data: $data){
-      title,
-      }
+  mutation {
+    addPost(data: { title: "Ceci est un test", wysiwyg: "<p> Test </p>", skills: [{ value: "node" }] }) {
+      title
+    }
   }
 `;
 
@@ -17,8 +18,10 @@ let apollo: any;
 
 describe('Post Mutation test on with GraphQL', () => {
   beforeAll(async () => {
+    const mongo: MongoMemoryServer = await MongoMemoryServer.create();
+    const uri = mongo.getUri();
     mongoose
-      .connect('mongodb://127.0.0.1:27017/modussey', {
+      .connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
@@ -45,8 +48,6 @@ describe('Post Mutation test on with GraphQL', () => {
 
     const result = await mutate({ mutation: CREATE_POST });
 
-    console.log(result);
-
-    expect(result).toEqual('toto');
+    expect(result.data.addPost.title).toEqual('Ceci est un test');
   });
 });

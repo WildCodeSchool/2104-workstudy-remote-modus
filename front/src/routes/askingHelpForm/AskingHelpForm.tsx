@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import { gql, useMutation } from "@apollo/client";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
 
 interface AskingHelpFormProps {
   onSubmit: () => void;
 }
+
+const ADD_POST = gql`
+  mutation AddPost($input: inputAddPost!) {
+    addPost(data: $input) {
+      title
+      wysiwyg
+      skills {
+        value
+      }
+    }
+  }
+`;
 
 const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
   onSubmit,
@@ -22,6 +35,8 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
     { value: "Node", label: "Node" },
   ];
 
+  const [addPost, { data, loading, error }] = useMutation(ADD_POST);
+
   const DeleteSkill = (title: string) => {
     setSkills(
       skills.filter((filteredSkill: string) => {
@@ -33,10 +48,21 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (titleHelp) {
-      const formData = { title: titleHelp, skills, wysiwyg: userInput };
+      const formData = {
+        title: titleHelp,
+        skills: skills.map((skillVal) => ({
+          value: skillVal,
+        })),
+        wysiwyg: userInput,
+      };
       JSON.stringify(formData);
       console.log(`data`, formData);
       onSubmit();
+      addPost({
+        variables: {
+          input: formData,
+        },
+      });
     } else {
       console.log("title manquant");
     }

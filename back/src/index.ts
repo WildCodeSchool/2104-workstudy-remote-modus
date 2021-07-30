@@ -1,12 +1,13 @@
-import { PostResolver } from './PostResolver';
+import { PostResolver } from './resolvers/PostResolver';
 import { buildSchema } from 'type-graphql';
 import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import 'reflect-metadata';
+import { AuthResolver } from './resolvers/AuthResolver';
 
 async function start() {
   mongoose
-    .connect('mongodb://127.0.0.1:27017/modussey', {
+    .connect('mongodb://mongodb:27017/modussey', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -17,7 +18,7 @@ async function start() {
     .catch((err: Error) => console.log(err));
 
   const schema = await buildSchema({
-    resolvers: [PostResolver],
+    resolvers: [PostResolver, AuthResolver],
   });
 
   const apolloServer = new ApolloServer({

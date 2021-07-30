@@ -1,7 +1,8 @@
 import React from "react";
+import Login from "../login/Login";
 
 const Home = (): JSX.Element => {
-  return <>Je suis le composant home</>;
+  return <Login />;
 };
 
 export default Home;

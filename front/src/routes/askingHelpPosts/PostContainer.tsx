@@ -3,21 +3,21 @@ import "../../css/styles.css";
 
 type PostContainerProps = {
   title: string;
-  summary: string;
-  techno: string;
+  wysiwyg: string;
+  skills: string[];
 };
 
 const PostContainer = (props: PostContainerProps): JSX.Element => {
-  const { title, techno, summary } = props;
+  const { title, skills, wysiwyg } = props;
   return (
     <div>
       <div>
         <img src="" alt="" />
-        <p>{techno}</p>
+        <p>{skills}</p>
       </div>
       <div>
         <h3>{title}</h3>
-        <p>{summary}</p>
+        <p>{wysiwyg}</p>
       </div>
       <button type="button"> En savoir plus</button>
     </div>
