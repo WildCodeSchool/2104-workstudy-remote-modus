@@ -7,7 +7,7 @@ const Navbar = (): JSX.Element => {
     <div className="topnav">
       <div style={{ display: "flex" }}>
         <img
-          src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627483699/Moddusey/logo1_cf1vfb.png"
+          src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627564833/Moddusey/logo1_nhaokq.png"
           alt="Logo"
           className="logo"
         />
