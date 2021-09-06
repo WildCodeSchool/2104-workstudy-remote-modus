@@ -1,11 +1,11 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
+import { Schema } from 'mongoose';
 
 @GraphQLType()
 export class User {
-  @prop()
   @GraphQLField(() => ID)
-  readonly id: string;
+  readonly _id: Schema.Types.ObjectId;
 
   @prop({ required: true })
   @GraphQLField()
