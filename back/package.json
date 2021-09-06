@@ -9,15 +9,7 @@
     "dev": "nodemon dist/index.js",
     "lint": "eslint src/**/*.ts & echo 'lint complete'",
     "format": "eslint src/**/*.ts --fix & echo 'lint with fixing complete'",
-    "prepare": "husky install",
     "test": "jest"
-  },
-  "lint-staged": {
-    "**/**.{ts}": [
-      "yarn lint",
-      "yarn prettier --write",
-      "yarn test --watchAll=false --findRelatedTests --bail"
-    ]
   },
   "dependencies": {
     "@typegoose/typegoose": "^7.6.0",
@@ -46,7 +38,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^6.0.0",
     "jest": "^27.0.1",
     "lint-staged": "^11.0.0",
     "mongodb-memory-server": "^7.3.4",
