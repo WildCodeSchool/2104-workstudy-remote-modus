@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { gql, useMutation } from "@apollo/client";
+import { Button, Form } from "react-bootstrap";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
 
@@ -70,33 +71,32 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h3>
-        Ici vous pouvez remplir une demande d&apos;aide sur un sujet spécifique
-      </h3>
-      <form
-        className="border-solid border-yellow-500 border-4 w-3/5 p-8"
-        onSubmit={(e) => handleSubmit(e)}
-      >
-        <div>
-          <label htmlFor="title">
-            Titre de la demande :
-            <input
-              className="border-2 border-solid ml-4"
-              type="text"
-              name="title"
-              value={titleHelp}
-              placeholder="Titre..."
-              data-testid="title-form"
-              onChange={(e) => setTitleHelp(e.target.value)}
-              required
-            />
-          </label>
-          <p className="text-center mb-4 mt-4">Technologie(s) concernée(s) :</p>
-          <div className="flex justify-between">
-            <div className="flex w-full items-center">
+      <h1 className="help-title">Formulaire de Demande d&apos;aide</h1>
+      <Form className="help-form" onSubmit={(e) => handleSubmit(e)}>
+        <Form.Group>
+          <div className="help-title-form">
+            <Form.Label htmlFor="title">
+              Titre de la demande :
+              <Form.Control
+                className="input-classic"
+                type="text"
+                name="title"
+                value={titleHelp}
+                placeholder="Titre..."
+                data-testid="title-form"
+                onChange={(e) => setTitleHelp(e.target.value)}
+                required
+              />
+            </Form.Label>
+          </div>
+          <div className="skills-form">
+            <div className="skills-selection">
+              <Form.Label htmlFor="skills-selector">
+                Technologie(s) concernée(s) :
+              </Form.Label>
               <Select
+                name="skills-selector"
                 data-testid="select-skill-form"
-                className="w-3/5"
                 required=""
                 options={options}
                 onChange={(result: any) => {
@@ -104,9 +104,10 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
                     setSkill(result.value);
                   }
                 }}
+                className="selector"
               />
-              <button
-                className="ml-4 border-2 rounded-full h-8 w-8 flex items-center justify-center"
+              <Button
+                variant="add-skills"
                 type="button"
                 data-testid="skill-button-form"
                 disabled={skills.includes(skill)}
@@ -114,40 +115,34 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
                   setSkills([...skills, skill]);
                 }}
               >
-                +
-              </button>
+                <i className="fas fa-plus" />
+              </Button>
+            </div>
+            <div className="">
+              {skills.map((oneSkill) => (
+                <Skill
+                  title={oneSkill}
+                  onDelete={(title: string) => DeleteSkill(title)}
+                  key={id + ((Math.random() * 10) / Math.random()) * 15}
+                />
+              ))}
             </div>
           </div>
-          <div className="flex">
-            {skills.map((oneSkill) => (
-              <Skill
-                title={oneSkill}
-                onDelete={(title: string) => DeleteSkill(title)}
-                key={id + ((Math.random() * 10) / Math.random()) * 15}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="mt-12">
-          <p className="mb-4 mt-4">
-            Contexte et description du probleme (wysiwyg):
-          </p>
+        </Form.Group>
+        <div className="">
+          <p className="">Contexte et description du probleme :</p>
           <Wysiwyg
             userInput={userInput}
             setUserInput={setUserInput}
             dataTestid="wysiwyg-form"
           />
-          <div className="flex justify-end mt-4">
-            <button
-              className="border-2 p-1 flex items-center justify-center"
-              type="submit"
-              data-testid="submitButton"
-            >
-              Ajouter
-            </button>
+          <div>
+            <Button variant="classic" type="submit" data-testid="submitButton">
+              Soumettre
+            </Button>
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };

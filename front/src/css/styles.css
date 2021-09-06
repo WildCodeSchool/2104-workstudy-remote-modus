@@ -1,12 +1,134 @@
+.layout {
+    background-color: #221F2E;
+    min-height: 100vh;
+}
+
 .active {
     font-weight: bold;
     color: red;
 }
 
-.container {
+.help-title {
+    color: #EDAE49;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
 
+.container-helps {
     width: 1000px;
     height: 800px;
-    border: 1px solid red;
     margin: 0 auto;
+    border: solid 1px #EDAE49;
+    border-radius: 5px;
+}
+
+.card-posts {
+    margin-top: 10px;
+    padding: 10px;
+    border: hidden;
+    color: white;
+    background-color: transparent;
+}
+
+.card-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-infos {
+    background-color: transparent;
+    color: white;
+    width: fit-content;
+}
+
+.btn-details {
+    background-color: #7962F2;
+    color: white;
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: fit-content;
+}
+
+.btn-classic {
+    background-color: #7962F2;
+    color: white;
+    max-width: fit-content;
+    margin-top: 10px;
+}
+
+.post-footer {
+    color: white;
+}
+
+#post-line {
+    border: solid white 1px;
+}
+
+.skills-logo {
+    max-width: 25px;
+}
+
+.help-form {
+    padding: 10px;
+    color: white;
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.input-classic {
+    background-color: #2f2a3f;
+    justify-content: center;
+}
+
+.skills-form {
+    width: 750px;
+    border: solid 1px #EDAE49;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.selector {
+    width: 150px;
+    background-color: #2f2a3f;
+    color: white;
+}
+
+.help-title-form {
+    display: flex;
+    justify-content: center;
+}
+
+.skills-selection {
+    display: flex;
+}
+
+.btn-add-skills {
+    background-color: #7962F2;
+    color: white;
+    max-width: fit-content;
+    margin-left: 5px;
+    border-radius: 20px;
+}
+
+.selected-skills {
+    font-weight: bold;
+    background-color:rgba(255, 255, 255, 0.24);
+    color: #EDAE49;
+    border-radius: 20px;
+    padding: 2px;
+}
+
+.login-form {
+    color: white;
 }
