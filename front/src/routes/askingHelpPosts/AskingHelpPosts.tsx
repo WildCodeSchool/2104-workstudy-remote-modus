@@ -23,8 +23,10 @@ const AskingHelpPosts = (): JSX.Element => {
 
   return (
     <>
-      <h1>HELLO </h1>
-      <div className="container">
+      <div>
+        <h1 className="help-title">Demandes d&apos;aides</h1>
+      </div>
+      <div className="container-helps">
         {fakeDataPosts.map((objet) => {
           const { title, skills, wysiwyg } = objet;
           return (
