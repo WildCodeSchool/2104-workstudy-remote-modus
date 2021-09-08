@@ -44,8 +44,6 @@ async function start() {
 
   app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`));
 
-  // const { url } = await apolloServer.listen(4000);
-  // console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 start();

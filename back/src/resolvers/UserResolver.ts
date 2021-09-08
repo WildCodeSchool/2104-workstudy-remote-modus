@@ -1,25 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Resolver, Arg, Mutation, UseMiddleware } from 'type-graphql';
-// import { UserModel } from '../models/User';
+import { Resolver, Arg, Mutation, UseMiddleware, Query } from 'type-graphql';
+import { UserModel } from '../models/User';
 import { UserInput } from '../types/UserInput';
-// import { SelfUser } from '../types/UserResponse';
 import { isAuth } from '../middleware/isAuth';
+import { SelfUser } from '../types/UserResponse';
+import { UserIdInput } from '../types/UserIdInput';
 
 @Resolver()
 export class UserResolver {
-  // @Query(() => SelfUser)
-  // async whoAmI(@Arg('id') id: UserIdInput): Promise<SelfUser> {
-  //   const { _id } = id;
-  //   console.log('_id', _id);
-  //   const user = await UserModel.findById({ _id });
+  @UseMiddleware(isAuth)
+  @Query(() => SelfUser)
+  async whoAmI(@Arg('id') id: UserIdInput): Promise<SelfUser> {
+    const { _id } = id;
+    console.log('_id', _id);
+    const user = await UserModel.findById({ _id });
 
-  //   console.log(user);
+    console.log(user);
 
-  //   if (!user) throw new Error('User not found');
+    if (!user) throw new Error('User not found');
 
-  //   return { user };
-  // }
+    return { user };
+  }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
