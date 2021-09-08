@@ -5,7 +5,7 @@ import { Schema } from 'mongoose';
 @GraphQLType()
 export class User {
   @GraphQLField(() => ID)
-  readonly _id: Schema.Types.ObjectId;
+  _id?: Schema.Types.ObjectId;
 
   @prop({ required: true })
   @GraphQLField()
