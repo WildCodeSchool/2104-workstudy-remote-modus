@@ -1,13 +1,19 @@
-import { PostResolver } from './resolvers/PostResolver';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildSchema } from 'type-graphql';
-import { ApolloServer } from 'apollo-server';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import { graphqlUploadExpress } from 'graphql-upload';
 import mongoose from 'mongoose';
 import 'reflect-metadata';
 import { AuthResolver } from './resolvers/AuthResolver';
+import { UserResolver } from './resolvers/UserResolver';
+import { PostResolver } from './resolvers/PostResolver';
+// import jwt from 'jsonwebtoken';
+// import { User, UserModel } from './models/User';
 
 async function start() {
   mongoose
-    .connect('mongodb://mongodb:27017/modussey', {
+    .connect('mongodb://127.0.0.1:27017/modussey', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -18,26 +24,26 @@ async function start() {
     .catch((err: Error) => console.log(err));
 
   const schema = await buildSchema({
-    resolvers: [PostResolver, AuthResolver],
+    resolvers: [UserResolver, PostResolver, AuthResolver],
+    authChecker: ({ context: { req } }) => {
+      return !!req.session;
+    },
   });
 
   const apolloServer = new ApolloServer({
     schema,
+    context: ({ req }: any) => ({ req }),
     playground: true,
   });
 
-  const { url } = await apolloServer.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  const app = express();
+
+  app.use(graphqlUploadExpress());
+
+  apolloServer.applyMiddleware({ app });
+
+  app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`));
+
 }
 
 start();
-
-//? unitaire = une fonction par exemple, on vérifi que c'estbien un model par exemple
-//? Vérifier par exemple le format précis d'un objet et ce qu'il contient
-
-//? Creation d'un post => Creation d'une mutation  objet rentre ? SUCCES de graphql ??? Au début marche pas, ensuite écriture de la route et après ça le teste passe
-
-//? Rouge => fail car la fonction concernant les test existe pas
-//? Vert =>  car le test est créer et correspond à ce qui est attendu par le test
-//! ATTENTION : Si test d'abord vert   alors que sa fonction pas encore écrit => le test a un problème
-//!  entré ? sortie ? => écriture route, entrée bonne ?  NON => aller investiguez à ce qui a causé le problème ET PAS PLUS LOIN

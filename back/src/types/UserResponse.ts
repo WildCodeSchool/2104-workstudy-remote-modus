@@ -9,3 +9,9 @@ export class UserResponse {
   @Field(() => String, { nullable: true })
   token?: string;
 }
+
+@ObjectType()
+export class SelfUser {
+  @Field(() => User, { nullable: true })
+  user?: User;
+}
