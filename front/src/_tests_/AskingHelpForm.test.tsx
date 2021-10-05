@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import AskingHelpForm from "../routes/askinghelpform/AskingHelpForm";
+import AskingHelpForm from "../routes/askingHelpForm/AskingHelpForm";
 
 it("renders a submit button", () => {
   render(<AskingHelpForm onSubmit={() => {}} />);

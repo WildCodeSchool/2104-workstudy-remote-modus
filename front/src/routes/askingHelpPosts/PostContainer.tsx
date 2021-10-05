@@ -1,26 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import { Card, Button, Collapse } from "react-bootstrap";
 import "../../css/styles.css";
 
 type PostContainerProps = {
   title: string;
-  summary: string;
-  techno: string;
+  wysiwyg: string;
+  skills: string[];
 };
 
 const PostContainer = (props: PostContainerProps): JSX.Element => {
-  const { title, techno, summary } = props;
+  const { title, skills, wysiwyg } = props;
+  const [open, setOpen] = useState(false);
+
   return (
-    <div>
-      <div>
-        <img src="" alt="" />
-        <p>{techno}</p>
+    <Card className="card-posts">
+      <div className="card-box">
+        <div id="skills">
+          <img src="logo192.png" className="skills-logo" alt="React" />
+          <img
+            className="skills-logo"
+            src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627551047/Moddusey/js_logo_mhnbpf.png"
+            alt="JavaScript"
+          />
+        </div>
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          {`${wysiwyg.substring(0, 200)}...`}
+          <Collapse in={open}>
+            <div id="collapse-text">
+              {`${wysiwyg.substring(199)}`}{" "}
+              <Button variant="details">
+                Détails <i className="fas fa-meteor" />
+              </Button>
+            </div>
+          </Collapse>
+        </Card.Body>
+        <div>
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="collapse-text"
+            aria-expanded={open}
+            variant="infos"
+          >
+            <i className="fas fa-caret-down fa-3x" />
+          </Button>
+        </div>
       </div>
-      <div>
-        <h3>{title}</h3>
-        <p>{summary}</p>
-      </div>
-      <button type="button"> En savoir plus</button>
-    </div>
+      <hr id="post-line" />
+    </Card>
   );
 };
 

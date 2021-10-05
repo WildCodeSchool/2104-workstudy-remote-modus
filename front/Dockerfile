@@ -8,7 +8,7 @@ COPY package*.json ./
 
 COPY tsconfig.json ./
 
-RUN npm i
+RUN npm install --legacy-peer-deps
 
 COPY .eslintrc.js ./
 
