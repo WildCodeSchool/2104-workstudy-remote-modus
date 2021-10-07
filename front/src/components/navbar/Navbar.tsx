@@ -20,7 +20,7 @@ const Navbar = (): JSX.Element => {
         </div>
       </div>
       <div className="welcomemessage">
-        <div className="topnav message">Welcome holé@mail.com</div>
+        <div className="topnav message">Welcome testaaa@mail.com</div>
         <img
           src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627483744/Moddusey/persona4_yhsdi3.png"
           alt="profileIcon"
