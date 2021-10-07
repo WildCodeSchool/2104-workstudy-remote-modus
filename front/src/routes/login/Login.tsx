@@ -54,7 +54,7 @@ const Login: React.FC = () => {
         }}
       >
         <Form className="login-form">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">Mail Address</label>
           <Field name="email" type="email" />
           <ErrorMessage name="email" />
 
