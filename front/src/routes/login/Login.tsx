@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Card } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Context from "../../components/context/Context";
 
 const LoginSchema = Yup.object({
@@ -21,7 +21,6 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   };
-  const history = useHistory();
   return (
     <div>
       <Card>
@@ -38,7 +37,6 @@ const Login: React.FC = () => {
                 };
                 JSON.stringify(formData);
                 await logUser(formData);
-                history.push("/");
               } catch (err: any) {
                 setError(err.message);
               }

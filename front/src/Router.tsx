@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./routes/home/Home";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
+import AuthRoute from "./AuthRoute";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -19,15 +20,17 @@ function Router(): JSX.Element {
     }
   `;
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  // const [isLogin, setIsLogin] = useState<boolean>(false);
   const [login, { data }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
 
   const logUser = async (userCredentials: UserCredentials) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log("userCredentials", userCredentials);
       await login({ variables: { input: userCredentials } });
+      if (data?.login.user) {
+        localStorage.setItem("jwt", JSON.stringify(data.login.token));
+        setUser(data.login.user);
+      }
     } catch (err: any) {
       // eslint-disable-next-line no-console
       console.log("err.message :>> ", err.message);
@@ -35,36 +38,23 @@ function Router(): JSX.Element {
   };
 
   useEffect(() => {
-    if (data?.login.user) {
-      localStorage.setItem("jwt", JSON.stringify(data.login.token));
-      setUser(data.login.user);
+    const token = localStorage.getItem("jwt");
+    // TODO: Recuperer whoAmI et virer le toto
+    if (token) {
+      setUser({ _id: "1", email: "toto@gmail.com", nickname: "toto" });
     }
-  }, [data]);
-
-  useEffect(() => {
-    const isValidToken = localStorage.getItem("jwt");
-    setIsLogin(!!isValidToken);
-  }, [isLogin]);
-
-  // eslint-disable-next-line no-console
-  console.log(isLogin);
+  }, []);
 
   return (
     <BrowserRouter>
-      <Context.Provider value={{ user, isLogin, setIsLogin, logUser }}>
+      <Context.Provider value={{ user, logUser }}>
         <Switch>
-          {isLogin ? (
-            <Route exact path="/">
-              <Home />
-            </Route>
-          ) : (
-            <>
-              <Redirect to="/login" />
-              <Route exact path="/login">
-                <Login />
-              </Route>
-            </>
-          )}
+          <AuthRoute path="/login" type="guest">
+            <Login />
+          </AuthRoute>
+          <AuthRoute path="/home" type="private">
+            <Home />
+          </AuthRoute>
         </Switch>
       </Context.Provider>
     </BrowserRouter>

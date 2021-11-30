@@ -2,11 +2,10 @@ import { gql, useMutation } from "@apollo/client";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export type User = null | {
-  __typename: string;
+  // ATTENTION on a viré __typename et password
   _id: string;
   nickname: string;
   email: string;
-  password: string;
 };
 
 export type UserCredentials = {
@@ -17,8 +16,8 @@ export type UserCredentials = {
 const Context = React.createContext<{
   user: User;
   logUser: (userCredentials: UserCredentials) => Promise<void>;
-  isLogin?: boolean;
-  setIsLogin?: Dispatch<SetStateAction<boolean>>;
+  // isLogin?: boolean;
+  // setIsLogin?: Dispatch<SetStateAction<boolean>>;
 }>({
   user: null,
   logUser: () => {
