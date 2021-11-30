@@ -11,9 +11,11 @@ import { PostResolver } from './resolvers/PostResolver';
 // import jwt from 'jsonwebtoken';
 // import { User, UserModel } from './models/User';
 
+import cors from "cors"
+
 async function start() {
   mongoose
-    .connect('mongodb://127.0.0.1:27017/modussey', {
+    .connect('mongodb://mongodb:27017/modussey', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -39,7 +41,7 @@ async function start() {
   const app = express();
 
   app.use(graphqlUploadExpress());
-
+  app.use(cors());
   apolloServer.applyMiddleware({ app });
 
   app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`));

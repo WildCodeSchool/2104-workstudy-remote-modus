@@ -1,4 +1,6 @@
-services:  
+version: "3"
+
+services:
     # Conteneur modus-front pour la partie front-end de l'application
     modus-front:
         # On indique quel dossier virtualiser
@@ -6,30 +8,30 @@ services:
         # On indique quel port sera exposé sur docker et avec quel port de la machine il sera relié
         # Premier port celui de notre machine (client) (différent de celui de docker par convention)
         # Deuxième port celui exposé sur Docker
-        ports:  
-            -   3000:3000
+        ports:
+            - 3000:3000
         # Connexion de /front/src/ de notre machine à app/src du conteneur, cela aura pour but d'offrir la possibilité au conteneur de détecter nodemon et de le redémarrer
         # Ainsi à chaque modification du code, le code du conteneur sera aussi mis à jour
 
         volumes:
-            -   ./front/src/:/app/src
+            - ./front/src/:/app/src
         # Conteneur modus-back pour la partie back-end de l'application
     modus-back:
         build: ./back
         ports:
-            -   4000:4000 
+            - 4000:4000 
         # Cette clé à la possibilité de surcharger la commande CMD du Dockerfile, elle sera lancée lors de la création du conteneur
         command: npm start
         # On le lie le conteneur mongodb au conteneur modus-back
         links:
-            -   mongodb:data
+            - mongodb:data
         volumes:
-            -   ./back/src/:/app/src
-    # Conteneur Mongo           
+            - ./back/src/:/app/src
+
+    # Conteneur Mongo
     mongodb: 
-        image: mongo
+        image: mongo:4.4.9
         container_name: mongo
-        restart: always
         # On peut utiliser les volumes également pour persister les données de mongo
         # Lors de la destruction du conteneur les données de la db seront perdues, pour éviter cela on va connecter un dossier data sur notre machine, à un dossier db du conteneur
         volumes:
