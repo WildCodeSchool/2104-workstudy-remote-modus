@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./routes/home/Home";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
+import Register from "./routes/register/Register";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -62,6 +63,9 @@ function Router(): JSX.Element {
               <Redirect to="/login" />
               <Route exact path="/login">
                 <Login />
+              </Route>
+              <Route exact path="/register">
+                <Register />
               </Route>
             </>
           )}
