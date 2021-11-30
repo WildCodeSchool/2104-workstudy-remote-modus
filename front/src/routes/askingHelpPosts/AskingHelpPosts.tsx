@@ -30,7 +30,12 @@ const AskingHelpPosts = (): JSX.Element => {
         {fakeDataPosts.map((objet) => {
           const { title, skills, wysiwyg } = objet;
           return (
-            <PostContainer title={title} skills={skills} wysiwyg={wysiwyg} />
+            <PostContainer
+              key={title}
+              title={title}
+              skills={skills}
+              wysiwyg={wysiwyg}
+            />
           );
         })}
       </div>

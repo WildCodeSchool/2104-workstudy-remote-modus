@@ -5,6 +5,8 @@ import Home from "./routes/home/Home";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
 import AuthRoute from "./AuthRoute";
+import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
+import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -39,9 +41,10 @@ function Router(): JSX.Element {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    // TODO: Recuperer whoAmI et virer le toto
+    // TODO: Recuperer whoAmI et virer le user
     if (token) {
       setUser({ _id: "1", email: "toto@gmail.com", nickname: "toto" });
+      console.log("je suis dans le useeffect");
     }
   }, []);
 
@@ -54,6 +57,12 @@ function Router(): JSX.Element {
           </AuthRoute>
           <AuthRoute path="/home" type="private">
             <Home />
+          </AuthRoute>
+          <AuthRoute path="/AskingHelpPosts" type="private">
+            <AskingHelpPosts />
+          </AuthRoute>
+          <AuthRoute path="/AskingHelpForm" type="private">
+            <AskingHelpForm onSubmit={() => console.log(data)} />
           </AuthRoute>
         </Switch>
       </Context.Provider>

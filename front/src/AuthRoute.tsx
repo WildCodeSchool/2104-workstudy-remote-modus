@@ -10,12 +10,14 @@ const AuthRoute = (props: Props) => {
   const { user } = useContext(Context);
   const { type } = props;
   if (type === "guest" && user) {
-    return <Redirect to="/home" />;
+    console.log("Je passe dans Guest", props.path, user);
+
+    return <Redirect to="/AskingHelpForm" />;
   }
   if (type === "private" && !user) {
+    console.log("Je passe dans private", props.path, user);
     return <Redirect to="/login" />;
   }
-
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <Route {...props} />;
 };

@@ -16,8 +16,6 @@ export type UserCredentials = {
 const Context = React.createContext<{
   user: User;
   logUser: (userCredentials: UserCredentials) => Promise<void>;
-  // isLogin?: boolean;
-  // setIsLogin?: Dispatch<SetStateAction<boolean>>;
 }>({
   user: null,
   logUser: () => {
