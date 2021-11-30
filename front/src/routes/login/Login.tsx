@@ -21,7 +21,6 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   };
-
   const history = useHistory();
   return (
     <div>
@@ -32,12 +31,14 @@ const Login: React.FC = () => {
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
               try {
+                const { email, password } = values;
                 const formData = {
-                  email: values.email,
-                  password: values.password,
+                  email,
+                  password,
                 };
                 JSON.stringify(formData);
                 await logUser(formData);
+                history.push("/");
               } catch (err: any) {
                 setError(err.message);
               }
@@ -52,14 +53,7 @@ const Login: React.FC = () => {
               <Field name="password" type="password" />
               <ErrorMessage name="password" />
 
-              <button
-                type="submit"
-                onClick={() => {
-                  history.push("/");
-                }}
-              >
-                Submit
-              </button>
+              <button type="submit">Submit</button>
             </Form>
           </Formik>
 

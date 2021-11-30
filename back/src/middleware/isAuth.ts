@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
   let token;
-  console.log('headers sa race', context.req.headers.authorization)
 
   if (!context.req.headers.authorization) {
     throw new Error('not authenticated');

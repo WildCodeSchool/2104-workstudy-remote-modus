@@ -8,10 +8,7 @@ import 'reflect-metadata';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { UserResolver } from './resolvers/UserResolver';
 import { PostResolver } from './resolvers/PostResolver';
-// import jwt from 'jsonwebtoken';
-// import { User, UserModel } from './models/User';
-
-import cors from "cors"
+import cors from 'cors'
 
 async function start() {
   mongoose
@@ -41,7 +38,9 @@ async function start() {
   const app = express();
 
   app.use(graphqlUploadExpress());
-  app.use(cors());
+
+  app.use(cors())
+
   apolloServer.applyMiddleware({ app });
 
   app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`));

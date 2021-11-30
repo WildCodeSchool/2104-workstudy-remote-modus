@@ -16,8 +16,6 @@ export class UserResolver {
     console.log('_id', _id);
     const user = await UserModel.findById({ _id });
 
-    console.log(user);
-
     if (!user) throw new Error('User not found');
 
     return { user };
