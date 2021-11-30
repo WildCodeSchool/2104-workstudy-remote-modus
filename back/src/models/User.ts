@@ -16,7 +16,6 @@ export class User {
   email!: string;
 
   @prop({ required: true })
-  @GraphQLField()
   password!: string;
 }
 
