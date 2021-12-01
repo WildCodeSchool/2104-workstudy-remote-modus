@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
 import AuthRoute from "./AuthRoute";
@@ -64,22 +65,24 @@ function Router(): JSX.Element {
     // avant de rendre BrowserRouter
     isTokenChecked ? (
       <BrowserRouter>
-        <Context.Provider value={{ user, logUser }}>
-          <Switch>
-            <AuthRoute path="/login" type="guest">
-              <Login />
-            </AuthRoute>
-            <AuthRoute path="/register" type="guest">
-              <Register />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpPosts" type="private">
-              <AskingHelpPosts />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpForm" type="private">
-              <AskingHelpForm onSubmit={() => console.log(data)} />
-            </AuthRoute>
-          </Switch>
-        </Context.Provider>
+        <Container fluid className="layout">
+          <Context.Provider value={{ user, logUser }}>
+            <Switch>
+              <AuthRoute path="/login" type="guest">
+                <Login />
+              </AuthRoute>
+              <AuthRoute path="/register" type="guest">
+                <Register />
+              </AuthRoute>
+              <AuthRoute path="/AskingHelpPosts" type="private">
+                <AskingHelpPosts />
+              </AuthRoute>
+              <AuthRoute path="/AskingHelpForm" type="private">
+                <AskingHelpForm onSubmit={() => console.log(data)} />
+              </AuthRoute>
+            </Switch>
+          </Context.Provider>
+        </Container>
       </BrowserRouter>
     ) : (
       <div>Toto</div>

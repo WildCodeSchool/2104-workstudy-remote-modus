@@ -5,6 +5,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import reportWebVitals from "./reportWebVitals";
 import Router from "./Router";
+import "./App.css";
 
 const token = localStorage.getItem("jwt");
 

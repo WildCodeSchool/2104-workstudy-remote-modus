@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Card } from "react-bootstrap";
+import { Button, Card, Form as FormBS } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 
@@ -52,8 +52,16 @@ const Register: React.FC = () => {
   }, [error, errorState]);
 
   return (
-    <div>
-      <Card>
+    <div className="container-form">
+      <div className="mb-4 d-flex justify-content-center">
+        <img
+          className="w-50"
+          src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627564833/Moddusey/logo1_nhaokq.png"
+          alt="Logo"
+        />
+      </div>
+      <Card className="border rounder border-warning bg-transparent p-4">
+        <Card.Title className="text-center">Register</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
@@ -69,25 +77,53 @@ const Register: React.FC = () => {
               register({ variables: { input: formData } });
             }}
           >
-            <Form className="login-form">
-              <label htmlFor="email">Adresse Email</label>
-              <Field name="email" type="email" />
-              <ErrorMessage name="email" />
+            <Form className="login-form d-flex flex-column">
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
+                  placeholder="Email"
+                  name="email"
+                  type="email"
+                />
+                <ErrorMessage name="email" />
+              </FormBS.Group>
 
-              <label htmlFor="text">Pseudonyme</label>
-              <Field name="nickname" type="text" />
-              <ErrorMessage name="nickname" />
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
+                  name="nickname"
+                  type="text"
+                  placeholder="Pseudo"
+                />
+                <ErrorMessage name="nickname" />
+              </FormBS.Group>
 
-              <label htmlFor="password">Mot de passe</label>
-              <Field name="password" type="password" />
-              <ErrorMessage name="password" />
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                />
+                <ErrorMessage name="password" />
+              </FormBS.Group>
 
-              <button type="submit">Submit</button>
+              <div className="d-flex justify-content-center">
+                <Button
+                  variant="outline-light"
+                  className="w-50 mb-4"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           </Formik>
           {errorState && <p>{errorState}</p>}
           <Link to="/login">
-            <button type="button">Vous avez un compte ? Connectez vous</button>
+            <p className="text-center text-white">
+              Already have an account ? Login
+            </p>
           </Link>
         </Card.Body>
       </Card>

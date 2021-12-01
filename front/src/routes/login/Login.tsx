@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 // import { gql } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Card } from "react-bootstrap";
+import { Button, Card, Form as FormBS } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Context from "../../components/context/Context";
 
@@ -22,8 +22,16 @@ const Login: React.FC = () => {
     password: "",
   };
   return (
-    <div>
-      <Card>
+    <div className="container-form">
+      <div className="mb-4 d-flex justify-content-center">
+        <img
+          className="w-50"
+          src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627564833/Moddusey/logo1_nhaokq.png"
+          alt="Logo"
+        />
+      </div>
+      <Card className="border rounder border-warning bg-transparent p-4">
+        <Card.Title className="text-center">Login</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
@@ -43,21 +51,42 @@ const Login: React.FC = () => {
               }
             }}
           >
-            <Form className="login-form layout">
-              <label htmlFor="email">Mail Address</label>
-              <Field name="email" type="email" />
-              <ErrorMessage name="email" />
+            <Form className="login-form d-flex flex-column">
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
+                  placeholder="Email"
+                  name="email"
+                  type="email"
+                />
+                <ErrorMessage name="email" />
+              </FormBS.Group>
 
-              <label htmlFor="password">Password</label>
-              <Field name="password" type="password" />
-              <ErrorMessage name="password" />
-
-              <button type="submit">Submit</button>
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                />
+                <ErrorMessage name="password" />
+              </FormBS.Group>
+              <div className="d-flex justify-content-center">
+                <Button
+                  variant="outline-light"
+                  className="w-50 mb-4"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           </Formik>
 
           <Link to="/register">
-            <button type="button">Pas de compte ? Inscrivez vous</button>
+            <p className="text-center text-white">
+              Don&apos;t have an account ? Register
+            </p>
           </Link>
         </Card.Body>
       </Card>

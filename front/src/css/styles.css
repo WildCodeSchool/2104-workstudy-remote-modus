@@ -1,11 +1,27 @@
 .layout {
-    background-color: #221F2E;
-    min-height: 100vh;
+   padding: 0;
+   height: 100%;
 }
 
 .active {
     font-weight: bold;
     color: red;
+}
+
+.container-form {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card {
+    color: white;
+}
+
+.card a {
+    text-decoration: none;
 }
 
 .help-title {
