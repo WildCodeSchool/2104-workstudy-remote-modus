@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Home from "./routes/home/Home";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
 import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
+import Register from "./routes/register/Register";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -63,8 +63,8 @@ function Router(): JSX.Element {
             <AuthRoute path="/login" type="guest">
               <Login />
             </AuthRoute>
-            <AuthRoute path="/home" type="private">
-              <Home />
+            <AuthRoute path="/register" type="guest">
+              <Register />
             </AuthRoute>
             <AuthRoute path="/AskingHelpPosts" type="private">
               <AskingHelpPosts />

@@ -8,7 +8,8 @@ import 'reflect-metadata';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { UserResolver } from './resolvers/UserResolver';
 import { PostResolver } from './resolvers/PostResolver';
-import cors from 'cors'
+import cors from 'cors';
+import jwt from 'jsonwebtoken';
 
 async function start() {
   mongoose
@@ -19,7 +20,6 @@ async function start() {
       autoIndex: true,
     })
     .then(() => console.log('Connected to database'))
-
     .catch((err: Error) => console.log(err));
 
   const schema = await buildSchema({
@@ -31,20 +31,32 @@ async function start() {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }: any) => ({ req }),
     playground: true,
+    context: ({ req }) => {
+      if (req.headers) {
+        const token = req.headers.authorization?.split(' ');
+        if (token) {
+          try {
+            const isValid = jwt.verify(token[1], 'testuntilweputdotenv');
+            if (typeof isValid !== 'string') return { userId: isValid.userId };
+          } catch (err) {
+            console.log('Error encountered :', err);
+          }
+        }
+      }
+      return req;
+    },
   });
 
   const app = express();
 
   app.use(graphqlUploadExpress());
 
-  app.use(cors())
+  app.use(cors());
 
   apolloServer.applyMiddleware({ app });
 
   app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`));
-
 }
 
 start();
