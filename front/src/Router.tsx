@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
@@ -22,9 +22,19 @@ function Router(): JSX.Element {
     }
   `;
 
-  const [login, { data }] = useMutation(LOGIN);
+  const WHOAMI = gql`
+    query whoAmI {
+      user {
+        email
+        nickname
+        _id
+      }
+    }
+  `;
+
+  const [login, { data: mutationData }] = useMutation(LOGIN);
+  const { data } = useQuery(WHOAMI);
   const [user, setUser] = useState<User>(null);
-  const token = localStorage.getItem("jwt");
   const [isTokenChecked, setIsTokenChecked] = useState<boolean>(false);
 
   const logUser = async (userCredentials: UserCredentials) => {
@@ -37,18 +47,14 @@ function Router(): JSX.Element {
   };
 
   useEffect(() => {
-    if (data?.login.user) {
-      localStorage.setItem("jwt", JSON.stringify(data.login.token));
-      setUser(data.login.user);
+    if (mutationData?.login.user) {
+      localStorage.setItem("jwt", JSON.stringify(mutationData.login.token));
+      setUser(mutationData.login.user);
     }
-  }, [data]);
+  }, [mutationData]);
 
   useEffect(() => {
-    // TODO: Recuperer whoAmI et virer le user
-    if (token) {
-      setUser({ _id: "1", email: "toto@gmail.com", nickname: "toto" });
-    }
-    console.log("J'ai checké le token");
+    console.log(data);
     setIsTokenChecked(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
