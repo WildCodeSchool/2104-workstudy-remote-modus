@@ -9,15 +9,17 @@ interface Props extends RouteProps {
 const AuthRoute = (props: Props) => {
   const { user } = useContext(Context);
   const { type } = props;
+
   if (type === "guest" && user) {
-    console.log("Je passe dans Guest", props.path, user);
+    console.log("Je redirige vers la home");
 
     return <Redirect to="/AskingHelpForm" />;
   }
   if (type === "private" && !user) {
-    console.log("Je passe dans private", props.path, user);
+    console.log("Je redirige vers login");
     return <Redirect to="/login" />;
   }
+  console.log("J'affiche la page demandée");
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <Route {...props} />;
 };

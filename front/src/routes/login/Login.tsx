@@ -37,12 +37,13 @@ const Login: React.FC = () => {
                 };
                 JSON.stringify(formData);
                 await logUser(formData);
+                console.log("soumission");
               } catch (err: any) {
                 setError(err.message);
               }
             }}
           >
-            <Form className="login-form">
+            <Form className="login-form layout">
               <label htmlFor="email">Mail Address</label>
               <Field name="email" type="email" />
               <ErrorMessage name="email" />
