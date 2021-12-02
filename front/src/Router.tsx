@@ -8,6 +8,7 @@ import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 import Register from "./routes/register/Register";
+import Navbar from "./components/navbar/Navbar";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -75,9 +76,11 @@ function Router(): JSX.Element {
                 <Register />
               </AuthRoute>
               <AuthRoute path="/AskingHelpPosts" type="private">
+                <Navbar />
                 <AskingHelpPosts />
               </AuthRoute>
               <AuthRoute path="/AskingHelpForm" type="private">
+                <Navbar />
                 <AskingHelpForm onSubmit={() => console.log(data)} />
               </AuthRoute>
             </Switch>

@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ReactDOM from "react-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import reportWebVitals from "./reportWebVitals";
 import Router from "./Router";
 import "./App.css";
@@ -28,6 +30,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Router />
+      <ToastContainer />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

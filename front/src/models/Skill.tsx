@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 
 export interface SkillProps {
   title: string;
@@ -9,16 +9,18 @@ export interface SkillProps {
 
 function Skill({ title, onDelete }: SkillProps): JSX.Element {
   return (
-    <div>
-      <div className="selected-skills">{title}</div>
+    <h4>
+      <Badge pill className="selected-skills">
+        {title}
+      </Badge>
       <Button
         variant="add-skills"
         onClick={() => onDelete(title)}
         type="button"
       >
-        x
+        <i className="fas fa-times" />
       </Button>
-    </div>
+    </h4>
   );
 }
 

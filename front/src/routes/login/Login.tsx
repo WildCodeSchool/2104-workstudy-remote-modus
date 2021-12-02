@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
 
 const LoginSchema = Yup.object({
@@ -48,6 +49,15 @@ const Login: React.FC = () => {
                 console.log("soumission");
               } catch (err: any) {
                 setError(err.message);
+                toast.error(`${err.message}`, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
               }
             }}
           >
@@ -72,11 +82,7 @@ const Login: React.FC = () => {
                 <ErrorMessage name="password" />
               </FormBS.Group>
               <div className="d-flex justify-content-center">
-                <Button
-                  variant="outline-light"
-                  className="w-50 mb-4"
-                  type="submit"
-                >
+                <Button variant="classic" className="w-50 mb-4" type="submit">
                   Submit
                 </Button>
               </div>

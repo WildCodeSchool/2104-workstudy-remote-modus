@@ -3,9 +3,8 @@
    height: 100%;
 }
 
-.active {
-    font-weight: bold;
-    color: red;
+.bg {
+    background-color: #221F2E;
 }
 
 .container-form {
@@ -18,12 +17,42 @@
 
 .card {
     color: white;
+    margin: 1rem 0;
 }
 
 .card a {
     text-decoration: none;
 }
 
+.btn-classic {
+    background-color: #7962F2;
+    color: white;
+}
+
+.btn-add-skills {
+    background-color: #7962F2;
+    color: white;
+    max-width: fit-content;
+    margin-left: 5px;
+    border-radius: 50%;
+    height: max-content;
+}
+
+
+.selected-skills {
+    background-color:rgba(255, 255, 255, 0.24) !important;
+    color: #EDAE49;
+}
+
+div.ql-container.ql-snow {
+    height: 20rem;
+}
+
+.align-right {
+    text-align: right;
+}
+
+/* BEFORE */
 .help-title {
     color: #EDAE49;
     padding: 10px;
@@ -69,12 +98,6 @@
     max-width: fit-content;
 }
 
-.btn-classic {
-    background-color: #7962F2;
-    color: white;
-    max-width: fit-content;
-    margin-top: 10px;
-}
 
 .post-footer {
     color: white;
@@ -129,21 +152,8 @@
     display: flex;
 }
 
-.btn-add-skills {
-    background-color: #7962F2;
-    color: white;
-    max-width: fit-content;
-    margin-left: 5px;
-    border-radius: 20px;
-}
 
-.selected-skills {
-    font-weight: bold;
-    background-color:rgba(255, 255, 255, 0.24);
-    color: #EDAE49;
-    border-radius: 20px;
-    padding: 2px;
-}
+
 
 .login-form {
     color: white;

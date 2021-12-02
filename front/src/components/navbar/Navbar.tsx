@@ -12,9 +12,6 @@ const Navbar = (): JSX.Element => {
           className="logo"
         />
         <div>
-          <NavLink to="/" exact>
-            Home
-          </NavLink>
           <NavLink to="/asking-help-form">AskingHelpForm</NavLink>
           <NavLink to="/asking-help-index">AskingHelpPosts</NavLink>
         </div>

@@ -109,11 +109,7 @@ const Register: React.FC = () => {
               </FormBS.Group>
 
               <div className="d-flex justify-content-center">
-                <Button
-                  variant="outline-light"
-                  className="w-50 mb-4"
-                  type="submit"
-                >
+                <Button variant="classic" className="w-50 mb-4" type="submit">
                   Submit
                 </Button>
               </div>
