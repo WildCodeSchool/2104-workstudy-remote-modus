@@ -1,5 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 export type User = null | {
   // ATTENTION on a viré __typename et password
