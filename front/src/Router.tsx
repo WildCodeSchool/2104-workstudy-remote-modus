@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useMutation, gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
-import Context, { User, UserCredentials } from "./components/context/Context";
+import { Container } from "react-bootstrap";
+import Context, { UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
 import Register from "./routes/register/Register";
 import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
+import Navbar from "./components/navbar/Navbar";
 
 const LOGIN = gql`
   mutation login($input: AuthLoginInput!) {
@@ -82,22 +84,26 @@ function Router(): JSX.Element {
     // avant de rendre BrowserRouter
     isTokenChecked ? (
       <BrowserRouter>
-        <Context.Provider value={{ user: userState, logUser }}>
-          <Switch>
-            <AuthRoute exact path="/" type="guest">
-              <Login />
-            </AuthRoute>
-            <AuthRoute path="/register" type="guest">
-              <Register />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpPosts" type="private">
-              <AskingHelpPosts />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpForm" type="private">
-              <AskingHelpForm onSubmit={() => console.log(whoAmiData)} />
-            </AuthRoute>
-          </Switch>
-        </Context.Provider>
+        <Container fluid className="layout">
+          <Context.Provider value={{ user: userState, logUser }}>
+            <Switch>
+              <AuthRoute exact path="/" type="guest">
+                <Login />
+              </AuthRoute>
+              <AuthRoute path="/register" type="guest">
+                <Register />
+              </AuthRoute>
+              <AuthRoute path="/AskingHelpPosts" type="private">
+                <Navbar />
+                <AskingHelpPosts />
+              </AuthRoute>
+              <AuthRoute path="/AskingHelpForm" type="private">
+                <Navbar />
+                <AskingHelpForm onSubmit={() => console.log(whoAmiData)} />
+              </AuthRoute>
+            </Switch>
+          </Context.Provider>
+        </Container>
       </BrowserRouter>
     ) : (
       <div>Toto</div>

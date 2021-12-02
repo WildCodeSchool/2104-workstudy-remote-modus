@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { gql, useMutation } from "@apollo/client";
-import { Button, Form } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { toast } from "react-toastify";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
 
@@ -57,7 +58,6 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
         wysiwyg: userInput,
       };
       JSON.stringify(formData);
-      console.log(`data`, formData);
       onSubmit();
       addPost({
         variables: {
@@ -65,85 +65,104 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
         },
       });
     } else {
-      console.log("title manquant");
+      toast.error("Someting gone wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="help-title">Formulaire de Demande d&apos;aide</h1>
-      <Form className="help-form" onSubmit={(e) => handleSubmit(e)}>
-        <Form.Group>
-          <div className="help-title-form">
-            <Form.Label htmlFor="title">
-              Titre de la demande :
-              <Form.Control
-                className="input-classic"
-                type="text"
-                name="title"
-                value={titleHelp}
-                placeholder="Titre..."
-                data-testid="title-form"
-                onChange={(e) => setTitleHelp(e.target.value)}
-                required
-              />
-            </Form.Label>
+    <Row className="w-auto m-0 bg">
+      <Col>
+        <h3 className="text-warning text-center mt-4">
+          Demander de l&apos;aide
+        </h3>
+        <Form
+          onSubmit={(e) => handleSubmit(e)}
+          className="m-auto d-flex flex-column w-75"
+        >
+          <div className="mt-4">
+            <h6 className="text-white">
+              Ici vous pouvez remplir une demande d&apos;aide sur un sujet
+              spécifique. Renseingez les grandes lignes de votre projet /
+              problématique afin que le/la mentor séléctionné.e puisse
+              comprendre en quelques lignes en quoi il pourra vous aider.
+            </h6>
           </div>
-          <div className="skills-form">
-            <div className="skills-selection">
-              <Form.Label htmlFor="skills-selector">
-                Technologie(s) concernée(s) :
-              </Form.Label>
-              <Select
-                name="skills-selector"
-                data-testid="select-skill-form"
-                required=""
-                options={options}
-                onChange={(result: any) => {
-                  if (result) {
-                    setSkill(result.value);
-                  }
-                }}
-                className="selector"
+          <Card className="border rounder border-warning bg-transparent p-4">
+            <Card.Body>
+              <Row>
+                <Col>
+                  <Form.Label htmlFor="skills-selector">
+                    Technologie(s) concernée(s) :
+                  </Form.Label>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="d-flex">
+                  <Select
+                    className="text-dark w-75"
+                    name="skills-selector"
+                    data-testid="select-skill-form"
+                    required=""
+                    options={options}
+                    onChange={(result: any) => {
+                      if (result) {
+                        setSkill(result.value);
+                      }
+                    }}
+                  />
+                  <Button
+                    className="text-white"
+                    variant="add-skills"
+                    type="button"
+                    data-testid="skill-button-form"
+                    disabled={skills.includes(skill)}
+                    onClick={() => {
+                      setSkills([...skills, skill]);
+                    }}
+                  >
+                    <i className="fas fa-plus" />
+                  </Button>
+                </Col>
+                <Col className="d-flex justify-content-evenly flex-wrap">
+                  {skills.map((oneSkill) => (
+                    <Skill
+                      title={oneSkill}
+                      onDelete={(title: string) => DeleteSkill(title)}
+                      key={id + ((Math.random() * 10) / Math.random()) * 15}
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          <Card className="p-4">
+            <Card.Title className="text-dark">
+              Contexte et description du probleme :
+            </Card.Title>
+            <Card.Body>
+              <Wysiwyg
+                userInput={userInput}
+                setUserInput={setUserInput}
+                dataTestid="wysiwyg-form"
               />
-              <Button
-                variant="add-skills"
-                type="button"
-                data-testid="skill-button-form"
-                disabled={skills.includes(skill)}
-                onClick={() => {
-                  setSkills([...skills, skill]);
-                }}
-              >
-                <i className="fas fa-plus" />
-              </Button>
-            </div>
-            <div className="">
-              {skills.map((oneSkill) => (
-                <Skill
-                  title={oneSkill}
-                  onDelete={(title: string) => DeleteSkill(title)}
-                  key={id + ((Math.random() * 10) / Math.random()) * 15}
-                />
-              ))}
-            </div>
-          </div>
-        </Form.Group>
-        <div className="">
-          <p className="">Contexte et description du probleme :</p>
-          <Wysiwyg
-            userInput={userInput}
-            setUserInput={setUserInput}
-            dataTestid="wysiwyg-form"
-          />
-          <div>
+            </Card.Body>
+          </Card>
+          <div className="align-right">
             <Button variant="classic" type="submit" data-testid="submitButton">
-              Soumettre
+              Submit
             </Button>
           </div>
-        </div>
-      </Form>
-    </div>
+        </Form>
+      </Col>
+    </Row>
   );
 };
 
