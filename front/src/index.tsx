@@ -13,7 +13,11 @@ import { onError } from "@apollo/client/link/error";
 import Router from "./Router";
 import reportWebVitals from "./reportWebVitals";
 
-const token = localStorage.getItem("jwt");
+let token = localStorage.getItem("jwt");
+
+if (token) {
+  token = token.replace(/^"(.*)"$/, "$1");
+}
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",

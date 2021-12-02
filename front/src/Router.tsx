@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, gql, useQuery } from "@apollo/client";
+import { useMutation, gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
@@ -32,12 +32,13 @@ function Router(): JSX.Element {
     }
   `;
 
-  const [login, { data: mutationData }] = useMutation(LOGIN);
-  const { data, error } = useQuery(WHOAMI, {
+  const [login, { data: loginData }] = useMutation(LOGIN);
+  const [whoAmI, { data: whoAmiData, error }] = useLazyQuery(WHOAMI, {
     errorPolicy: "all",
   });
 
   const [user, setUser] = useState<User>(null);
+  const [whoAmICall, setWhoAmICall] = useState(false);
   const [isTokenChecked, setIsTokenChecked] = useState<boolean>(false);
 
   const logUser = async (userCredentials: UserCredentials) => {
@@ -50,16 +51,23 @@ function Router(): JSX.Element {
   };
 
   useEffect(() => {
-    if (mutationData?.login.user) {
-      localStorage.setItem("jwt", JSON.stringify(mutationData.login.token));
-      setUser(mutationData.login.user);
+    if (loginData?.login.user) {
+      localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
+      setUser(loginData.login.user);
     }
-  }, [mutationData]);
+  }, [loginData]);
 
   useEffect(() => {
-    setIsTokenChecked(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!isTokenChecked && !whoAmICall) {
+      whoAmI();
+      setWhoAmICall(true);
+    } else if (!isTokenChecked) {
+      if (whoAmiData?.whoAmI.user) {
+        setUser(whoAmiData.whoAmI.user);
+      }
+      setIsTokenChecked(true);
+    }
+  }, [whoAmI, isTokenChecked, whoAmiData, whoAmICall]);
 
   return (
     // Attendre qu'on ai vérifié la présence d'un token et la co d'un user et
@@ -78,7 +86,7 @@ function Router(): JSX.Element {
               <AskingHelpPosts />
             </AuthRoute>
             <AuthRoute path="/AskingHelpForm" type="private">
-              <AskingHelpForm onSubmit={() => console.log(data)} />
+              <AskingHelpForm onSubmit={() => console.log(whoAmiData)} />
             </AuthRoute>
           </Switch>
         </Context.Provider>
