@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Resolver, Query, Ctx, UseMiddleware } from 'type-graphql';
+import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
 import { SelfUser } from '../types/UserResponse';
 import { UserModel } from '../models/User';
+import { AuthenticationError } from 'apollo-server'
 import { isAuth } from '../middleware/isAuth';
-
+import { inputAddPost } from '../types/InputAddPost';
+import { UpdateUserProfileInput } from '../types/updateUserData';
 @Resolver()
 export class UserResolver {
   @UseMiddleware(isAuth)
@@ -14,6 +16,18 @@ export class UserResolver {
     if (!user) throw new Error('User not found');
 
     return { user };
+  }
+
+  @Mutation(() => UpdateUserProfileInput)
+  async updateUserProfilData(@Arg('data') data: UpdateUserProfileInput, @Ctx() { userId }: { userId: string }): Promise<UpdateUserProfileInput> {
+    if(!userId) throw new AuthenticationError("Not logged in")
+
+    const userFromDatabase = await UserModel.findById({ _id: userId });
+
+    if (!user) throw new Error('User not found');
+    
+
+    return { updatedUserProfileData };
   }
 
   // @Mutation(() => Boolean)
