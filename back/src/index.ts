@@ -33,6 +33,7 @@ async function start() {
     schema,
     playground: true,
     context: ({ req }) => {
+      console.log(req.headers)
       if (req.headers) {
         const token = req.headers.authorization?.split(' ');
         if (token) {

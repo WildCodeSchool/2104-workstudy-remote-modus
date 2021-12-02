@@ -3,10 +3,10 @@ import { useMutation, gql, useQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import Login from "./routes/login/Login";
+import Register from "./routes/register/Register";
 import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
-import Register from "./routes/register/Register";
 
 function Router(): JSX.Element {
   const LOGIN = gql`
@@ -23,17 +23,20 @@ function Router(): JSX.Element {
   `;
 
   const WHOAMI = gql`
-    query whoAmI {
-      user {
-        email
-        nickname
-        _id
+    query {
+      whoAmI {
+        user {
+          _id
+        }
       }
     }
   `;
 
   const [login, { data: mutationData }] = useMutation(LOGIN);
-  const { data } = useQuery(WHOAMI);
+  const { data, error } = useQuery(WHOAMI, {
+    errorPolicy: "all",
+  });
+
   const [user, setUser] = useState<User>(null);
   const [isTokenChecked, setIsTokenChecked] = useState<boolean>(false);
 
@@ -54,7 +57,6 @@ function Router(): JSX.Element {
   }, [mutationData]);
 
   useEffect(() => {
-    console.log(data);
     setIsTokenChecked(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,7 +68,7 @@ function Router(): JSX.Element {
       <BrowserRouter>
         <Context.Provider value={{ user, logUser }}>
           <Switch>
-            <AuthRoute path="/login" type="guest">
+            <AuthRoute exact path="/" type="guest">
               <Login />
             </AuthRoute>
             <AuthRoute path="/register" type="guest">

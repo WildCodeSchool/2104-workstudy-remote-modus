@@ -17,7 +17,7 @@ const AuthRoute = (props: Props) => {
   }
   if (type === "private" && !user) {
     console.log("Je redirige vers login");
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   }
   console.log("J'affiche la page demandée");
   // eslint-disable-next-line react/jsx-props-no-spreading

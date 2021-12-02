@@ -42,13 +42,13 @@ const Register: React.FC = () => {
   useEffect(() => {
     console.log("data >> ", data);
     if (data) {
-      history.push("/login");
+      history.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (error) setErrorState(error?.graphQLErrors[0].message);
+    if (error) setErrorState(error?.graphQLErrors[0]?.message);
   }, [error, errorState]);
 
   return (
@@ -86,7 +86,7 @@ const Register: React.FC = () => {
             </Form>
           </Formik>
           {errorState && <p>{errorState}</p>}
-          <Link to="/login">
+          <Link to="/">
             <button type="button">Vous avez un compte ? Connectez vous</button>
           </Link>
         </Card.Body>
