@@ -1,55 +1,35 @@
 import React, { useState } from "react";
-import { Card, Button, Collapse } from "react-bootstrap";
+import { Col, Card, Button, Collapse, Accordion } from "react-bootstrap";
 import "../../css/styles.css";
 
-type PostContainerProps = {
+export type PostProps = {
   title: string;
   wysiwyg: string;
   skills: string[];
+  eventKey: string;
 };
 
-const PostContainer = (props: PostContainerProps): JSX.Element => {
-  // Skills n'est pas utilisé (Temporaire)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { title, skills, wysiwyg } = props;
-  const [open, setOpen] = useState(false);
+const PostContainer = (props: PostProps): JSX.Element => {
+  const { title, skills, wysiwyg, eventKey } = props;
+  const cleanWysiwyg = wysiwyg.replace(/<\/?[^>]+(>|$)/g, "");
 
   return (
-    <Card className="card-posts">
-      <div className="card-box">
-        <div id="skills">
-          <img src="logo192.png" className="skills-logo" alt="React" />
-          <img
-            className="skills-logo"
-            src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627551047/Moddusey/js_logo_mhnbpf.png"
-            alt="JavaScript"
-          />
-        </div>
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          {`${wysiwyg.substring(0, 200)}...`}
-          <Collapse in={open}>
-            <div id="collapse-text">
-              {`${wysiwyg.substring(199)}`}{" "}
-              <Button variant="details">
-                Détails <i className="fas fa-meteor" />
-              </Button>
-            </div>
-          </Collapse>
-        </Card.Body>
-        <div>
-          <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="collapse-text"
-            aria-expanded={open}
-            variant="infos"
-          >
-            <i className="fas fa-caret-down fa-3x" />
-          </Button>
-        </div>
-      </div>
-      <hr id="post-line" />
-    </Card>
+    <Accordion.Item eventKey={eventKey} className="bg-transparent">
+      <Accordion.Header>
+        <Col xs="1">
+          {skills.map((skill) => {
+            return <div>{skill}</div>;
+          })}
+        </Col>
+        <Col className="title-post">{title}</Col>
+      </Accordion.Header>
+      <Accordion.Body className="m-4">
+        {cleanWysiwyg.substring(0, 200)}...
+        <Button variant="details">
+          En lire plus <i className="fas fa-meteor" />
+        </Button>
+      </Accordion.Body>
+    </Accordion.Item>
   );
 };
 

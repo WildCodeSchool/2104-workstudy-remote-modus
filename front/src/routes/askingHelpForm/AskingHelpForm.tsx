@@ -93,7 +93,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
               comprendre en quelques lignes en quoi il pourra vous aider.
             </h6>
           </div>
-          <Card className="border rounder border-warning bg-transparent p-4">
+          <Card className="border rounded border-warning bg-transparent p-4">
             <Card.Body>
               <Row className="mb-4">
                 <Col>
