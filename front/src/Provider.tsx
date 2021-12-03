@@ -36,6 +36,11 @@ const Provider = () => {
     }
   };
 
+  const logoutUser = async () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
   useEffect(() => {
     if (loginData?.login.user && setUser) {
       localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
@@ -49,6 +54,7 @@ const Provider = () => {
         user,
         updateUser,
         logUser,
+        logoutUser,
       }}
     >
       <Router />

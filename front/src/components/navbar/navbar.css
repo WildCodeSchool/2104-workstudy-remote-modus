@@ -1,45 +1,49 @@
-.topnav{
+.nav-color{
     background-color: #7962F2;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
+    padding: 0;
 }
 
 .logo {
-    max-height: 50px;
+    height: 50px;
 }
 
-.topnav a{
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
+.my-container {
+    align-items: initial !important;
+}
+
+.my-nav-container {
+    align-items: stretch;
+    height: auto;
+}
+
+.custom-nav-link {
+    color: white;
+    padding: 15px;
+    margin: 0;
     text-decoration: none;
     font-size: 17px;
 }
 
-.topnav a:hover{
-    background-color: #272435;
-    color: white;
+.custom-nav-link:hover{
+    color: #221f2e;
+    transition: 0.3s;
 }
 
-.topnav a.active{
-    background-color: #221F2E;
-    color: white;
-    font-weight: normal;
+.active{
+    background-color: #221f2e;
+    border: none !important;
+    font-style: bold;
+    color: rgb(216, 216, 216);
+}
+
+.active:hover{
+    background-color: #221f2e;
+    border: none !important;
+    font-style: bold;
+    color: rgb(216, 216, 216);
 }
 
 .profileIcon{
     max-height: 50px;
     float: right;
-}
-
-.welcomemessage{
-    display: flex;
-    float: right;
-    text-align: center;
-}
-.message{
-    color: #f2f2f2;
-    padding-top: 1vw;
 }

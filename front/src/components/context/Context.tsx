@@ -16,6 +16,7 @@ const Context = React.createContext<{
   user: User;
   logUser: (userCredentials: UserCredentials) => Promise<void>;
   updateUser: (data: User) => void;
+  logoutUser?: (userCredentials: UserCredentials) => Promise<void>;
 }>({
   user: null,
   logUser: () => {
