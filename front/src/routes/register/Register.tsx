@@ -1,29 +1,55 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useContext, useState } from "react";
-// import { gql } from "@apollo/client";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
-import { gql } from "@apollo/client";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import Context from "../../components/context/Context";
+import { Link, useHistory } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
 
-const LoginSchema = Yup.object({
+const REGISTER = gql`
+  mutation register($input: AuthRegisterInput!) {
+    register(input: $input) {
+      user {
+        nickname
+        email
+      }
+      token
+    }
+  }
+`;
+
+const RegisterSchema = Yup.object({
   email: Yup.string()
     .email("Format invalid")
     .required("Une adresse email est requise"),
   password: Yup.string().required("Un mot de passe est requis"),
+  nickname: Yup.string().required("Un pseudonyme est requis"),
 });
 
-const Login: React.FC = () => {
-  const { logUser } = useContext(Context);
+const Register: React.FC = () => {
   const [errorState, setErrorState] = useState("");
-
+  const history = useHistory();
   const initialValues = {
+    nickname: "",
     email: "",
     password: "",
   };
+
+  const [register, { data, error }] = useMutation(REGISTER, {
+    errorPolicy: "all",
+  });
+
+  useEffect(() => {
+    console.log("data >> ", data);
+    if (data) {
+      history.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    if (error) setErrorState(error?.graphQLErrors[0]?.message);
+  }, [error, errorState]);
 
   return (
     <div className="container-form">
@@ -35,32 +61,20 @@ const Login: React.FC = () => {
         />
       </div>
       <Card className="border rounder border-warning bg-transparent p-4">
-        <Card.Title className="text-center">Login</Card.Title>
+        <Card.Title className="text-center">Register</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
-            validationSchema={LoginSchema}
+            validationSchema={RegisterSchema}
             onSubmit={async (values) => {
-              try {
-                const { email, password } = values;
-                const formData = {
-                  email,
-                  password,
-                };
-                JSON.stringify(formData);
-                await logUser(formData);
-              } catch (err: any) {
-                setErrorState(err.message);
-                toast.error(`${err.message}`, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-              }
+              const { email, password, nickname } = values;
+              const formData = {
+                email,
+                password,
+                nickname,
+              };
+              JSON.stringify(formData);
+              register({ variables: { input: formData } });
             }}
           >
             <Form className="login-form d-flex flex-column">
@@ -77,12 +91,23 @@ const Login: React.FC = () => {
               <FormBS.Group className="mb-4">
                 <Field
                   class="form-control"
+                  name="nickname"
+                  type="text"
+                  placeholder="Pseudo"
+                />
+                <ErrorMessage name="nickname" />
+              </FormBS.Group>
+
+              <FormBS.Group className="mb-4">
+                <Field
+                  class="form-control"
                   name="password"
                   placeholder="Password"
                   type="password"
                 />
                 <ErrorMessage name="password" />
               </FormBS.Group>
+
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
                   Submit
@@ -90,10 +115,10 @@ const Login: React.FC = () => {
               </div>
             </Form>
           </Formik>
-
-          <Link to="/register">
+          {errorState && <p>{errorState}</p>}
+          <Link to="/">
             <p className="text-center text-white">
-              Don&apos;t have an account ? Register
+              Already have an account ? Login
             </p>
           </Link>
         </Card.Body>
@@ -102,4 +127,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;

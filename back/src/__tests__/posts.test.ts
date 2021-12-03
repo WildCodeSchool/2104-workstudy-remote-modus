@@ -1,5 +1,5 @@
 import { createTestClient } from 'apollo-server-testing';
-import { gql } from 'apollo-server-core';
+import { ApolloServerBase, gql } from 'apollo-server-core';
 import { PostResolver } from '../resolvers/PostResolver';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
@@ -14,7 +14,7 @@ const CREATE_POST = gql`
   }
 `;
 
-let apollo: any;
+let apollo: ApolloServerBase;
 
 describe('Post Mutation test on with GraphQL', () => {
   beforeAll(async () => {

@@ -1,8 +1,7 @@
 import React from "react";
-import Login from "../login/Login";
 
 const Home = (): JSX.Element => {
-  return <Login />;
+  return <div>JE SUIS SUR LA HOME BATARD</div>;
 };
 
 export default Home;

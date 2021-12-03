@@ -12,15 +12,12 @@ const Navbar = (): JSX.Element => {
           className="logo"
         />
         <div>
-          <NavLink to="/" exact>
-            Home
-          </NavLink>
-          <NavLink to="/asking-help-form">AskingHelpForm</NavLink>
-          <NavLink to="/asking-help-index">AskingHelpPosts</NavLink>
+          <NavLink to="/AskingHelpForm">HelpForm</NavLink>
+          <NavLink to="/AskingHelpPosts">HelpPosts</NavLink>
         </div>
       </div>
       <div className="welcomemessage">
-        <div className="topnav message">Welcome alicezer@mail.com</div>
+        <div className="topnav message">Welcome cajou@mail.com</div>
         <img
           src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627483744/Moddusey/persona4_yhsdi3.png"
           alt="profileIcon"
