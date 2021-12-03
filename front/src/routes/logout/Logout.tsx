@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavDropdown } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
 
 const Logout: React.FC = () => {
@@ -10,7 +11,8 @@ const Logout: React.FC = () => {
   const logoutUser = async () => {
     updateUser(null);
     localStorage.clear();
-    history.push("/AskingHelpPosts");
+    history.push("/");
+    toast("A bientôt!");
   };
 
   return (

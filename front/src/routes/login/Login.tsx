@@ -49,6 +49,7 @@ const Login: React.FC = () => {
                 };
                 JSON.stringify(formData);
                 await logUser(formData);
+                toast("Bienvenue !");
               } catch (err: any) {
                 setErrorState(err.message);
                 toast.error(`${err.message}`, {
@@ -66,7 +67,7 @@ const Login: React.FC = () => {
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   placeholder="Email"
                   name="email"
                   type="email"
@@ -76,7 +77,7 @@ const Login: React.FC = () => {
 
               <FormBS.Group className="mb-4">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="password"
                   placeholder="Password"
                   type="password"

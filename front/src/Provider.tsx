@@ -22,9 +22,7 @@ const Provider = () => {
   const [login, { data: loginData }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
-    if (data) {
-      setUser(data);
-    }
+    setUser(data);
   };
 
   const logUser = async (userCredentials: UserCredentials) => {
@@ -58,7 +56,7 @@ const Provider = () => {
       }}
     >
       <Router />
-      <ToastContainer />
+      <ToastContainer position="bottom-left" />
     </Context.Provider>
   );
 };
