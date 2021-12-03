@@ -21,37 +21,29 @@ const WHOAMI = gql`
 `;
 
 function Router(): JSX.Element {
-  const { user, updateUser } = useContext(Context);
+  const { updateUser } = useContext(Context);
   const [isTokenChecked, setIsTokenChecked] = useState(false);
-  const [whoAmICall, setWhoAmICall] = useState(false);
-  const [whoAmI, { data: whoAmiData, error }] = useLazyQuery(WHOAMI, {
-    errorPolicy: "all",
-  });
+  const [whoAmI, { data: whoAmiData, error: whoAmiError }] = useLazyQuery(
+    WHOAMI,
+    {
+      errorPolicy: "all",
+    }
+  );
 
   useEffect(() => {
-    if (!isTokenChecked && !whoAmICall) {
+    if (!isTokenChecked) {
       whoAmI();
-      setWhoAmICall(true);
-    } else if (!isTokenChecked && whoAmICall) {
+    }
+  }, [whoAmI, isTokenChecked]);
+
+  useEffect(() => {
+    if (whoAmiData || whoAmiError) {
       if (whoAmiData?.whoAmI.user) {
         updateUser(whoAmiData.whoAmI.user);
       }
-
       setIsTokenChecked(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [whoAmI, isTokenChecked, whoAmiData, whoAmICall, user]);
-
-  useEffect(() => {
-    if (whoAmiData?.whoAmI.user) {
-      updateUser(whoAmiData.whoAmI.user);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [whoAmiData]);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  }, [updateUser, whoAmiData, whoAmiError]);
 
   return isTokenChecked ? (
     <BrowserRouter>
