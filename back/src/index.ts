@@ -10,6 +10,7 @@ import { UserResolver } from './resolvers/UserResolver';
 import { PostResolver } from './resolvers/PostResolver';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import { MyContext } from './types/MyContext';
 
 async function start() {
   mongoose
@@ -25,15 +26,15 @@ async function start() {
   const schema = await buildSchema({
     resolvers: [UserResolver, PostResolver, AuthResolver],
     authChecker: ({ context: { req } }) => {
-      return !!req.session;
+      console.log('R E Q >>> ', req.headers);
+      return req;
     },
   });
 
   const apolloServer = new ApolloServer({
     schema,
     playground: true,
-    context: ({ req }) => {
-      console.log(req.headers)
+    context: ({ req }: MyContext) => {
       if (req.headers) {
         const token = req.headers.authorization?.split(' ');
         if (token) {
