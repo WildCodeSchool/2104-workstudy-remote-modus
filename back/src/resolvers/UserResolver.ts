@@ -18,18 +18,6 @@ export class UserResolver {
     return { user };
   }
 
-  @Mutation(() => UpdateUserProfileInput)
-  async updateUserProfilData(@Arg('data') data: UpdateUserProfileInput, @Ctx() { userId }: { userId: string }): Promise<UpdateUserProfileInput> {
-    if(!userId) throw new AuthenticationError("Not logged in")
-
-    const userFromDatabase = await UserModel.findById({ _id: userId });
-
-    if (!user) throw new Error('User not found');
-    
-
-    return { updatedUserProfileData };
-  }
-
   // @Mutation(() => Boolean)
   // @UseMiddleware(isAuth)
   // async updateProfile(@Arg('data') data: UserInput): Promise<any> {
