@@ -1,19 +1,57 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import ReactDOM from "react-dom";
-import App from "./App";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 import reportWebVitals from "./reportWebVitals";
+import "./App.css";
+import Provider from "./Provider";
+
+let token = localStorage.getItem("jwt");
+
+if (token) {
+  token = token.replace(/^"(.*)"$/, "$1");
+}
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000",
   cache: new InMemoryCache(),
+  link: from([authLink, errorLink, httpLink]),
 });
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <Provider />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
