@@ -10,11 +10,9 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import { ToastContainer } from "react-toastify";
-import Router from "./Router";
-import "react-toastify/dist/ReactToastify.css";
 import reportWebVitals from "./reportWebVitals";
 import "./App.css";
+import Provider from "./Provider";
 
 let token = localStorage.getItem("jwt");
 
@@ -53,8 +51,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Router />
-      <ToastContainer />
+      <Provider />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

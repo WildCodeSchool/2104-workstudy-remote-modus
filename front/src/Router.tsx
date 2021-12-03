@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import React, { useContext, useEffect, useState } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import Context, { User, UserCredentials } from "./components/context/Context";
+import Context from "./components/context/Context";
 import Login from "./routes/login/Login";
 import Register from "./routes/register/Register";
 import AuthRoute from "./AuthRoute";
@@ -10,13 +10,10 @@ import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 import Navbar from "./components/navbar/Navbar";
 
-const LOGIN = gql`
-  mutation login($input: AuthLoginInput!) {
-    login(input: $input) {
-      token
+const WHOAMI = gql`
+  query {
+    whoAmI {
       user {
-        email
-        nickname
         _id
       }
     }
@@ -24,66 +21,61 @@ const LOGIN = gql`
 `;
 
 function Router(): JSX.Element {
-  const [login, { data: loginData }] = useMutation(LOGIN);
-  const [APICallDone, setAPICallDone] = useState(false);
-  const [user, setUser] = useState<User>(null);
-  const updateUser = (data: User) => {
-    if (data) {
-      setUser(data);
-    }
-  };
-
-  const updateAPICallDone = () => {
-    setAPICallDone(true);
-  };
-
-  const logUser = async (userCredentials: UserCredentials) => {
-    try {
-      await login({ variables: { input: userCredentials } });
-    } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log("err.message :>> ", err.message);
-    }
-  };
+  const { user, updateUser } = useContext(Context);
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
+  const [whoAmICall, setWhoAmICall] = useState(false);
+  const [whoAmI, { data: whoAmiData, error }] = useLazyQuery(WHOAMI, {
+    errorPolicy: "all",
+  });
 
   useEffect(() => {
-    if (loginData?.login.user && setUser) {
-      localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
-      setUser(loginData.login.user);
-    }
-  }, [loginData, setUser]);
+    if (!isTokenChecked && !whoAmICall) {
+      whoAmI();
+      setWhoAmICall(true);
+    } else if (!isTokenChecked && whoAmICall) {
+      if (whoAmiData?.whoAmI.user) {
+        updateUser(whoAmiData.whoAmI.user);
+      }
 
-  return (
+      setIsTokenChecked(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [whoAmI, isTokenChecked, whoAmiData, whoAmICall, user]);
+
+  useEffect(() => {
+    if (whoAmiData?.whoAmI.user) {
+      updateUser(whoAmiData.whoAmI.user);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [whoAmiData]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  return isTokenChecked ? (
     <BrowserRouter>
       <Container fluid className="layout">
-        <Context.Provider
-          value={{
-            user,
-            updateAPICallDone,
-            APICallDone,
-            updateUser,
-            logUser,
-          }}
-        >
-          <Switch>
-            <AuthRoute exact path="/" type="guest">
-              <Login />
-            </AuthRoute>
-            <AuthRoute path="/register" type="guest">
-              <Register />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpPosts" type="private">
-              <Navbar />
-              <AskingHelpPosts />
-            </AuthRoute>
-            <AuthRoute path="/AskingHelpForm" type="private">
-              <Navbar />
-              <AskingHelpForm onSubmit={() => console.log()} />
-            </AuthRoute>
-          </Switch>
-        </Context.Provider>
+        <Switch>
+          <AuthRoute exact path="/" type="guest">
+            <Login />
+          </AuthRoute>
+          <AuthRoute path="/register" type="guest">
+            <Register />
+          </AuthRoute>
+          <AuthRoute path="/AskingHelpPosts" type="private">
+            <Navbar />
+            <AskingHelpPosts />
+          </AuthRoute>
+          <AuthRoute path="/AskingHelpForm" type="private">
+            <Navbar />
+            <AskingHelpForm onSubmit={() => console.log()} />
+          </AuthRoute>
+        </Switch>
       </Container>
     </BrowserRouter>
+  ) : (
+    <div className="text-white">Toto</div>
   );
 }
 export default Router;

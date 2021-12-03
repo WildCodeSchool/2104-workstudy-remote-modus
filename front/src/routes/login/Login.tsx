@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 // import { gql } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
@@ -16,54 +16,14 @@ const LoginSchema = Yup.object({
   password: Yup.string().required("Un mot de passe est requis"),
 });
 
-const WHOAMI = gql`
-  query {
-    whoAmI {
-      user {
-        _id
-      }
-    }
-  }
-`;
-
 const Login: React.FC = () => {
-  const { logUser, user, updateUser, updateAPICallDone, APICallDone } =
-    useContext(Context);
+  const { logUser } = useContext(Context);
   const [errorState, setErrorState] = useState("");
-  const [whoAmICall, setWhoAmICall] = useState(false);
-  const [whoAmI, { data: whoAmiData, error }] = useLazyQuery(WHOAMI, {
-    errorPolicy: "all",
-  });
 
   const initialValues = {
     email: "",
     password: "",
   };
-
-  useEffect(() => {
-    if (!APICallDone && !whoAmICall) {
-      whoAmI();
-      setWhoAmICall(true);
-    } else if (!APICallDone && whoAmICall) {
-      if (whoAmiData?.whoAmI.user) {
-        updateUser(whoAmiData.whoAmI.user);
-      }
-
-      updateAPICallDone();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [whoAmI, APICallDone, whoAmiData, whoAmICall, user]);
-
-  useEffect(() => {
-    if (whoAmiData?.whoAmI.user) {
-      updateUser(whoAmiData.whoAmI.user);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [whoAmiData]);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <div className="container-form">
