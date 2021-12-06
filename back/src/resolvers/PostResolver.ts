@@ -1,15 +1,18 @@
-import { Arg, Query, Resolver, Mutation } from 'type-graphql';
+import { Arg, Query, Resolver, Mutation, UseMiddleware } from 'type-graphql';
 import { PostModel, Post } from '../models/Post';
 import { inputAddPost } from '../types/InputAddPost';
+import { isAuth } from '../middleware/isAuth';
 
 @Resolver(Post)
 export class PostResolver {
+  @UseMiddleware(isAuth)
   @Query(() => [Post])
   async allPosts(): Promise<Post[]> {
     const posts = await PostModel.find();
     return posts;
   }
 
+  @UseMiddleware(isAuth)
   @Mutation(() => Post)
   async addPost(@Arg('data') data: inputAddPost): Promise<Post> {
     const post = await PostModel.create(data);

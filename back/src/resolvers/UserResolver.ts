@@ -2,7 +2,6 @@
 import { Resolver, Query, Ctx, UseMiddleware } from 'type-graphql';
 import { SelfUser } from '../types/UserResponse';
 import { UserModel } from '../models/User';
-import { AuthenticationError } from 'apollo-server';
 import { isAuth } from '../middleware/isAuth';
 
 @Resolver()
@@ -10,8 +9,6 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @Query(() => SelfUser)
   async whoAmI(@Ctx() { userId }: { userId: string }): Promise<SelfUser> {
-    if (!userId) throw new AuthenticationError('Not logged in');
-
     const user = await UserModel.findById({ _id: userId });
 
     if (!user) throw new Error('User not found');

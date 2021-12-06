@@ -25,10 +25,7 @@ async function start() {
 
   const schema = await buildSchema({
     resolvers: [UserResolver, PostResolver, AuthResolver],
-    authChecker: ({ context: { req } }) => {
-      console.log('R E Q >>> ', req.headers);
-      return req;
-    },
+    authChecker: ({ context: { req } }) => req,
   });
 
   const apolloServer = new ApolloServer({
