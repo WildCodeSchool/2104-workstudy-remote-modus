@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react";
+import React, { useContext } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
 import fakeDataPosts from "./FakeDataPosts";
 import PostContainer from "./PostContainer";
+import Context from "../../components/context/Context";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -19,7 +20,9 @@ const GETALLPOSTS = gql`
 `;
 
 const AskingHelpPosts = (): JSX.Element => {
-  // const { loading, error, data } = useQuery(GETALLPOSTS);
+  const { user } = useContext(Context);
+
+  console.log(user);
 
   return (
     <>

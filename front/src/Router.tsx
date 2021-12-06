@@ -9,6 +9,7 @@ import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 import Navbar from "./components/navbar/Navbar";
+import Loading from "./components/loader/Loader";
 
 const WHOAMI = gql`
   query {
@@ -67,7 +68,7 @@ function Router(): JSX.Element {
       </Container>
     </BrowserRouter>
   ) : (
-    <div className="text-white">Toto</div>
+    <Loading />
   );
 }
 export default Router;
