@@ -88,7 +88,7 @@ const Register: React.FC = () => {
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   placeholder="Email"
                   name="email"
                   type="email"
@@ -98,7 +98,7 @@ const Register: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="nickname"
                   type="text"
                   placeholder="Pseudo"
@@ -108,7 +108,7 @@ const Register: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="password"
                   placeholder="Password"
                   type="password"
