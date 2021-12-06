@@ -18,6 +18,24 @@ export class UserResolver {
     return { user };
   }
 
+
+  @Mutation(() => UpdateUserProfileInput)
+  async updateUserProfilData(@Arg('data') data: UpdateUserProfileInput, @Ctx() { userId }: { userId: string }): Promise<SelfUser> {
+    if(!userId) throw new AuthenticationError("Not logged in");
+    
+
+    //? Sur que l'email n'est pas déjà prise en bdd , si c'est pas le cas on throw erreur
+    const user = await UserModel.findOneAndUpdate({ _id: userId }, data, { new: true });
+    
+    
+    if (!user) throw new Error('User not found');
+    
+    console.log('data :>> ', data);
+
+
+    return {  user };
+  }
+
   // @Mutation(() => Boolean)
   // @UseMiddleware(isAuth)
   // async updateProfile(@Arg('data') data: UserInput): Promise<any> {
