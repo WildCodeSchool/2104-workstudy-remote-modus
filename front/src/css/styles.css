@@ -158,3 +158,13 @@ div.ql-container.ql-snow {
 .login-form {
     color: white;
 }
+
+.errorMessage span {
+    color: red;
+    width: 15rem;
+    /* word-break: break-all; */
+    display: flex;
+}
+.errorMessage {
+    color: red;
+}
