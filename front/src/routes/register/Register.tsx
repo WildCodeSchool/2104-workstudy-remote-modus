@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 const REGISTER = gql`
   mutation register($input: AuthRegisterInput!) {
@@ -23,6 +24,13 @@ const RegisterSchema = Yup.object({
     .email("Format invalid")
     .required("Une adresse email est requise"),
   password: Yup.string().required("Un mot de passe est requis"),
+  passwordConfirmation: Yup.string().when("password", {
+    is: (val: string) => !!(val && val.length > 0),
+    then: Yup.string().oneOf(
+      [Yup.ref("password")],
+      "Les deux mots de passe ne sont pas identiques."
+    ),
+  }),
   nickname: Yup.string().required("Un pseudonyme est requis"),
 });
 
@@ -33,6 +41,7 @@ const Register: React.FC = () => {
     nickname: "",
     email: "",
     password: "",
+    passwordConfirmation: "",
   };
 
   const [register, { data, error }] = useMutation(REGISTER, {
@@ -40,7 +49,6 @@ const Register: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log("data >> ", data);
     if (data) {
       history.push("/");
     }
@@ -75,10 +83,11 @@ const Register: React.FC = () => {
               };
               JSON.stringify(formData);
               register({ variables: { input: formData } });
+              toast("votre compte a bien été crée");
             }}
           >
             <Form className="login-form d-flex flex-column">
-              <FormBS.Group className="mb-4">
+              <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   class="form-control"
                   placeholder="Email"
@@ -88,7 +97,7 @@ const Register: React.FC = () => {
                 <ErrorMessage name="email" />
               </FormBS.Group>
 
-              <FormBS.Group className="mb-4">
+              <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   class="form-control"
                   name="nickname"
@@ -98,7 +107,7 @@ const Register: React.FC = () => {
                 <ErrorMessage name="nickname" />
               </FormBS.Group>
 
-              <FormBS.Group className="mb-4">
+              <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   class="form-control"
                   name="password"
@@ -108,6 +117,16 @@ const Register: React.FC = () => {
                 <ErrorMessage name="password" />
               </FormBS.Group>
 
+              <FormBS.Group className="mb-4 errorMessage">
+                <Field
+                  class="form-control"
+                  name="passwordConfirmation"
+                  placeholder="Verifier le mot de passe"
+                  type="password"
+                />
+                <ErrorMessage component="span" name="passwordConfirmation" />
+              </FormBS.Group>
+
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
                   Submit
@@ -115,7 +134,9 @@ const Register: React.FC = () => {
               </div>
             </Form>
           </Formik>
-          {errorState && <p>{errorState}</p>}
+          {errorState && (
+            <p className="mb-4 errorMessage text-center">{errorState}</p>
+          )}
           <Link to="/">
             <p className="text-center text-white">
               Already have an account ? Login
