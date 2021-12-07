@@ -11,7 +11,7 @@ export class UserResolver {
   async whoAmI(@Ctx() { userId }: { userId: string }): Promise<SelfUser> {
     const user = await UserModel.findById({ _id: userId });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('User not founddjskjkhjh');
 
     return { user };
   }

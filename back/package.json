@@ -7,7 +7,7 @@
     "build": "tsc",
     "prod": "node dist/index.js",
     "watch": "tsc -w",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node-dev src/index.ts",
     "dev": "nodemon dist/index.js",
     "lint": "eslint src/**/*.ts & echo 'lint complete'",
     "format": "eslint src/**/*.ts --fix & echo 'lint with fixing complete'",
@@ -29,6 +29,7 @@
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {
+    "ts-node-dev": "^1.1.8",
     "@types/bcryptjs": "^2.4.2",
     "@types/graphql-upload": "^8.0.7",
     "@types/jest": "^26.0.23",
