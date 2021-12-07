@@ -1,10 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useContext, useState } from "react";
-// import { gql } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
-import { gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
@@ -18,6 +15,8 @@ const LoginSchema = Yup.object({
 
 const Login: React.FC = () => {
   const { logUser } = useContext(Context);
+  // Error State à utiliser
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorState, setErrorState] = useState("");
 
   const initialValues = {

@@ -6,7 +6,7 @@ interface Props extends RouteProps {
   type: string;
 }
 
-const AuthRoute = (props: Props) => {
+const AuthRoute = (props: Props): JSX.Element => {
   const { user } = useContext(Context);
   const { type } = props;
 

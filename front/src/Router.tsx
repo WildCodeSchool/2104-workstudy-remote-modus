@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useContext, useEffect, useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
