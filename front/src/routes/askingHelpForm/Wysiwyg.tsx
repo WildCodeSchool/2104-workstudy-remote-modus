@@ -34,6 +34,7 @@ export default function Wysiwyg({
 
   return (
     <ReactQuill
+      className="text-dark"
       value={userInput}
       placeholder="Please insert your text here... "
       onChange={setUserInput}

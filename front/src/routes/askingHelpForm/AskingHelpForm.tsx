@@ -3,6 +3,7 @@ import Select from "react-select";
 import { gql, useMutation } from "@apollo/client";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
 
@@ -30,6 +31,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
   const [skills, setSkills] = useState<string[]>([]);
   const [userInput, setUserInput] = useState("");
   const id = 0;
+  const history = useHistory();
 
   const options = [
     { value: "Javascript", label: "Javascript" },
@@ -37,7 +39,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
     { value: "Node", label: "Node" },
   ];
 
-  const [addPost, { data, loading, error }] = useMutation(ADD_POST);
+  const [addPost, { error }] = useMutation(ADD_POST);
 
   const DeleteSkill = (title: string) => {
     setSkills(
@@ -64,16 +66,10 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
           input: formData,
         },
       });
+      toast.info("Ta demande a bien été postée");
+      history.push("/AskingHelpPosts");
     } else {
-      toast.error("Someting gone wrong", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error(`${error}`);
     }
   };
 
@@ -84,7 +80,9 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
           Demander de l&apos;aide
         </h3>
         <Form
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
           className="m-auto d-flex flex-column w-75"
         >
           <div className="mt-4">
@@ -97,6 +95,20 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
           </div>
           <Card className="border rounder border-warning bg-transparent p-4">
             <Card.Body>
+              <Row className="mb-4">
+                <Col>
+                  <Form.Label>Titre de la demande :</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    value={titleHelp}
+                    placeholder="Titre..."
+                    data-testid="title-form"
+                    onChange={(e) => setTitleHelp(e.target.value)}
+                    required
+                  />
+                </Col>
+              </Row>
               <Row>
                 <Col>
                   <Form.Label htmlFor="skills-selector">
