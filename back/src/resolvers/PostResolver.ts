@@ -20,4 +20,12 @@ export class PostResolver {
 
     return post;
   }
+
+  @UseMiddleware(isAuth)
+  @Query(() => Post)
+  async getPostById(@Arg('id') id: string): Promise<Post | null> {
+    const post = await PostModel.findById(id)
+
+    return post;
+  }
 }

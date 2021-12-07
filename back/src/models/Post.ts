@@ -10,9 +10,8 @@ export class Skill {
 
 @GraphQLType()
 export class Post {
-  @prop()
   @GraphQLField(() => ID)
-  readonly id: string;
+  _id?: string;
 
   @prop({ required: true })
   @GraphQLField()
