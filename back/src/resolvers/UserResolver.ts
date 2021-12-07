@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
+import bcrypt from 'bcryptjs';
 import { SelfUser } from '../types/UserResponse';
 import { UserModel } from '../models/User';
 import { AuthenticationError } from 'apollo-server'
@@ -18,22 +19,35 @@ export class UserResolver {
     return { user };
   }
 
-
-  @Mutation(() => UpdateUserProfileInput)
-  async updateUserProfilData(@Arg('data') data: UpdateUserProfileInput, @Ctx() { userId }: { userId: string }): Promise<SelfUser> {
+  @Mutation(() => SelfUser)
+  async updateUserProfilData(@Arg('data') {email, password}: UpdateUserProfileInput, @Ctx() { userId }: { userId: string }): Promise<SelfUser> {
+    
     if(!userId) throw new AuthenticationError("Not logged in");
     
+    const existingUser = await UserModel.findById(userId);
+    if(!existingUser) throw new Error("User not found");
 
-    //? Sur que l'email n'est pas déjà prise en bdd , si c'est pas le cas on throw erreur
-    const user = await UserModel.findOneAndUpdate({ _id: userId }, data, { new: true });
-    
-    
+    const updatedUserProfileData = {
+      password: existingUser.password,
+      email: existingUser.email
+    };
+
+    if(email) {
+      const existingEmail = await UserModel.findOne({ email: email});
+      if(existingEmail && existingEmail.email === email) throw new Error('Email already in use');
+      updatedUserProfileData.email = email;
+    }
+
+    if (password){
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedUserProfileData.password = hashedPassword;
+    }
+   
+    const user = await UserModel.findOneAndUpdate({ _id: userId }, updatedUserProfileData, { new: true });
+
     if (!user) throw new Error('User not found');
-    
-    console.log('data :>> ', data);
 
-
-    return {  user };
+    return {user}   
   }
 
   // @Mutation(() => Boolean)

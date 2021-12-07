@@ -8,10 +8,10 @@ export class SkillInput {
 
 @InputType()
 export class UpdateUserProfileInput {
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
-  @Field()
+  @Field({ nullable: true })
   password?: string;
 }
 
