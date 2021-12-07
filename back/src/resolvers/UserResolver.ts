@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Resolver, Query, Ctx, UseMiddleware } from 'type-graphql';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Resolver, Query, Ctx, UseMiddleware, Mutation, Arg } from 'type-graphql';
 import { SelfUser } from '../types/UserResponse';
 import { UserModel } from '../models/User';
 import { isAuth } from '../middleware/isAuth';
+import { SkillsInput } from '../types/SkillsInput';
 
 @Resolver()
 export class UserResolver {
@@ -16,18 +17,18 @@ export class UserResolver {
     return { user };
   }
 
-  // @Mutation(() => Boolean)
-  // @UseMiddleware(isAuth)
-  // async updateProfile(@Arg('data') data: UserInput): Promise<any> {
-  //   console.log('data', data);
-  //   // const { nickname, ...noNickname } = data;
-  //   // //revoir le userResolver, aucun changement a l'email
-  //   // if (noNickname.email) {
-  //   //   const checkEmailAvailability = await UserModel.find({ email: noNickname.email });
-  //   //   if (checkEmailAvailability) throw new Error('Email already in use');
-  //   // }
-  //   // const user = await UserModel.findOneAndUpdate({ nickname }, { noNickname }, { new: true });
-  //   // if (!user) throw new Error("An error has occcured, couldn't update profile");
-  //   // return { user };
-  // }
+  @UseMiddleware(isAuth)
+  @Mutation(() => SelfUser)
+  async UpdateSkills(@Ctx() {userId}: {userId: string}, @Arg("skills", _type => [SkillsInput]) skills: [SkillsInput] ): Promise<SelfUser> {
+    let user = await UserModel.findById({ _id: userId });
+    user = user?.toObject()
+    const skillsArr = skills;
+    const skillsMaped = skillsArr.map(skill => skill.value)
+    const userCopy = {...user, skills: skillsMaped};
+    console.log(userCopy);
+
+    if (!user) throw new Error('User not found');
+
+    return {user}
+  }
 }
