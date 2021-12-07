@@ -9,6 +9,8 @@ type PostContainerProps = {
 };
 
 const PostContainer = (props: PostContainerProps): JSX.Element => {
+  // Skills n'est pas utilisé (Temporaire)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { title, skills, wysiwyg } = props;
   const [open, setOpen] = useState(false);
 

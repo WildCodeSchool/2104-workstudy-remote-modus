@@ -1,29 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext } from "react";
+import React from "react";
 import "../../css/styles.css";
-import { useQuery, gql } from "@apollo/client";
+// import { gql } from "@apollo/client";
 import fakeDataPosts from "./FakeDataPosts";
 import PostContainer from "./PostContainer";
-import Context from "../../components/context/Context";
 
-const GETALLPOSTS = gql`
-  query GetAllPosts {
-    allPosts {
-      id
-      title
-      wysiwyg
-      skills {
-        value
-      }
-    }
-  }
-`;
+// const GETALLPOSTS = gql`
+//   query GetAllPosts {
+//     allPosts {
+//       id
+//       title
+//       wysiwyg
+//       skills {
+//         value
+//       }
+//     }
+//   }
+// `;
 
 const AskingHelpPosts = (): JSX.Element => {
-  const { user } = useContext(Context);
-
-  console.log(user);
-
   return (
     <>
       <div>

@@ -1,7 +1,6 @@
 import React from "react";
 
 export type User = null | {
-  // ATTENTION on a viré __typename et password
   _id: string;
   nickname: string;
   email: string;

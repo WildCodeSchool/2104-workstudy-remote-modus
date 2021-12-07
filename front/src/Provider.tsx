@@ -18,7 +18,7 @@ const LOGIN = gql`
   }
 `;
 
-const Provider = () => {
+const Provider = (): JSX.Element => {
   const [login, { data: loginData }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
