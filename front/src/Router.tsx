@@ -24,18 +24,18 @@ const WHOAMI = gql`
 function Router(): JSX.Element {
   const { updateUser } = useContext(Context);
   const [isTokenChecked, setIsTokenChecked] = useState(false);
-  const [whoAmI, { data: whoAmiData, error: whoAmiError }] = useLazyQuery(
-    WHOAMI,
-    {
-      errorPolicy: "all",
-    }
-  );
+  const [
+    whoAmI,
+    { data: whoAmiData, error: whoAmiError, loading: whoAmILoading },
+  ] = useLazyQuery(WHOAMI, {
+    errorPolicy: "all",
+  });
 
   useEffect(() => {
-    if (!isTokenChecked) {
+    if (!isTokenChecked && !whoAmILoading) {
       whoAmI();
     }
-  }, [whoAmI, isTokenChecked]);
+  }, [whoAmI, isTokenChecked, whoAmILoading]);
 
   useEffect(() => {
     if (whoAmiData || whoAmiError) {
