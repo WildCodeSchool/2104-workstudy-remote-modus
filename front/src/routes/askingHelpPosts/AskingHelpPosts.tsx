@@ -2,10 +2,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
-import { Accordion, Col, Row } from "react-bootstrap";
+import { Accordion, Card, Col, Row } from "react-bootstrap";
 import fakeDataPosts from "./FakeDataPosts";
 import Context from "../../components/context/Context";
-import PostContainer, { PostProps } from "./PostContainer";
+import PostContainer, { PostProps, Skill } from "./PostContainer";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -21,62 +21,55 @@ const GETALLPOSTS = gql`
 `;
 
 const AskingHelpPosts = (): JSX.Element => {
-  const { user } = useContext(Context);
-
-  console.log(user);
-  const { loading, error, data } = useQuery(GETALLPOSTS);
-  const [allPosts, setAllPosts] = useState([]);
+  const { data, refetch } = useQuery(GETALLPOSTS);
+  const [allPosts, setAllPosts] = useState<PostProps[]>([]);
 
   useEffect(() => {
-    if (data && data.allPosts) setAllPosts(data.allPosts);
+    refetch();
+    if (data && data.allPosts) setAllPosts([...data.allPosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
-    <Row className="w-auto m-0 bg">
-      <Col className="d-flex justify-content-center align-items-center flex-column p-0">
+    <Row className="w-auto m-0 bg h-100">
+      <Col className="d-flex align-items-center flex-column p-0">
         <h3 className="text-warning text-center mt-4">
           Demander de l&apos;aide
         </h3>
-        <Accordion className="mb-4 w-75 border rounded border-warning">
-          {allPosts.map((post: any, id) => {
-            const key = `post-${id}`;
-
-            console.log("skills", post.skills);
-            const eventKey = id.toString();
-            const test = Object.values({ value: "l", typename: "k" });
-            return (
-              <PostContainer
-                key={key}
-                eventKey={eventKey}
-                title={post.title}
-                skills={test}
-                // skills={post.skills}
-                wysiwyg={post.wysiwyg}
-              />
-            );
-          })}
-        </Accordion>
+        {allPosts.length > 0 || allPosts ? (
+          <Accordion className="mb-4 w-75 border rounded border-warning">
+            {allPosts.map((post: PostProps, id: number) => {
+              const key = `post-${id}`;
+              const listOfSkills = post.skills.map((skill: Skill) => {
+                return skill;
+              });
+              const eventKey = id.toString();
+              return (
+                <PostContainer
+                  key={key}
+                  eventKey={eventKey}
+                  title={post.title}
+                  skills={listOfSkills}
+                  wysiwyg={post.wysiwyg}
+                />
+              );
+            })}
+          </Accordion>
+        ) : (
+          <div className="h-100 d-flex justify-content-center align-items-center flex-column">
+            <h1 className="text-white">
+              Il n&apos;y a pas encore de demandes d&apos;aide....
+            </h1>
+            <a
+              href="/AskingHelpForm"
+              className="text-decoration-none text-warning"
+            >
+              Créer une demande
+            </a>
+          </div>
+        )}
       </Col>
     </Row>
-
-    /* <div>
-        <h3 className="text-warning text-center mt-4">
-          Liste des demandes d&apos;aides
-        </h3>
-      </div>
-      <div className="container-helps">
-        {allPosts.map((objet: any) => {
-          const { title, skills, wysiwyg } = objet;
-          return (
-            <PostContainer
-              key={title}
-              title={title}
-              skills={skills}
-              wysiwyg={wysiwyg}
-            />
-          );
-        })}
-      </div> */
   );
 };
 

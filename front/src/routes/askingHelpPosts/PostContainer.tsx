@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Col, Card, Button, Collapse, Accordion } from "react-bootstrap";
+import React from "react";
+import { Col, Button, Accordion } from "react-bootstrap";
 import "../../css/styles.css";
+
+export type Skill = {
+  value: string;
+};
 
 export type PostProps = {
   title: string;
   wysiwyg: string;
-  skills: any[];
+  skills: Skill[];
   eventKey: string;
 };
 
@@ -17,8 +21,9 @@ const PostContainer = (props: PostProps): JSX.Element => {
     <Accordion.Item eventKey={eventKey} className="bg-transparent">
       <Accordion.Header>
         <Col xs="1">
-          {skills.map((skill) => {
-            return <div>{skill}</div>;
+          {skills.map((skill: Skill, id: number) => {
+            const key = `skill-${id}`;
+            return <div key={key}>{skill.value}</div>;
           })}
         </Col>
         <Col className="title-post">{title}</Col>
