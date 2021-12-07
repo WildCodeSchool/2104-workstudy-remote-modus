@@ -5,7 +5,7 @@ import "../../css/styles.css";
 export type PostProps = {
   title: string;
   wysiwyg: string;
-  skills: string[];
+  skills: any[];
   eventKey: string;
 };
 

@@ -38,13 +38,19 @@ const AskingHelpPosts = (): JSX.Element => {
           Demander de l&apos;aide
         </h3>
         <Accordion className="mb-4 w-75 border rounded border-warning">
-          {allPosts.map((post: PostProps, id) => {
+          {allPosts.map((post: any, id) => {
+            const key = `post-${id}`;
+
+            console.log("skills", post.skills);
             const eventKey = id.toString();
+            const test = Object.values({ value: "l", typename: "k" });
             return (
               <PostContainer
+                key={key}
                 eventKey={eventKey}
                 title={post.title}
-                skills={post.skills}
+                skills={test}
+                // skills={post.skills}
                 wysiwyg={post.wysiwyg}
               />
             );
