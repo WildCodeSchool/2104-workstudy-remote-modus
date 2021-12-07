@@ -7,10 +7,6 @@ import { useHistory } from "react-router-dom";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
 
-interface AskingHelpFormProps {
-  onSubmit: () => void;
-}
-
 const ADD_POST = gql`
   mutation AddPost($input: inputAddPost!) {
     addPost(data: $input) {
@@ -23,9 +19,7 @@ const ADD_POST = gql`
   }
 `;
 
-const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
-  onSubmit,
-}: AskingHelpFormProps) => {
+const AskingHelpForm: React.FC = () => {
   const [titleHelp, setTitleHelp] = useState("");
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
@@ -49,7 +43,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
     );
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (titleHelp) {
       const formData = {
@@ -60,8 +54,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
         wysiwyg: userInput,
       };
       JSON.stringify(formData);
-      onSubmit();
-      addPost({
+      await addPost({
         variables: {
           input: formData,
         },
@@ -93,7 +86,7 @@ const AskingHelpForm: React.FC<AskingHelpFormProps> = ({
               comprendre en quelques lignes en quoi il pourra vous aider.
             </h6>
           </div>
-          <Card className="border rounder border-warning bg-transparent p-4">
+          <Card className="border rounded border-warning bg-transparent p-4">
             <Card.Body>
               <Row className="mb-4">
                 <Col>
