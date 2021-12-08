@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
 import bcrypt from 'bcryptjs';
