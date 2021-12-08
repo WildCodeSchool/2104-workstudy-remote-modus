@@ -35,8 +35,8 @@ const AskingHelpPosts = (): JSX.Element => {
         </h3>
         {allPosts.length > 0 || allPosts ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
-            {allPosts.map((post: any, id: number) => {
-              const key = `post-${id}`;
+            {allPosts.map((post: PostContainerProps, id: number) => {
+              const key = `post-${post.postId}`;
               const listOfSkills = post.skills.map((skill: Skill) => {
                 return skill;
               });
@@ -49,7 +49,7 @@ const AskingHelpPosts = (): JSX.Element => {
                   skills={listOfSkills}
                   wysiwyg={post.wysiwyg}
                   // eslint-disable-next-line no-underscore-dangle
-                  postId={post._id}
+                  postId={post.postId}
                 />
               );
             })}
