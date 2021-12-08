@@ -8,6 +8,8 @@ import 'reflect-metadata';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { UserResolver } from './resolvers/UserResolver';
 import { PostResolver } from './resolvers/PostResolver';
+import { SkillResolver } from './resolvers/SkillResolver';
+
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import { MyContext } from './types/MyContext';
@@ -24,7 +26,7 @@ async function start() {
     .catch((err: Error) => console.log(err));
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, PostResolver, AuthResolver],
+    resolvers: [UserResolver, PostResolver, AuthResolver, SkillResolver],
     authChecker: ({ context: { req } }) => req,
   });
 
