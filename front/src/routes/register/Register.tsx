@@ -68,7 +68,7 @@ const Register: React.FC = () => {
         />
       </div>
       <Card className="border rounded border-warning bg-transparent p-4">
-        <Card.Title className="text-center">Register</Card.Title>
+        <Card.Title className="text-center">S&apos;inscrire</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
@@ -89,7 +89,7 @@ const Register: React.FC = () => {
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   className="form-control"
-                  placeholder="Email"
+                  placeholder="Adresse mail"
                   name="email"
                   type="email"
                 />
@@ -110,7 +110,7 @@ const Register: React.FC = () => {
                 <Field
                   className="form-control"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mot de passe"
                   type="password"
                 />
                 <ErrorMessage name="password" />
@@ -128,7 +128,7 @@ const Register: React.FC = () => {
 
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
-                  Submit
+                  Inscription
                 </Button>
               </div>
             </Form>
@@ -137,9 +137,7 @@ const Register: React.FC = () => {
             <p className="mb-4 errorMessage text-center">{errorState}</p>
           )}
           <Link to="/">
-            <p className="text-center text-white">
-              Already have an account ? Login
-            </p>
+            <p className="text-center text-white">Vous avez déjà un compte ?</p>
           </Link>
         </Card.Body>
       </Card>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar as NavContainer,
   Container,
@@ -8,12 +8,16 @@ import {
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import Logout from "../../routes/logout/Logout";
+import Context from "../context/Context";
 
 const Navbar = (): JSX.Element => {
+  const { user } = useContext(Context);
+
+  console.log(user);
   return (
     <NavContainer className="nav-color" variant="dark" expand="lg">
       <Container className="my-container">
-        <NavContainer.Brand href="/AskingHelpPosts">
+        <NavContainer.Brand href="/aides">
           <img
             src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627564833/Moddusey/logo1_nhaokq.png"
             alt="Logo"
@@ -29,19 +33,20 @@ const Navbar = (): JSX.Element => {
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
-              to="/AskingHelpPosts"
+              to="/aides"
             >
               Demandes d&apos;aide
             </NavLink>
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
-              to="/AskingHelpForm"
+              to="/formulaire"
             >
               Formulaire de demande
             </NavLink>
           </Nav>
-          <Nav>
+          <Nav className="d-flex justify-content-center align-items-center">
+            <div className="text-white">{user && user.nickname}</div>
             <NavDropdown
               title={
                 <img

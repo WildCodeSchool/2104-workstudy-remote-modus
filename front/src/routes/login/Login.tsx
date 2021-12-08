@@ -34,7 +34,7 @@ const Login: React.FC = () => {
         />
       </div>
       <Card className="border rounded border-warning bg-transparent p-4">
-        <Card.Title className="text-center">Login</Card.Title>
+        <Card.Title className="text-center">Se connecter</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
@@ -67,7 +67,7 @@ const Login: React.FC = () => {
               <FormBS.Group className="mb-4">
                 <Field
                   className="form-control"
-                  placeholder="Email"
+                  placeholder="Adresse mail"
                   name="email"
                   type="email"
                 />
@@ -78,22 +78,22 @@ const Login: React.FC = () => {
                 <Field
                   className="form-control"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mot de passe"
                   type="password"
                 />
                 <ErrorMessage name="password" />
               </FormBS.Group>
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
-                  Submit
+                  Connexion
                 </Button>
               </div>
             </Form>
           </Formik>
 
-          <Link to="/register">
+          <Link to="/inscription">
             <p className="text-center text-white">
-              Don&apos;t have an account ? Register
+              Vous n&apos;avez pas de compte ? Inscrivez vous
             </p>
           </Link>
         </Card.Body>

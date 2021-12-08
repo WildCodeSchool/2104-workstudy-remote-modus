@@ -60,7 +60,7 @@ const AskingHelpForm: React.FC = () => {
         },
       });
       toast.info("Ta demande a bien été postée");
-      history.push("/AskingHelpPosts");
+      history.push("/aides");
     } else {
       toast.error(`${error}`);
     }

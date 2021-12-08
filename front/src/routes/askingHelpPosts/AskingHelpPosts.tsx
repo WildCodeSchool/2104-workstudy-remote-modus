@@ -19,7 +19,7 @@ const GETALLPOSTS = gql`
 
 const AskingHelpPosts = (): JSX.Element => {
   const { data, refetch } = useQuery(GETALLPOSTS);
-  const [allPosts, setAllPosts] = useState<PostContainerProps[]>([]);
+  const [allPosts, setAllPosts] = useState<any[]>([]);
 
   useEffect(() => {
     refetch();
@@ -33,9 +33,9 @@ const AskingHelpPosts = (): JSX.Element => {
         <h3 className="text-warning text-center mt-4">
           Demander de l&apos;aide
         </h3>
-        {allPosts.length > 0 || allPosts ? (
+        {allPosts !== undefined ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
-            {allPosts.map((post: PostContainerProps, id: number) => {
+            {allPosts.map((post: any, id: number) => {
               const key = `post-${post.postId}`;
               const listOfSkills = post.skills.map((skill: Skill) => {
                 return skill;
@@ -49,7 +49,7 @@ const AskingHelpPosts = (): JSX.Element => {
                   skills={listOfSkills}
                   wysiwyg={post.wysiwyg}
                   // eslint-disable-next-line no-underscore-dangle
-                  postId={post.postId}
+                  postId={post._id}
                 />
               );
             })}
@@ -59,10 +59,7 @@ const AskingHelpPosts = (): JSX.Element => {
             <h1 className="text-white">
               Il n&apos;y a pas encore de demandes d&apos;aide....
             </h1>
-            <a
-              href="/AskingHelpForm"
-              className="text-decoration-none text-warning"
-            >
+            <a href="/formulaire" className="text-decoration-none text-warning">
               Créer une demande
             </a>
           </div>

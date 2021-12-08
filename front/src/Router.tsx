@@ -58,22 +58,22 @@ function Router(): JSX.Element {
           <AuthRoute exact path="/" type="guest">
             <Login />
           </AuthRoute>
-          <AuthRoute path="/register" type="guest">
+          <AuthRoute path="/inscription" type="guest">
             <Register />
           </AuthRoute>
-          <AuthRoute path="/AskingHelpPosts" type="private">
+          <AuthRoute path="/aides" type="private">
             <Navbar />
             <AskingHelpPosts />
           </AuthRoute>
-          <AuthRoute path="/AskingHelpForm" type="private">
+          <AuthRoute path="/formulaire" type="private">
             <Navbar />
             <AskingHelpForm />
           </AuthRoute>
-          <AuthRoute path="/profileUpdate" type="private">
+          <AuthRoute path="/parametres" type="private">
             <Navbar />
             <UpdateUserProfile />
           </AuthRoute>
-          <AuthRoute path="/post/:id" type="private">
+          <AuthRoute path="/aides/:id" type="private">
             <Navbar />
             <Post />
           </AuthRoute>
