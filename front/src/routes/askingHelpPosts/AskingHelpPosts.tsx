@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
-import { Accordion, Card, Col, Row } from "react-bootstrap";
-import fakeDataPosts from "./FakeDataPosts";
-import Context from "../../components/context/Context";
-import PostContainer, { PostProps, Skill } from "./PostContainer";
+import { Accordion, Col, Row } from "react-bootstrap";
+import PostContainer, { PostContainerProps, Skill } from "./PostContainer";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -22,7 +19,7 @@ const GETALLPOSTS = gql`
 
 const AskingHelpPosts = (): JSX.Element => {
   const { data, refetch } = useQuery(GETALLPOSTS);
-  const [allPosts, setAllPosts] = useState<PostProps[]>([]);
+  const [allPosts, setAllPosts] = useState<PostContainerProps[]>([]);
 
   useEffect(() => {
     refetch();
@@ -38,7 +35,7 @@ const AskingHelpPosts = (): JSX.Element => {
         </h3>
         {allPosts.length > 0 || allPosts ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
-            {allPosts.map((post: PostProps, id: number) => {
+            {allPosts.map((post: any, id: number) => {
               const key = `post-${id}`;
               const listOfSkills = post.skills.map((skill: Skill) => {
                 return skill;
@@ -51,6 +48,8 @@ const AskingHelpPosts = (): JSX.Element => {
                   title={post.title}
                   skills={listOfSkills}
                   wysiwyg={post.wysiwyg}
+                  // eslint-disable-next-line no-underscore-dangle
+                  postId={post._id}
                 />
               );
             })}
