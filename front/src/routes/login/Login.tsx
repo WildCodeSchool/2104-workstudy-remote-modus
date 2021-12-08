@@ -33,7 +33,7 @@ const Login: React.FC = () => {
           alt="Logo"
         />
       </div>
-      <Card className="border rounder border-warning bg-transparent p-4">
+      <Card className="border rounded border-warning bg-transparent p-4">
         <Card.Title className="text-center">Login</Card.Title>
         <Card.Body>
           <Formik

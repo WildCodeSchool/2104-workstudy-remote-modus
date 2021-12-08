@@ -63,7 +63,7 @@ function Router(): JSX.Element {
           </AuthRoute>
           <AuthRoute path="/AskingHelpForm" type="private">
             <Navbar />
-            <AskingHelpForm onSubmit={() => console.log()} />
+            <AskingHelpForm />
           </AuthRoute>
         </Switch>
       </Container>

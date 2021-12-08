@@ -2,21 +2,23 @@
 import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { SelfUser } from '../types/UserResponse';
-import { UserModel } from '../models/User';
+import { UserModel, User } from '../models/User';
 import { AuthenticationError } from 'apollo-server'
 import { isAuth } from '../middleware/isAuth';
 import { inputAddPost } from '../types/InputAddPost';
 import { UpdateUserProfileInput } from '../types/updateUserData';
+import { SkillInput } from '../models/Skill';
+
 @Resolver()
 export class UserResolver {
   @UseMiddleware(isAuth)
-  @Query(() => SelfUser)
-  async whoAmI(@Ctx() { userId }: { userId: string }): Promise<SelfUser> {
+  @Query(() => User)
+  async whoAmI(@Ctx() { userId }: { userId: string }): Promise<User> {
     const user = await UserModel.findById({ _id: userId });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('User not founddjskjkhjh');
 
-    return { user };
+    return user;
   }
 
   @Mutation(() => SelfUser)
@@ -50,18 +52,20 @@ export class UserResolver {
     return {user}   
   }
 
-  // @Mutation(() => Boolean)
-  // @UseMiddleware(isAuth)
-  // async updateProfile(@Arg('data') data: UserInput): Promise<any> {
-  //   console.log('data', data);
-  //   // const { nickname, ...noNickname } = data;
-  //   // //revoir le userResolver, aucun changement a l'email
-  //   // if (noNickname.email) {
-  //   //   const checkEmailAvailability = await UserModel.find({ email: noNickname.email });
-  //   //   if (checkEmailAvailability) throw new Error('Email already in use');
-  //   // }
-  //   // const user = await UserModel.findOneAndUpdate({ nickname }, { noNickname }, { new: true });
-  //   // if (!user) throw new Error("An error has occcured, couldn't update profile");
-  //   // return { user };
-  // }
+  @UseMiddleware(isAuth)
+  @Mutation(() => User)
+  async updateSkills(@Ctx() {userId}: {userId: string}, @Arg("skills", _type => [SkillInput]) skills: SkillInput[] ): Promise<User> {
+    let user = await UserModel.findById({ _id: userId });
+    if (!user) throw new Error('User not found');
+
+    user = user.toObject()
+
+    const skillsArr = skills;
+    const skillsMaped = skillsArr.map(skill => ({ value:skill.value }))
+    const userCopy = {...user, skills: skillsMaped};
+    const updatedUser = await UserModel.findByIdAndUpdate({ _id: userId }, userCopy, { new: true });
+
+    if (!updatedUser) throw new Error('Could not update user');
+    return updatedUser;
+  }
 }
