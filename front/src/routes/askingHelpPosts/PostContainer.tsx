@@ -32,7 +32,7 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
         <Col className="title-post">{title}</Col>
       </Accordion.Header>
       <Accordion.Body className="m-4">
-        {cleanWysiwyg.substring(0, 200)}...
+        <div className="text-truncate">{cleanWysiwyg}</div>
         <Button
           variant="details"
           onClick={() => history.push(`post/${postId}`)}
