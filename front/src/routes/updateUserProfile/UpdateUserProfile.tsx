@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
+import Context from "../../components/context/Context";
 
-const REGISTER = gql`
-  mutation register($input: AuthRegisterInput!) {
-    register(input: $input) {
+const UPDATEUSERPROFILDATA = gql`
+  mutation updateUserProfilData($data: UpdateUserProfileInput!) {
+    updateUserProfilData(data: $data) {
       user {
-        nickname
         email
+        nickname
       }
-      token
     }
   }
 `;
 
 const RegisterSchema = Yup.object({
-  email: Yup.string()
-    .email("Format invalid")
-    .required("Une adresse email est requise"),
-  password: Yup.string().required("Un mot de passe est requis"),
+  email: Yup.string().email("Format invalid"),
+  password: Yup.string(),
   passwordConfirmation: Yup.string().when("password", {
     is: (val: string) => !!(val && val.length > 0),
     then: Yup.string().oneOf(
@@ -30,33 +27,48 @@ const RegisterSchema = Yup.object({
       "Les deux mots de passe ne sont pas identiques."
     ),
   }),
-  nickname: Yup.string().required("Un pseudonyme est requis"),
 });
 
-const Register: React.FC = () => {
-  const [errorState, setErrorState] = useState("");
-  const history = useHistory();
-  const initialValues = {
-    nickname: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-  };
+type FormData = {
+  email?: string;
+  password?: string;
+};
 
-  const [register, { data, error }] = useMutation(REGISTER, {
-    errorPolicy: "all",
-  });
+const UpdateUserProfile: React.FC = () => {
+  const { user } = useContext(Context);
+  const [errorState, setErrorState] = useState("");
+
+  const [updateUserProfilData, { data, error }] = useMutation(
+    UPDATEUSERPROFILDATA,
+    {
+      errorPolicy: "all",
+    }
+  );
 
   useEffect(() => {
     if (data) {
-      history.push("/");
+      toast.success("Votre compte a bien été mis à jour");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (error) setErrorState(error?.graphQLErrors[0]?.message);
+    if (error) {
+      setErrorState(error?.graphQLErrors[0]?.message);
+      toast.error("Votre compte n'a pas été modifié");
+    }
   }, [error, errorState]);
+
+  if (!user) {
+    return <div>Error no user</div>;
+  }
+  const { email: userEmail, nickname: userNickname } = user;
+  const initialValues = {
+    nickname: userNickname,
+    email: userEmail,
+    password: "",
+    passwordConfirmation: "",
+  };
 
   return (
     <div className="container-form">
@@ -67,28 +79,48 @@ const Register: React.FC = () => {
           alt="Logo"
         />
       </div>
-      <Card className="border rounded border-warning bg-transparent p-4">
-        <Card.Title className="text-center">Register</Card.Title>
+      <Card className="border rounder border-warning bg-transparent p-4">
+        <Card.Title className="text-center">
+          Mettre à jour mon profil
+        </Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
             validationSchema={RegisterSchema}
             onSubmit={async (values) => {
-              const { email, password, nickname } = values;
-              const formData = {
-                email,
-                password,
-                nickname,
-              };
-              JSON.stringify(formData);
-              register({ variables: { input: formData } });
-              toast("votre compte a bien été crée");
+              const { email, password } = values;
+
+              const formData: FormData = {};
+
+              if (email === userEmail && !password) {
+                toast.error(
+                  "Veuillez renseigner un nouveau mot de passe ou email"
+                );
+              } else {
+                if (email !== userEmail) {
+                  formData.email = email;
+                }
+                if (password) {
+                  formData.password = password;
+                }
+                updateUserProfilData({ variables: { data: formData } });
+              }
             }}
           >
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  className="form-control"
+                  class="form-control"
+                  placeholder="Nickname"
+                  name="nickname"
+                  type="text"
+                  disabled
+                />
+                <ErrorMessage name="email" />
+              </FormBS.Group>
+              <FormBS.Group className="mb-4 errorMessage">
+                <Field
+                  class="form-control"
                   placeholder="Email"
                   name="email"
                   type="email"
@@ -98,19 +130,9 @@ const Register: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  className="form-control"
-                  name="nickname"
-                  type="text"
-                  placeholder="Pseudo"
-                />
-                <ErrorMessage name="nickname" />
-              </FormBS.Group>
-
-              <FormBS.Group className="mb-4 errorMessage">
-                <Field
-                  className="form-control"
+                  class="form-control"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mot de passe"
                   type="password"
                 />
                 <ErrorMessage name="password" />
@@ -120,7 +142,7 @@ const Register: React.FC = () => {
                 <Field
                   class="form-control"
                   name="passwordConfirmation"
-                  placeholder="Verifier le mot de passe"
+                  placeholder="Confirmer mot de passe"
                   type="password"
                 />
                 <ErrorMessage component="span" name="passwordConfirmation" />
@@ -128,23 +150,19 @@ const Register: React.FC = () => {
 
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
-                  Submit
+                  Modifier
                 </Button>
               </div>
             </Form>
           </Formik>
+
           {errorState && (
             <p className="mb-4 errorMessage text-center">{errorState}</p>
           )}
-          <Link to="/">
-            <p className="text-center text-white">
-              Already have an account ? Login
-            </p>
-          </Link>
         </Card.Body>
       </Card>
     </div>
   );
 };
 
-export default Register;
+export default UpdateUserProfile;

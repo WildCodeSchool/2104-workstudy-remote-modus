@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useContext, useEffect, useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
@@ -9,12 +10,17 @@ import AuthRoute from "./AuthRoute";
 import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 import Navbar from "./components/navbar/Navbar";
+import Loading from "./components/loader/Loader";
+import UpdateUserProfile from "./routes/updateUserProfile/UpdateUserProfile";
+import Post from "./routes/post/Post";
 
 const WHOAMI = gql`
   query {
     whoAmI {
       user {
         _id
+        nickname
+        email
       }
     }
   }
@@ -61,13 +67,21 @@ function Router(): JSX.Element {
           </AuthRoute>
           <AuthRoute path="/AskingHelpForm" type="private">
             <Navbar />
-            <AskingHelpForm onSubmit={() => console.log()} />
+            <AskingHelpForm />
+          </AuthRoute>
+          <AuthRoute path="/profileUpdate" type="private">
+            <Navbar />
+            <UpdateUserProfile />
+          </AuthRoute>
+          <AuthRoute path="/post/:id" type="private">
+            <Navbar />
+            <Post />
           </AuthRoute>
         </Switch>
       </Container>
     </BrowserRouter>
   ) : (
-    <div className="text-white">Toto</div>
+    <Loading />
   );
 }
 export default Router;

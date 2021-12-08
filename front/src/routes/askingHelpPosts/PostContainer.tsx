@@ -1,53 +1,46 @@
-import React, { useState } from "react";
-import { Card, Button, Collapse } from "react-bootstrap";
+import React from "react";
+import { Col, Button, Accordion } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import "../../css/styles.css";
 
-type PostContainerProps = {
+export type Skill = {
+  value: string;
+};
+
+export type PostContainerProps = {
   title: string;
   wysiwyg: string;
-  skills: string[];
+  skills: Skill[];
+  eventKey: string;
+  postId: string;
 };
 
 const PostContainer = (props: PostContainerProps): JSX.Element => {
-  const { title, skills, wysiwyg } = props;
-  const [open, setOpen] = useState(false);
+  const { title, skills, wysiwyg, eventKey, postId } = props;
+  const cleanWysiwyg = wysiwyg.replace(/<\/?[^>]+(>|$)/g, "");
+  const history = useHistory();
 
   return (
-    <Card className="card-posts">
-      <div className="card-box">
-        <div id="skills">
-          <img src="logo192.png" className="skills-logo" alt="React" />
-          <img
-            className="skills-logo"
-            src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627551047/Moddusey/js_logo_mhnbpf.png"
-            alt="JavaScript"
-          />
-        </div>
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          {`${wysiwyg.substring(0, 200)}...`}
-          <Collapse in={open}>
-            <div id="collapse-text">
-              {`${wysiwyg.substring(199)}`}{" "}
-              <Button variant="details">
-                Détails <i className="fas fa-meteor" />
-              </Button>
-            </div>
-          </Collapse>
-        </Card.Body>
-        <div>
-          <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="collapse-text"
-            aria-expanded={open}
-            variant="infos"
-          >
-            <i className="fas fa-caret-down fa-3x" />
-          </Button>
-        </div>
-      </div>
-      <hr id="post-line" />
-    </Card>
+    <Accordion.Item eventKey={eventKey} className="bg-transparent">
+      <Accordion.Header>
+        <Col xs="1">
+          {skills.map((skill: Skill, id: number) => {
+            const key = `skill-${id}`;
+            return <div key={key}>{skill.value}</div>;
+          })}
+        </Col>
+        <Col className="title-post">{title}</Col>
+      </Accordion.Header>
+      <Accordion.Body className="m-4">
+        <div className="text-truncate">{cleanWysiwyg}</div>
+        <Button
+          variant="details"
+          onClick={() => history.push(`post/${postId}`)}
+        >
+          En lire plus <i className="fas fa-meteor" />
+        </Button>
+      </Accordion.Body>
+    </Accordion.Item>
   );
 };
 

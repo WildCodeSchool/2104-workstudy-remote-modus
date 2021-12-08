@@ -1,7 +1,6 @@
 import React from "react";
 
 export type User = null | {
-  // ATTENTION on a viré __typename et password
   _id: string;
   nickname: string;
   email: string;
@@ -16,6 +15,7 @@ const Context = React.createContext<{
   user: User;
   logUser: (userCredentials: UserCredentials) => Promise<void>;
   updateUser: (data: User) => void;
+  logoutUser?: (userCredentials: UserCredentials) => Promise<void>;
 }>({
   user: null,
   logUser: () => {

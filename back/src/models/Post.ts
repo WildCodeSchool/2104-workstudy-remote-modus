@@ -1,18 +1,11 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
-
-@GraphQLType()
-export class Skill {
-  @prop()
-  @GraphQLField()
-  value: string;
-}
+import { Skill } from './Skill';
 
 @GraphQLType()
 export class Post {
-  @prop()
   @GraphQLField(() => ID)
-  readonly id: string;
+  _id?: string;
 
   @prop({ required: true })
   @GraphQLField()

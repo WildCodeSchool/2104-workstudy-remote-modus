@@ -27,10 +27,13 @@ const httpLink = createHttpLink({
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
+      // Utiliser les messages d'erreurs sur interface utilisateur
+      // eslint-disable-next-line no-console
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
+  // eslint-disable-next-line no-console
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 

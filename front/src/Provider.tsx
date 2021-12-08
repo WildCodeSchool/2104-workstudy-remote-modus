@@ -18,13 +18,11 @@ const LOGIN = gql`
   }
 `;
 
-const Provider = () => {
+const Provider = (): JSX.Element => {
   const [login, { data: loginData }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
-    if (data) {
-      setUser(data);
-    }
+    setUser(data);
   };
 
   const logUser = async (userCredentials: UserCredentials) => {
@@ -34,6 +32,11 @@ const Provider = () => {
       // eslint-disable-next-line no-console
       console.log("err.message :>> ", err.message);
     }
+  };
+
+  const logoutUser = async () => {
+    localStorage.clear();
+    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -49,6 +52,7 @@ const Provider = () => {
         user,
         updateUser,
         logUser,
+        logoutUser,
       }}
     >
       <Router />

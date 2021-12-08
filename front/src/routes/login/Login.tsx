@@ -1,10 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useContext, useState } from "react";
-// import { gql } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
-import { gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
@@ -18,6 +15,8 @@ const LoginSchema = Yup.object({
 
 const Login: React.FC = () => {
   const { logUser } = useContext(Context);
+  // Error State à utiliser
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorState, setErrorState] = useState("");
 
   const initialValues = {
@@ -34,7 +33,7 @@ const Login: React.FC = () => {
           alt="Logo"
         />
       </div>
-      <Card className="border rounder border-warning bg-transparent p-4">
+      <Card className="border rounded border-warning bg-transparent p-4">
         <Card.Title className="text-center">Login</Card.Title>
         <Card.Body>
           <Formik
@@ -49,6 +48,7 @@ const Login: React.FC = () => {
                 };
                 JSON.stringify(formData);
                 await logUser(formData);
+                toast("Bienvenue !");
               } catch (err: any) {
                 setErrorState(err.message);
                 toast.error(`${err.message}`, {
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   placeholder="Email"
                   name="email"
                   type="email"
@@ -76,7 +76,7 @@ const Login: React.FC = () => {
 
               <FormBS.Group className="mb-4">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="password"
                   placeholder="Password"
                   type="password"
