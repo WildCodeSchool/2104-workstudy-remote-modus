@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@typegoose/typegoose": "^7.6.0",
-    "apollo-server": "^2.24.1",
+    "apollo-server": "^2.25.3",
     "apollo-server-express": "^2.22.0",
     "apollo-server-testing": "^2.22.0",
     "bcryptjs": "^2.4.3",
