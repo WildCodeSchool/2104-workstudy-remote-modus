@@ -28,7 +28,7 @@ const AskingHelpPosts = (): JSX.Element => {
   }, [data]);
 
   return (
-    <Row className="w-auto m-0 bg h-100">
+    <Row className="w-auto m-0 bg">
       <Col className="d-flex align-items-center flex-column p-0">
         <h3 className="text-warning text-center mt-4">
           Demander de l&apos;aide

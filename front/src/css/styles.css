@@ -185,6 +185,10 @@ div.ql-container.ql-snow {
     color: white;
 }
 
+.accordion-item:last-child {
+    border-bottom: 1px solid transparent;
+}
+
 .errorMessage span {
     color: red;
     width: 15rem;
@@ -201,4 +205,10 @@ div.ql-container.ql-snow {
 
 .list_skills {
     margin-right: 1rem;
+}
+
+pre {
+    background-color:white;
+    color: black;
+    padding: 1rem;
 }
