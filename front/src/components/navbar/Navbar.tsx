@@ -40,6 +40,13 @@ const Navbar = (): JSX.Element => {
             >
               Formulaire de demande
             </NavLink>
+            <NavLink
+              className="custom-nav-link"
+              activeClassName="active"
+              to="/profileUpdate"
+            >
+              Mettre à jour son profil
+            </NavLink>
           </Nav>
           <Nav>
             <NavDropdown
