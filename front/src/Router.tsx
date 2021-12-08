@@ -11,12 +11,15 @@ import AskingHelpPosts from "./routes/askingHelpPosts/AskingHelpPosts";
 import AskingHelpForm from "./routes/askingHelpForm/AskingHelpForm";
 import Navbar from "./components/navbar/Navbar";
 import Loading from "./components/loader/Loader";
+import UpdateUserProfile from "./routes/updateUserProfile/UpdateUserProfile";
 
 const WHOAMI = gql`
   query {
     whoAmI {
       user {
         _id
+        nickname
+        email
       }
     }
   }
@@ -64,6 +67,10 @@ function Router(): JSX.Element {
           <AuthRoute path="/AskingHelpForm" type="private">
             <Navbar />
             <AskingHelpForm />
+          </AuthRoute>
+          <AuthRoute path="/profileUpdate" type="private">
+            <Navbar />
+            <UpdateUserProfile />
           </AuthRoute>
         </Switch>
       </Container>
