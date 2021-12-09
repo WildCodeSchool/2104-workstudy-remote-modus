@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildSchema } from 'type-graphql';
-import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { graphqlUploadExpress } from 'graphql-upload';
+import express from 'express';
 import mongoose from 'mongoose';
 import 'reflect-metadata';
 import { AuthResolver } from './resolvers/AuthResolver';

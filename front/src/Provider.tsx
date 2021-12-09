@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import "react-toastify/dist/ReactToastify.css";
 import Router from "./Router";
@@ -30,7 +30,7 @@ const Provider = (): JSX.Element => {
       await login({ variables: { input: userCredentials } });
     } catch (err: any) {
       // eslint-disable-next-line no-console
-      console.log("err.message :>> ", err.message);
+      toast.error(err.message);
     }
   };
 
@@ -43,6 +43,7 @@ const Provider = (): JSX.Element => {
     if (loginData?.login.user && setUser) {
       localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
       setUser(loginData.login.user);
+      toast("Bienvenue !");
     }
   }, [loginData, setUser]);
 

@@ -62,6 +62,7 @@ const UpdateUserProfile: React.FC = () => {
   if (!user) {
     return <div>Error no user</div>;
   }
+
   const { email: userEmail, nickname: userNickname } = user;
   const initialValues = {
     nickname: userNickname,
@@ -79,6 +80,7 @@ const UpdateUserProfile: React.FC = () => {
           alt="Logo"
         />
       </div>
+
       <Card className="border rounder border-warning bg-transparent p-4">
         <Card.Title className="text-center">
           Mettre à jour mon profil
