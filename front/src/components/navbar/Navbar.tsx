@@ -13,7 +13,6 @@ import Context from "../context/Context";
 const Navbar = (): JSX.Element => {
   const { user } = useContext(Context);
 
-  console.log(user);
   return (
     <NavContainer className="nav-color" variant="dark" expand="lg">
       <Container className="my-container">

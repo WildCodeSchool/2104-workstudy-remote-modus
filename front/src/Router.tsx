@@ -61,7 +61,11 @@ function Router(): JSX.Element {
           <AuthRoute path="/inscription" type="guest">
             <Register />
           </AuthRoute>
-          <AuthRoute path="/aides" type="private">
+          <AuthRoute exact path="/aides/:id" type="private">
+            <Navbar />
+            <Post />
+          </AuthRoute>
+          <AuthRoute exact path="/aides" type="private">
             <Navbar />
             <AskingHelpPosts />
           </AuthRoute>
@@ -72,10 +76,6 @@ function Router(): JSX.Element {
           <AuthRoute path="/parametres" type="private">
             <Navbar />
             <UpdateUserProfile />
-          </AuthRoute>
-          <AuthRoute path="/aides/:id" type="private">
-            <Navbar />
-            <Post />
           </AuthRoute>
         </Switch>
       </Container>
