@@ -35,7 +35,7 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
         <div className="text-truncate">{cleanWysiwyg}</div>
         <Button
           variant="details"
-          onClick={() => history.push(`post/${postId}`)}
+          onClick={() => history.push(`aides/${postId}`)}
         >
           En lire plus <i className="fas fa-meteor" />
         </Button>

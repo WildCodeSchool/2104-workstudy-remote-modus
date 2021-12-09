@@ -48,9 +48,14 @@ const Post = (): JSX.Element => {
         <Card className="border rounded border-warning bg-transparent p-4">
           <Card.Body>
             <Card.Title className="d-flex mb-4">
-              {postInfo.skills.map((skill) => (
-                <div className="list_skills">{skill.value}</div>
-              ))}
+              {postInfo.skills.map((skill, i) => {
+                const key = `skill-${i}`;
+                return (
+                  <div key={key} className="list_skills">
+                    {skill.value}
+                  </div>
+                );
+              })}
             </Card.Title>
             <Row className="mb-4">
               <Markup content={postInfo.wysiwyg} />
