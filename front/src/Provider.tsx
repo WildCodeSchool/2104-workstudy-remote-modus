@@ -19,6 +19,7 @@ const LOGIN = gql`
 `;
 
 const Provider = (): JSX.Element => {
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [login, { data: loginData }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
@@ -34,11 +35,6 @@ const Provider = (): JSX.Element => {
     }
   };
 
-  const logoutUser = async () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
-
   useEffect(() => {
     if (loginData?.login.user && setUser) {
       localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
@@ -52,7 +48,8 @@ const Provider = (): JSX.Element => {
         user,
         updateUser,
         logUser,
-        logoutUser,
+        isTokenChecked,
+        setIsTokenChecked,
       }}
     >
       <Router />

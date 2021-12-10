@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -19,6 +20,14 @@ const ADD_POST = gql`
   }
 `;
 
+const GET_SKILLS = gql`
+  query {
+    allSkills {
+      value
+    }
+  }
+`;
+
 const AskingHelpForm: React.FC = () => {
   const [titleHelp, setTitleHelp] = useState("");
   const [skill, setSkill] = useState("");
@@ -27,13 +36,21 @@ const AskingHelpForm: React.FC = () => {
   const id = 0;
   const history = useHistory();
 
-  const options = [
-    { value: "Javascript", label: "Javascript" },
-    { value: "GraphQL", label: "GraphQL" },
-    { value: "Node", label: "Node" },
-  ];
+  const options = [{ value: "Javascript", label: "Javascript" }];
 
-  const [addPost, { error }] = useMutation(ADD_POST);
+  const [addPost, { error }] = useMutation(ADD_POST, {
+    errorPolicy: "all",
+  });
+  const { data } = useQuery(GET_SKILLS, {
+    errorPolicy: "all",
+  });
+  useEffect(() => {
+    if (data) {
+      data.allSkills.forEach((comp: any) => {
+        options.push({ value: `${comp.value}`, label: `${comp.value}` });
+      });
+    }
+  }, [data]);
 
   const DeleteSkill = (title: string) => {
     setSkills(

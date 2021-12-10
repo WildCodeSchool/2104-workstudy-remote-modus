@@ -28,8 +28,8 @@ export class Skill {
 }
 @InputType()
 export class SkillInput {
-    @GraphQLField(_type => SkillList)
-    value: SkillList;
+  @GraphQLField(_type => SkillList)
+  value: SkillList;
 }
 
 

@@ -16,12 +16,16 @@ const Context = React.createContext<{
   logUser: (userCredentials: UserCredentials) => Promise<void>;
   updateUser: (data: User) => void;
   logoutUser?: (userCredentials: UserCredentials) => Promise<void>;
+  isTokenChecked: boolean;
+  setIsTokenChecked: (is: boolean) => void;
 }>({
   user: null,
   logUser: () => {
     return Promise.resolve(undefined);
   },
   updateUser: () => {},
+  isTokenChecked: false,
+  setIsTokenChecked: () => {},
 });
 
 export default Context;
