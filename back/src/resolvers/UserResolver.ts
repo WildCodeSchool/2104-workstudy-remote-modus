@@ -16,7 +16,7 @@ export class UserResolver {
   async whoAmI(@Ctx() { userId }: { userId: string }): Promise<SelfUser> {
     const user = await UserModel.findById({ _id: userId });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('Utilisateur non trouvé');
 
     return { user };
   }
@@ -26,10 +26,10 @@ export class UserResolver {
     @Arg('data') { email, password }: UpdateUserProfileInput,
     @Ctx() { userId }: { userId: string },
   ): Promise<SelfUser> {
-    if (!userId) throw new AuthenticationError('Not logged in');
+    if (!userId) throw new AuthenticationError('Vous n\'êtes pas connecté');
 
     const existingUser = await UserModel.findById(userId);
-    if (!existingUser) throw new Error('User not found');
+    if (!existingUser) throw new Error('Utilisateur non trouvé');
 
     const updatedUserProfileData = {
       password: existingUser.password,
@@ -38,7 +38,7 @@ export class UserResolver {
 
     if (email) {
       const existingEmail = await UserModel.findOne({ email: email });
-      if (existingEmail && existingEmail.email === email) throw new Error('Email already in use');
+      if (existingEmail && existingEmail.email === email) throw new Error('Email déjà pris');
       updatedUserProfileData.email = email;
     }
 
@@ -49,7 +49,7 @@ export class UserResolver {
 
     const user = await UserModel.findOneAndUpdate({ _id: userId }, updatedUserProfileData, { new: true });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('Utilisateur non trouvé');
 
     return { user };
   }
@@ -61,7 +61,7 @@ export class UserResolver {
     @Arg('skills', (_type) => [SkillInput]) skills: SkillInput[],
   ): Promise<User> {
     let user = await UserModel.findById({ _id: userId });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('Utilisateur non trouvé');
 
     user = user.toObject();
 
@@ -70,7 +70,7 @@ export class UserResolver {
     const userCopy = { ...user, skills: skillsMaped };
     const updatedUser = await UserModel.findByIdAndUpdate({ _id: userId }, userCopy, { new: true });
 
-    if (!updatedUser) throw new Error('Could not update user');
+    if (!updatedUser) throw new Error('L\'utilisateur ne peut pas être modifié');
     return updatedUser;
   }
 }
