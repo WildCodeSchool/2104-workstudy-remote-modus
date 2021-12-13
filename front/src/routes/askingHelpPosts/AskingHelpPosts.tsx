@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
 import { Accordion, Col, Row } from "react-bootstrap";
-import PostContainer, { PostContainerProps, Skill } from "./PostContainer";
+import PostContainer, { Skill } from "./PostContainer";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -36,7 +36,7 @@ const AskingHelpPosts = (): JSX.Element => {
         {allPosts !== undefined ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
             {allPosts.map((post: any, id: number) => {
-              const key = `post-${post.postId}`;
+              const key = `post-${post.id}`;
               const listOfSkills = post.skills.map((skill: Skill) => {
                 return skill;
               });

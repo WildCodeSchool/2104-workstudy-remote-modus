@@ -37,7 +37,6 @@ const authLink = setContext((_, { headers }) => {
   if (token) {
     token = token.replace(/^"(.*)"$/, "$1");
   }
-
   return {
     headers: {
       ...headers,
