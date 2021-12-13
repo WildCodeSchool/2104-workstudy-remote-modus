@@ -28,15 +28,23 @@ const GET_SKILLS = gql`
   }
 `;
 
+type Option = {
+  value: string;
+  label: string;
+};
+
+type AllSkill = {
+  value: string;
+};
+
 const AskingHelpForm: React.FC = () => {
   const [titleHelp, setTitleHelp] = useState("");
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
+  const [options, setOptions] = useState<Option[]>([]);
   const [userInput, setUserInput] = useState("");
   const id = 0;
   const history = useHistory();
-
-  const options = [{ value: "Javascript", label: "Javascript" }];
 
   const [addPost, { error }] = useMutation(ADD_POST, {
     errorPolicy: "all",
@@ -46,9 +54,11 @@ const AskingHelpForm: React.FC = () => {
   });
   useEffect(() => {
     if (data) {
-      data.allSkills.forEach((comp: any) => {
-        options.push({ value: `${comp.value}`, label: `${comp.value}` });
+      const skillOptions: Option[] = [];
+      data.allSkills.forEach((comp: AllSkill) => {
+        skillOptions.push({ value: `${comp.value}`, label: `${comp.value}` });
       });
+      setOptions(skillOptions);
     }
   }, [data]);
 

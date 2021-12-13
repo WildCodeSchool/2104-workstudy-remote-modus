@@ -3,18 +3,18 @@ import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Field as GraphQLField, InputType, ObjectType as GraphQLType, registerEnumType } from 'type-graphql';
 
 export enum SkillList {
-  ANG = 'Angular',
-  CCC = 'C++',
-  CSH = 'C#',
-  GQL = 'GraphQL',
-  GO = 'Go',
-  NODE = 'NodeJS',
-  PHP = 'PHP',
-  REACT = 'React',
-  REACTN = 'React Native',
-  SQL = 'SQL',
-  TS = 'TypeScript',
-  VUE = 'VueJS',
+  'Angular',
+  'C++',
+  'C#',
+  'GraphQL',
+  'Go',
+  'NodeJS',
+  'PHP',
+  'React',
+  'React Native',
+  'SQL',
+  'TypeScript',
+  'VueJS',
 }
 
 registerEnumType(SkillList, {
