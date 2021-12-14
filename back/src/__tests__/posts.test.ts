@@ -4,8 +4,9 @@ import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import { DocumentNode } from 'graphql';
 
-const ADD_POST<DocumentNode> = gql`
+const ADD_POST : DocumentNode = gql`
   mutation AddPost($input: inputAddPost!) {
     addPost(data: $input) {
       title
@@ -57,6 +58,6 @@ describe('Post Mutation test on with GraphQL', () => {
       }} 
     });
     console.log('result :>> ', result);
-    expect(result?.data.addPost.title).toEqual('Je créer un post');
+    expect(result?.data?.addPost.title).toEqual('Je créer un post');
   });
 });
