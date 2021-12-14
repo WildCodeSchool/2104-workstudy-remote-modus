@@ -67,6 +67,7 @@ const UpdateUserProfile: React.FC = () => {
     password: "",
     passwordConfirmation: "",
   };
+
   return (
     <div className="container-form">
       <div className="mb-4 d-flex justify-content-center">
@@ -108,7 +109,7 @@ const UpdateUserProfile: React.FC = () => {
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   placeholder="Nickname"
                   name="nickname"
                   type="text"
@@ -118,7 +119,7 @@ const UpdateUserProfile: React.FC = () => {
               </FormBS.Group>
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control "
                   placeholder="Email"
                   name="email"
                   type="email"
@@ -128,7 +129,7 @@ const UpdateUserProfile: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="password"
                   placeholder="Mot de passe"
                   type="password"
@@ -138,7 +139,7 @@ const UpdateUserProfile: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="passwordConfirmation"
                   placeholder="Confirmer mot de passe"
                   type="password"

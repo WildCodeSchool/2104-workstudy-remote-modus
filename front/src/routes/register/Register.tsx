@@ -20,7 +20,7 @@ const REGISTER = gql`
 
 const RegisterSchema = Yup.object({
   email: Yup.string()
-    .email("Format invalid")
+    .email("Format invalide")
     .required("Une adresse email est requise"),
   password: Yup.string().required("Un mot de passe est requis"),
   passwordConfirmation: Yup.string().when("password", {
@@ -34,7 +34,7 @@ const RegisterSchema = Yup.object({
 });
 
 const Register: React.FC = () => {
-  const [errorState, setErrorState] = useState("");
+  const [isSubmited, setIsSubmited] = useState(false);
   const history = useHistory();
   const initialValues = {
     nickname: "",
@@ -43,7 +43,7 @@ const Register: React.FC = () => {
     passwordConfirmation: "",
   };
 
-  const [register, { data, error }] = useMutation(REGISTER, {
+  const [register, { data, error, loading }] = useMutation(REGISTER, {
     errorPolicy: "all",
   });
 
@@ -55,8 +55,14 @@ const Register: React.FC = () => {
   }, [data]);
 
   useEffect(() => {
-    if (error) setErrorState(error?.graphQLErrors[0]?.message);
-  }, [error, errorState]);
+    if (!loading) {
+      if (error && isSubmited) {
+        setIsSubmited(false);
+        toast.error(error.message);
+      }
+      if (isSubmited && !error) toast("Votre compte a bien été crée");
+    }
+  }, [error, isSubmited, loading]);
 
   return (
     <div className="container-form">
@@ -82,7 +88,7 @@ const Register: React.FC = () => {
               };
               JSON.stringify(formData);
               register({ variables: { input: formData } });
-              toast("votre compte a bien été crée");
+              setIsSubmited(true);
             }}
           >
             <Form className="login-form d-flex flex-column">
@@ -133,9 +139,6 @@ const Register: React.FC = () => {
               </div>
             </Form>
           </Formik>
-          {errorState && (
-            <p className="mb-4 errorMessage text-center">{errorState}</p>
-          )}
           <Link to="/">
             <p className="text-center text-white">Vous avez déjà un compte ?</p>
           </Link>
