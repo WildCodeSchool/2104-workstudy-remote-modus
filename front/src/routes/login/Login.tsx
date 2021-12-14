@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import Context from "../../components/context/Context";
 
 const LoginSchema = Yup.object({
@@ -15,7 +14,6 @@ const LoginSchema = Yup.object({
 
 const Login: React.FC = () => {
   const { logUser } = useContext(Context);
-  // Error State à utiliser
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorState, setErrorState] = useState("");
 
@@ -40,31 +38,17 @@ const Login: React.FC = () => {
             initialValues={initialValues}
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
-              try {
-                const { email, password } = values;
-                const formData = {
-                  email,
-                  password,
-                };
-                JSON.stringify(formData);
-                await logUser(formData);
-                toast("Bienvenue !");
-              } catch (err: any) {
-                setErrorState(err.message);
-                toast.error(`${err.message}`, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-              }
+              const { email, password } = values;
+              const formData = {
+                email,
+                password,
+              };
+              JSON.stringify(formData);
+              await logUser(formData);
             }}
           >
             <Form className="login-form d-flex flex-column">
-              <FormBS.Group className="mb-4">
+              <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   className="form-control"
                   placeholder="Adresse mail"
@@ -74,7 +58,7 @@ const Login: React.FC = () => {
                 <ErrorMessage name="email" />
               </FormBS.Group>
 
-              <FormBS.Group className="mb-4">
+              <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   className="form-control"
                   name="password"
