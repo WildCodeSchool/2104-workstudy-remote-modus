@@ -3,14 +3,10 @@ import { Col, Button, Accordion } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "../../css/styles.css";
 
-export type Skill = {
-  value: string;
-};
-
 export type PostContainerProps = {
   title: string;
   wysiwyg: string;
-  skills: Skill[];
+  skills: [{ value: string; label: string }];
   eventKey: string;
   postId: string;
 };
@@ -24,7 +20,7 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
     <Accordion.Item eventKey={eventKey} className="bg-transparent">
       <Accordion.Header>
         <Col xs="1">
-          {skills.map((skill: Skill, id: number) => {
+          {skills.map((skill: { value: string; label: string }, id: number) => {
             const key = `skill-${id}`;
             return <div key={key}>{skill.value}</div>;
           })}
