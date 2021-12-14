@@ -117,7 +117,9 @@ const AskingHelpForm: React.FC = () => {
                     data-testid="select-skill-form"
                     required=""
                     options={options}
-                    onChange={(result: any) => {
+                    onChange={(
+                      result: { value: string; label: string } | null
+                    ) => {
                       if (result) {
                         setSkill(result.value);
                       }

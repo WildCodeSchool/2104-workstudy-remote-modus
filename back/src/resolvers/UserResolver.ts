@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { SelfUser } from '../types/UserResponse';
@@ -57,7 +56,7 @@ export class UserResolver {
   @Mutation(() => User)
   async updateSkills(
     @Ctx() { userId }: { userId: string },
-    @Arg('skills', (_type) => [SkillInput]) skills: SkillInput[],
+    @Arg('skills', () => [SkillInput]) skills: SkillInput[],
   ): Promise<User> {
     let user = await UserModel.findById({ _id: userId });
     if (!user) throw new Error('Utilisateur non trouvé');

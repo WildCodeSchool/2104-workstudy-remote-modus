@@ -19,7 +19,7 @@ const LOGIN = gql`
 `;
 
 const Provider = (): JSX.Element => {
-  const [login, { data: loginData }] = useMutation(LOGIN);
+  const [login, { data: loginData, error }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
     setUser(data);
@@ -28,9 +28,8 @@ const Provider = (): JSX.Element => {
   const logUser = async (userCredentials: UserCredentials) => {
     try {
       await login({ variables: { input: userCredentials } });
-    } catch (err: any) {
-      // eslint-disable-next-line no-console
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(error?.message);
     }
   };
 

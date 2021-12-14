@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Markup } from "interweave";
-import { Skill } from "../askingHelpPosts/PostContainer";
 
 const GETPOSTBYID = gql`
   query getPostById($id: String!) {
@@ -21,7 +20,7 @@ const GETPOSTBYID = gql`
 interface PostProps {
   title: string;
   wysiwyg: string;
-  skills: Skill[];
+  skills: [{ value: string; label: string }];
 }
 
 const Post = (): JSX.Element => {
@@ -32,7 +31,7 @@ const Post = (): JSX.Element => {
   const [postInfo, setPostInfo] = useState<PostProps>({
     title: "",
     wysiwyg: "",
-    skills: [],
+    skills: [{ value: "", label: "" }],
   });
 
   useEffect(() => {
