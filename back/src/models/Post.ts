@@ -24,8 +24,8 @@ export class Post {
   @GraphQLField(() => String)
   creatorId?: mongoose.Types.ObjectId;
 
-  @GraphQLField(() => User)
-  creator?: User;
+  @GraphQLField(() => [User])
+  creator?: [User];
 }
 
 export const PostModel = getModelForClass(Post);
