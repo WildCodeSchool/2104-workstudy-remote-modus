@@ -1,4 +1,4 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
+import { getModelForClass, prop, mongoose } from '@typegoose/typegoose';
 import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
 import { Skill } from './Skill';
 
@@ -18,6 +18,10 @@ export class Post {
   @prop({ type: Skill })
   @GraphQLField(() => [Skill])
   skills!: Skill[];
+
+  @prop()
+  @GraphQLField(() => ID)
+  creatorId?: mongoose.Types.ObjectId;
 }
 
 export const PostModel = getModelForClass(Post);
