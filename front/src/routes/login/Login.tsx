@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
@@ -7,15 +7,13 @@ import Context from "../../components/context/Context";
 
 const LoginSchema = Yup.object({
   email: Yup.string()
-    .email("Format invalid")
+    .email("Format invalide")
     .required("Une adresse email est requise"),
   password: Yup.string().required("Un mot de passe est requis"),
 });
 
 const Login: React.FC = () => {
   const { logUser } = useContext(Context);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [errorState, setErrorState] = useState("");
 
   const initialValues = {
     email: "",

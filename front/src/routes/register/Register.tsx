@@ -118,7 +118,7 @@ const Register: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="passwordConfirmation"
                   placeholder="Verifier le mot de passe"
                   type="password"

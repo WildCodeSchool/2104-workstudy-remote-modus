@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Card, Form as FormBS } from "react-bootstrap";
@@ -36,7 +36,6 @@ type FormData = {
 
 const UpdateUserProfile: React.FC = () => {
   const { user } = useContext(Context);
-  const [errorState, setErrorState] = useState("");
 
   const [updateUserProfilData, { data, error }] = useMutation(
     UPDATEUSERPROFILDATA,
@@ -49,15 +48,13 @@ const UpdateUserProfile: React.FC = () => {
     if (data) {
       toast.success("Votre compte a bien été mis à jour");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      setErrorState(error?.graphQLErrors[0]?.message);
-      toast.error("Votre compte n'a pas été modifié");
+      toast.error(error?.message);
     }
-  }, [error, errorState]);
+  }, [error]);
 
   if (!user) {
     return <div>Error no user</div>;
@@ -70,7 +67,6 @@ const UpdateUserProfile: React.FC = () => {
     password: "",
     passwordConfirmation: "",
   };
-
   return (
     <div className="container-form">
       <div className="mb-4 d-flex justify-content-center">
@@ -157,10 +153,6 @@ const UpdateUserProfile: React.FC = () => {
               </div>
             </Form>
           </Formik>
-
-          {errorState && (
-            <p className="mb-4 errorMessage text-center">{errorState}</p>
-          )}
         </Card.Body>
       </Card>
     </div>
