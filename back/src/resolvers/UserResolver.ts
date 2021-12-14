@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Resolver, Mutation, UseMiddleware, Query, Ctx, Arg } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 import { SelfUser } from '../types/UserResponse';
@@ -26,7 +25,7 @@ export class UserResolver {
     @Arg('data') { email, password }: UpdateUserProfileInput,
     @Ctx() { userId }: { userId: string },
   ): Promise<SelfUser> {
-    if (!userId) throw new AuthenticationError('Vous n\'êtes pas connecté');
+    if (!userId) throw new AuthenticationError("Vous n'êtes pas connecté");
 
     const existingUser = await UserModel.findById(userId);
     if (!existingUser) throw new Error('Utilisateur non trouvé');
@@ -70,7 +69,7 @@ export class UserResolver {
     const userCopy = { ...user, skills: skillsMaped };
     const updatedUser = await UserModel.findByIdAndUpdate({ _id: userId }, userCopy, { new: true });
 
-    if (!updatedUser) throw new Error('L\'utilisateur ne peut pas être modifié');
+    if (!updatedUser) throw new Error("L'utilisateur ne peut pas être modifié");
     return updatedUser;
   }
 }

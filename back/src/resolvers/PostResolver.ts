@@ -2,6 +2,8 @@ import { Arg, Query, Resolver, Mutation, UseMiddleware, Ctx } from 'type-graphql
 import { PostModel, Post } from '../models/Post';
 import { inputAddPost } from '../types/InputAddPost';
 import { isAuth } from '../middleware/isAuth';
+import { UserModel } from '../models/User';
+import { ApolloError } from 'apollo-server';
 
 @Resolver(Post)
 export class PostResolver {
@@ -27,6 +29,12 @@ export class PostResolver {
   async getPostById(@Arg('id') id: string): Promise<Post | null> {
     const post = await PostModel.findById(id);
 
-    return post;
+    if (!post) throw new ApolloError(`Could not find post with id: ${id}`);
+
+    const user = await UserModel.findById(post.creatorId);
+
+    const postWithCreator = { ...post?.toObject(), creator: user?.toObject() };
+
+    return postWithCreator;
   }
 }
