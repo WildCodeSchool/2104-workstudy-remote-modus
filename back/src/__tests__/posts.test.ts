@@ -1,4 +1,3 @@
-import { createTestClient } from 'apollo-server-testing';
 import { ApolloServerBase, gql } from 'apollo-server-core';
 import { PostResolver } from '../resolvers/PostResolver';
 import { ApolloServer } from 'apollo-server';
@@ -6,10 +5,14 @@ import { buildSchema } from 'type-graphql';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
-const CREATE_POST = gql`
-  mutation {
-    addPost(data: { title: "Ceci est un test", wysiwyg: "<p> Test </p>", skills: [{ value: "node" }] }) {
+const ADD_POST<DocumentNode> = gql`
+  mutation AddPost($input: inputAddPost!) {
+    addPost(data: $input) {
       title
+      wysiwyg
+      skills {
+        value
+      }
     }
   }
 `;
@@ -36,7 +39,7 @@ describe('Post Mutation test on with GraphQL', () => {
       resolvers: [PostResolver],
     });
 
-    apollo = new ApolloServer({ schema, playground: true });
+    apollo = new ApolloServer({ schema });
   });
 
   afterAll(async () => {
@@ -44,10 +47,16 @@ describe('Post Mutation test on with GraphQL', () => {
   });
 
   it('Should list something from the DB', async () => {
-    const { mutate } = createTestClient(apollo);
 
-    const result = await mutate({ mutation: CREATE_POST });
-
-    expect(result.data.addPost.title).toEqual('Ceci est un test');
+    const result = await apollo.executeOperation({
+       query: ADD_POST,
+       variables : { input: { 
+         title: "Je créer un post",
+         wysiwyg:"<h1> Je suis un Test </h1>",
+         skills:[{ "value": "ANG" }]
+      }} 
+    });
+    console.log('result :>> ', result);
+    expect(result?.data.addPost.title).toEqual('Je créer un post');
   });
 });
