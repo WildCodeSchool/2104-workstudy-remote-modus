@@ -10,8 +10,12 @@ export class PostResolver {
   @UseMiddleware(isAuth)
   @Query(() => [Post])
   async allPosts(): Promise<Post[]> {
-    const posts = await PostModel.find();
-    return posts;
+    const postAggregated: Post[] = await PostModel.aggregate([
+      { $lookup: { from: 'users', localField: 'creatorId', foreignField: '_id', as: 'creator' } },
+      { $project: { 'creator.password': 0, 'creator.__v': 0 } },
+    ]);
+
+    return postAggregated;
   }
 
   @UseMiddleware(isAuth)
