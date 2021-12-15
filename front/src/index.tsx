@@ -34,6 +34,7 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: from([authLink, httpLink]),
+  connectToDevTools: true,
 });
 
 ReactDOM.render(

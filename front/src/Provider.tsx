@@ -19,6 +19,7 @@ const LOGIN = gql`
 `;
 
 const Provider = (): JSX.Element => {
+
   const [login, { data: loginData, error }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
@@ -31,11 +32,6 @@ const Provider = (): JSX.Element => {
     } catch (err: unknown) {
       toast.error(error?.message);
     }
-  };
-
-  const logoutUser = async () => {
-    localStorage.clear();
-    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -52,7 +48,8 @@ const Provider = (): JSX.Element => {
         user,
         updateUser,
         logUser,
-        logoutUser,
+        isTokenChecked,
+        setIsTokenChecked,
       }}
     >
       <Router />
