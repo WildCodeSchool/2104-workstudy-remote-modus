@@ -13,6 +13,9 @@ const GETPOSTBYID = gql`
       skills {
         value
       }
+      creator {
+        nickname
+      }
     }
   }
 `;
@@ -21,6 +24,7 @@ interface PostProps {
   title: string;
   wysiwyg: string;
   skills: [{ value: string; label: string }];
+  creator: [{ nickname: string }];
 }
 
 const Post = (): JSX.Element => {
@@ -32,6 +36,7 @@ const Post = (): JSX.Element => {
     title: "",
     wysiwyg: "",
     skills: [{ value: "", label: "" }],
+    creator: [{ nickname: "" }],
   });
 
   useEffect(() => {
@@ -46,6 +51,12 @@ const Post = (): JSX.Element => {
         <h3 className="text-warning text-center mt-4">{postInfo.title}</h3>
         <Card className="border rounded border-warning bg-transparent p-4">
           <Card.Body>
+            <div>
+              {postInfo.creator.map((createBy) => {
+                return createBy.nickname;
+              })}{" "}
+              a sollicité de l&apos;aide !
+            </div>
             <Card.Title className="d-flex mb-4">
               {postInfo.skills.map((skill, i) => {
                 const key = `skill-${i}`;
