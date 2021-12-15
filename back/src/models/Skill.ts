@@ -5,9 +5,8 @@ import { Field as GraphQLField, InputType, ObjectType as GraphQLType, registerEn
 export enum SkillList {
   'Angular',
   'C++',
-  'C#',
   'GraphQL',
-  'Go',
+  'GoLang',
   'NodeJS',
   'PHP',
   'React',
@@ -28,8 +27,8 @@ export class Skill {
 }
 @InputType()
 export class SkillInput {
-  @GraphQLField(_type => SkillList)
-  value: SkillList;
+    @GraphQLField(_type => SkillList)
+    value: SkillList;
 }
 
 

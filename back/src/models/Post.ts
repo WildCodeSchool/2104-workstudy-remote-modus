@@ -1,6 +1,6 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Field as GraphQLField, ObjectType as GraphQLType, ID } from 'type-graphql';
-import { Skill } from './Skill';
+import { Skill, SkillInput } from './Skill';
 
 @GraphQLType()
 export class Post {
@@ -15,9 +15,9 @@ export class Post {
   @GraphQLField()
   wysiwyg!: string;
 
-  @prop({ type: Skill })
+  @prop({ type: SkillInput })
   @GraphQLField(() => [Skill])
-  skills!: Skill[];
+  skills!: SkillInput[];
 }
 
 export const PostModel = getModelForClass(Post);

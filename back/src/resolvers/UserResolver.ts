@@ -68,7 +68,7 @@ export class UserResolver {
     const skillsArr = skills;
     const skillsMaped = skillsArr.map((skill) => ({ value: skill.value }));
     const userCopy = { ...user, skills: skillsMaped };
-    const updatedUser = await UserModel.findByIdAndUpdate({ _id: userId }, userCopy, { new: true });
+    const updatedUser = await UserModel.findByIdAndUpdate({ _id: userId }, {userCopy}, { new: true });
 
     if (!updatedUser) throw new Error('L\'utilisateur ne peut pas être modifié');
     return updatedUser;
