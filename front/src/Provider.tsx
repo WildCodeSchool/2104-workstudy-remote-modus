@@ -19,8 +19,8 @@ const LOGIN = gql`
 `;
 
 const Provider = (): JSX.Element => {
-
   const [login, { data: loginData, error }] = useMutation(LOGIN);
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
     setUser(data);
