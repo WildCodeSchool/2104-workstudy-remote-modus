@@ -8,12 +8,10 @@ export class SkillResolver {
   @UseMiddleware(isAuth)
   @Query(() => [Skill])
   async allSkills(): Promise<Skill[]> {
-    const values = Object.keys(SkillList);
-    const skills: Skill[] = [];
-    values.forEach(value => {
-      if (value.length > 2)
-      skills.push({value});
-    })
+    const values = Object.values(SkillList)
+    const skills: { value: SkillList; }[] = [];
+    values.forEach((value) => skills.push({value}));
+
     return skills;
   }
 }
