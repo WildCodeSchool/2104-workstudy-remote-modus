@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
 import { Accordion, Col, Row } from "react-bootstrap";
-import PostContainer, { Skill } from "./PostContainer";
+import PostContainer from "./PostContainer";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -17,9 +17,16 @@ const GETALLPOSTS = gql`
   }
 `;
 
+export interface Skill {
+  _id: string;
+  title: string;
+  skills: [{ value: string; label: string }];
+  wysiwyg: string;
+}
+
 const AskingHelpPosts = (): JSX.Element => {
   const { data, refetch } = useQuery(GETALLPOSTS);
-  const [allPosts, setAllPosts] = useState<any[]>([]);
+  const [allPosts, setAllPosts] = useState<Skill[]>([]);
 
   useEffect(() => {
     refetch();
@@ -35,12 +42,10 @@ const AskingHelpPosts = (): JSX.Element => {
         </h3>
         {allPosts !== undefined ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
-            {allPosts.map((post: any, id: number) => {
-              const key = `post-${post.id}`;
-              const listOfSkills = post.skills.map((skill: Skill) => {
-                return skill;
-              });
-              const eventKey = id.toString();
+            {allPosts.map((post: Skill, index: number) => {
+              const key = `post-${index}`;
+              const listOfSkills = post.skills;
+              const eventKey = index.toString();
               return (
                 <PostContainer
                   key={key}

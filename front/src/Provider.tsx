@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Context, { User, UserCredentials } from "./components/context/Context";
 import "react-toastify/dist/ReactToastify.css";
 import Router from "./Router";
@@ -19,8 +19,8 @@ const LOGIN = gql`
 `;
 
 const Provider = (): JSX.Element => {
-  const [isTokenChecked, setIsTokenChecked] = useState(false);
-  const [login, { data: loginData }] = useMutation(LOGIN);
+
+  const [login, { data: loginData, error }] = useMutation(LOGIN);
   const [user, setUser] = useState<User>(null);
   const updateUser = (data: User) => {
     setUser(data);
@@ -29,9 +29,8 @@ const Provider = (): JSX.Element => {
   const logUser = async (userCredentials: UserCredentials) => {
     try {
       await login({ variables: { input: userCredentials } });
-    } catch (err: any) {
-      // eslint-disable-next-line no-console
-      console.log("err.message :>> ", err.message);
+    } catch (err: unknown) {
+      toast.error(error?.message);
     }
   };
 
@@ -39,6 +38,7 @@ const Provider = (): JSX.Element => {
     if (loginData?.login.user && setUser) {
       localStorage.setItem("jwt", JSON.stringify(loginData.login.token));
       setUser(loginData.login.user);
+      toast("Bienvenue !");
     }
   }, [loginData, setUser]);
 

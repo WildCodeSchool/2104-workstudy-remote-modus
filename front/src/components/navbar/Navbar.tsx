@@ -46,7 +46,7 @@ const Navbar = (): JSX.Element => {
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
-              to="/profileUpdate"
+              to="/parametres"
             >
               Mettre à jour son profil
             </NavLink>
