@@ -203,12 +203,21 @@ div.ql-container.ql-snow {
     font-size: 20px;
 }
 
+.list_skills_post {
+    margin-left: 1rem;
+    width: 30px;
+}
+
 .list_skills {
-    margin-right: 1rem;
+    width: 30px;
 }
 
 pre {
     background-color:white;
     color: black;
     padding: 1rem;
+}
+
+.description span {
+    color: white !important;
 }

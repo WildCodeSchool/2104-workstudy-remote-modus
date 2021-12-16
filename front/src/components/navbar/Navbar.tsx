@@ -28,7 +28,7 @@ const Navbar = (): JSX.Element => {
           id="basic-NavContainer-nav"
           className="my-nav-container"
         >
-          <Nav className="me-auto">
+          <Nav className="me-auto d-flex justify-content-center align-items-center">
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
@@ -43,15 +43,8 @@ const Navbar = (): JSX.Element => {
             >
               Formulaire de demande
             </NavLink>
-            <NavLink
-              className="custom-nav-link"
-              activeClassName="active"
-              to="/parametres"
-            >
-              Mettre à jour son profil
-            </NavLink>
           </Nav>
-          <Nav className="d-flex justify-content-center align-items-center">
+          <Nav className="nav-dropdown d-flex justify-content-center align-items-center">
             <div className="text-white">{user && user.nickname}</div>
             <NavDropdown
               title={
@@ -63,6 +56,10 @@ const Navbar = (): JSX.Element => {
               }
               id="basic-nav-dropdown"
             >
+              <NavDropdown.Item className="" href="/parametres">
+                Mettre à jour votre profil
+              </NavDropdown.Item>
+              <NavDropdown.Divider className="divider-nav" />
               <Logout />
             </NavDropdown>
           </Nav>

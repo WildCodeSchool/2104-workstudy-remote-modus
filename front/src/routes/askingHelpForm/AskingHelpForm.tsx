@@ -56,7 +56,6 @@ const AskingHelpForm: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       const skillOptions: Option[] = [];
       data.allSkills.forEach((comp: AllSkill) => {
         skillOptions.push({ value: `${comp.value}`, label: `${comp.value}` });
@@ -88,7 +87,6 @@ const AskingHelpForm: React.FC = () => {
           input: formData,
         },
       });
-      console.log("formData", formData);
       toast.info("Ta demande a bien été postée");
       history.push("/aides");
     } else {

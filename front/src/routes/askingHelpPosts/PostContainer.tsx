@@ -3,7 +3,6 @@ import { Col, Button, Accordion } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "../../css/styles.css";
 import { convertStringToLogo } from "../../utils/skillHandler";
-// import img from "../../img/angular.png";
 
 export type PostContainerProps = {
   title: string;
@@ -24,18 +23,12 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
         <Col xs="1">
           {convertStringToLogo(skills).map((skill, id) => {
             const key = `skill-${id}`;
-            console.log(skill);
             return (
-              <div key={key}>
-                <img src={skill} alt="logo" />;{/* <img alt="" src={img} /> */}
+              <div key={key} className="list_skills mb-2">
+                <img className="w-100" src={skill} alt="logo" />
               </div>
             );
           })}
-          {/* {skills.map((skill: { value: string; label: string }, id: number) => {
-            const key = `skill-${id}`;
-            // return <div key={key}>{skill.value}</div>;
-            return <img src="/img" />;
-          })} */}
         </Col>
         <Col className="title-post">{title}</Col>
       </Accordion.Header>
