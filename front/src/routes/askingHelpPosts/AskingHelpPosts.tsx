@@ -38,7 +38,7 @@ const AskingHelpPosts = (): JSX.Element => {
     <Row className="w-auto m-0 bg">
       <Col className="d-flex align-items-center flex-column p-0">
         <h3 className="text-warning text-center mt-4">
-          Demander de l&apos;aide
+          Les demandes d&apos;aides
         </h3>
         {allPosts !== undefined ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">

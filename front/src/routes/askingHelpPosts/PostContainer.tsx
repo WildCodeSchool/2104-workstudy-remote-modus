@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Button, Accordion } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "../../css/styles.css";
+import { convertStringToLogo } from "../../utils/skillHandler";
 
 export type PostContainerProps = {
   title: string;
@@ -20,9 +21,13 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
     <Accordion.Item eventKey={eventKey} className="bg-transparent">
       <Accordion.Header>
         <Col xs="1">
-          {skills.map((skill: { value: string; label: string }, id: number) => {
+          {convertStringToLogo(skills).map((skill, id) => {
             const key = `skill-${id}`;
-            return <div key={key}>{skill.value}</div>;
+            return (
+              <div key={key} className="list_skills mb-2">
+                <img className="w-100" src={skill} alt="logo" />
+              </div>
+            );
           })}
         </Col>
         <Col className="title-post">{title}</Col>
