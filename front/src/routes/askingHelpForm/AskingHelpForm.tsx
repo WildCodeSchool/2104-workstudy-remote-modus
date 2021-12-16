@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
+import skillHandler from "../../utils/skillHandler";
 
 const ADD_POST = gql`
   mutation AddPost($input: inputAddPost!) {
@@ -52,8 +53,10 @@ const AskingHelpForm: React.FC = () => {
   const { data } = useQuery(GET_SKILLS, {
     errorPolicy: "all",
   });
+
   useEffect(() => {
     if (data) {
+      console.log(data);
       const skillOptions: Option[] = [];
       data.allSkills.forEach((comp: AllSkill) => {
         skillOptions.push({ value: `${comp.value}`, label: `${comp.value}` });
@@ -71,13 +74,12 @@ const AskingHelpForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const test = skillHandler(skills);
     e.preventDefault();
     if (titleHelp) {
       const formData = {
         title: titleHelp,
-        skills: skills.map((skillVal) => ({
-          value: skillVal,
-        })),
+        skills: test,
         wysiwyg: userInput,
       };
       JSON.stringify(formData);
@@ -86,6 +88,7 @@ const AskingHelpForm: React.FC = () => {
           input: formData,
         },
       });
+      console.log("formData", formData);
       toast.info("Ta demande a bien été postée");
       history.push("/aides");
     } else {
