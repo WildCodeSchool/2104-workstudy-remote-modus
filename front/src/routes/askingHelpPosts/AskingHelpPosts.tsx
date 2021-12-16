@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/styles.css";
 import { useQuery, gql } from "@apollo/client";
 import { Accordion, Col, Row } from "react-bootstrap";
-import PostContainer, { PostContainerProps, Skill } from "./PostContainer";
+import PostContainer from "./PostContainer";
 
 const GETALLPOSTS = gql`
   query GetAllPosts {
@@ -17,9 +17,16 @@ const GETALLPOSTS = gql`
   }
 `;
 
+export interface Skill {
+  _id: string;
+  title: string;
+  skills: [{ value: string; label: string }];
+  wysiwyg: string;
+}
+
 const AskingHelpPosts = (): JSX.Element => {
   const { data, refetch } = useQuery(GETALLPOSTS);
-  const [allPosts, setAllPosts] = useState<PostContainerProps[]>([]);
+  const [allPosts, setAllPosts] = useState<Skill[]>([]);
 
   useEffect(() => {
     refetch();
@@ -31,16 +38,14 @@ const AskingHelpPosts = (): JSX.Element => {
     <Row className="w-auto m-0 bg">
       <Col className="d-flex align-items-center flex-column p-0">
         <h3 className="text-warning text-center mt-4">
-          Demander de l&apos;aide
+          Les demandes d&apos;aides
         </h3>
-        {allPosts.length > 0 || allPosts ? (
+        {allPosts !== undefined ? (
           <Accordion className="mb-4 w-75 border rounded border-warning">
-            {allPosts.map((post: any, id: number) => {
-              const key = `post-${id}`;
-              const listOfSkills = post.skills.map((skill: Skill) => {
-                return skill;
-              });
-              const eventKey = id.toString();
+            {allPosts.map((post: Skill, index: number) => {
+              const key = `post-${index}`;
+              const listOfSkills = post.skills;
+              const eventKey = index.toString();
               return (
                 <PostContainer
                   key={key}
@@ -59,10 +64,7 @@ const AskingHelpPosts = (): JSX.Element => {
             <h1 className="text-white">
               Il n&apos;y a pas encore de demandes d&apos;aide....
             </h1>
-            <a
-              href="/AskingHelpForm"
-              className="text-decoration-none text-warning"
-            >
+            <a href="/formulaire" className="text-decoration-none text-warning">
               Créer une demande
             </a>
           </div>

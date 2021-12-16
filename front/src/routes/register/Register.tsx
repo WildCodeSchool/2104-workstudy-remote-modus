@@ -20,7 +20,7 @@ const REGISTER = gql`
 
 const RegisterSchema = Yup.object({
   email: Yup.string()
-    .email("Format invalid")
+    .email("Format invalide")
     .required("Une adresse email est requise"),
   password: Yup.string().required("Un mot de passe est requis"),
   passwordConfirmation: Yup.string().when("password", {
@@ -34,7 +34,7 @@ const RegisterSchema = Yup.object({
 });
 
 const Register: React.FC = () => {
-  const [errorState, setErrorState] = useState("");
+  const [isSubmited, setIsSubmited] = useState(false);
   const history = useHistory();
   const initialValues = {
     nickname: "",
@@ -43,7 +43,7 @@ const Register: React.FC = () => {
     passwordConfirmation: "",
   };
 
-  const [register, { data, error }] = useMutation(REGISTER, {
+  const [register, { data, error, loading }] = useMutation(REGISTER, {
     errorPolicy: "all",
   });
 
@@ -55,8 +55,14 @@ const Register: React.FC = () => {
   }, [data]);
 
   useEffect(() => {
-    if (error) setErrorState(error?.graphQLErrors[0]?.message);
-  }, [error, errorState]);
+    if (!loading) {
+      if (error && isSubmited) {
+        setIsSubmited(false);
+        toast.error(error.message);
+      }
+      if (isSubmited && !error) toast("Votre compte a bien été crée");
+    }
+  }, [error, isSubmited, loading]);
 
   return (
     <div className="container-form">
@@ -68,7 +74,7 @@ const Register: React.FC = () => {
         />
       </div>
       <Card className="border rounded border-warning bg-transparent p-4">
-        <Card.Title className="text-center">Register</Card.Title>
+        <Card.Title className="text-center">S&apos;inscrire</Card.Title>
         <Card.Body>
           <Formik
             initialValues={initialValues}
@@ -82,14 +88,14 @@ const Register: React.FC = () => {
               };
               JSON.stringify(formData);
               register({ variables: { input: formData } });
-              toast("votre compte a bien été crée");
+              setIsSubmited(true);
             }}
           >
             <Form className="login-form d-flex flex-column">
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
                   className="form-control"
-                  placeholder="Email"
+                  placeholder="Adresse mail"
                   name="email"
                   type="email"
                 />
@@ -110,7 +116,7 @@ const Register: React.FC = () => {
                 <Field
                   className="form-control"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mot de passe"
                   type="password"
                 />
                 <ErrorMessage name="password" />
@@ -118,7 +124,7 @@ const Register: React.FC = () => {
 
               <FormBS.Group className="mb-4 errorMessage">
                 <Field
-                  class="form-control"
+                  className="form-control"
                   name="passwordConfirmation"
                   placeholder="Verifier le mot de passe"
                   type="password"
@@ -128,18 +134,13 @@ const Register: React.FC = () => {
 
               <div className="d-flex justify-content-center">
                 <Button variant="classic" className="w-50 mb-4" type="submit">
-                  Submit
+                  Inscription
                 </Button>
               </div>
             </Form>
           </Formik>
-          {errorState && (
-            <p className="mb-4 errorMessage text-center">{errorState}</p>
-          )}
           <Link to="/">
-            <p className="text-center text-white">
-              Already have an account ? Login
-            </p>
+            <p className="text-center text-white">Vous avez déjà un compte ?</p>
           </Link>
         </Card.Body>
       </Card>

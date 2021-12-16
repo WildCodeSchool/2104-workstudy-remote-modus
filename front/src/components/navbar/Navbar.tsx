@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar as NavContainer,
   Container,
@@ -8,12 +8,15 @@ import {
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import Logout from "../../routes/logout/Logout";
+import Context from "../context/Context";
 
 const Navbar = (): JSX.Element => {
+  const { user } = useContext(Context);
+
   return (
     <NavContainer className="nav-color" variant="dark" expand="lg">
       <Container className="my-container">
-        <NavContainer.Brand href="/AskingHelpPosts">
+        <NavContainer.Brand href="/aides">
           <img
             src="https://res.cloudinary.com/dykscnyvu/image/upload/v1627564833/Moddusey/logo1_nhaokq.png"
             alt="Logo"
@@ -25,23 +28,24 @@ const Navbar = (): JSX.Element => {
           id="basic-NavContainer-nav"
           className="my-nav-container"
         >
-          <Nav className="me-auto">
+          <Nav className="me-auto d-flex justify-content-center align-items-center">
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
-              to="/AskingHelpPosts"
+              to="/aides"
             >
               Demandes d&apos;aide
             </NavLink>
             <NavLink
               className="custom-nav-link"
               activeClassName="active"
-              to="/AskingHelpForm"
+              to="/formulaire"
             >
               Formulaire de demande
             </NavLink>
           </Nav>
-          <Nav>
+          <Nav className="nav-dropdown d-flex justify-content-center align-items-center">
+            <div className="text-white">{user && user.nickname}</div>
             <NavDropdown
               title={
                 <img
@@ -52,6 +56,10 @@ const Navbar = (): JSX.Element => {
               }
               id="basic-nav-dropdown"
             >
+              <NavDropdown.Item className="" href="/parametres">
+                Mettre à jour votre profil
+              </NavDropdown.Item>
+              <NavDropdown.Divider className="divider-nav" />
               <Logout />
             </NavDropdown>
           </Nav>

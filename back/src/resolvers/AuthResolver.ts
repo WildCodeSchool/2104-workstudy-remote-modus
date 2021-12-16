@@ -15,11 +15,11 @@ export class AuthResolver {
     // check for existing user attached to this email
     const existingUser = await UserModel.findOne({ email });
 
-    if (existingUser) throw new Error('Email already in use');
+    if (existingUser) throw new Error('Email déjà pris');
 
     const existingNickname = await UserModel.findOne({ nickname });
 
-    if (existingNickname) throw new Error('Nickname already taken');
+    if (existingNickname) throw new Error('Pseudonyme déjà pris');
 
     // register user with hashed password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,13 +40,13 @@ export class AuthResolver {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
-      throw new Error('Wrong password or email does not exist');
+      throw new Error('Mot de passe ou email invalide');
     }
 
     const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
-      throw new Error('Wrong password or email does not exist');
+      throw new Error('Mot de passe ou email invalide');
     }
 
     const payload = {

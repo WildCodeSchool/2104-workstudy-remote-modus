@@ -1,3 +1,11 @@
+@media all and (max-width: 975px) {
+    .custom-nav-link {
+        width: 100%;
+    }
+    .nav-dropdown {
+        flex-direction: revert;
+    }
+}
 .nav-color{
     background-color: #7962F2;
     padding: 0;
@@ -18,10 +26,14 @@
 
 .custom-nav-link {
     color: white;
-    padding: 15px;
     margin: 0;
     text-decoration: none;
     font-size: 17px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem;
 }
 
 .custom-nav-link:hover{
@@ -45,5 +57,10 @@
 
 .profileIcon{
     max-height: 50px;
-    float: right;
+}
+
+.divider-nav {
+    width: 90%;
+    margin: 0.5rem auto;
+
 }

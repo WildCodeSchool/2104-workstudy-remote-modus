@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Markup } from "interweave";
-import { Skill } from "../askingHelpPosts/PostContainer";
+import { convertStringToLogo } from "../../utils/skillHandler";
 
 const GETPOSTBYID = gql`
   query getPostById($id: String!) {
@@ -14,6 +14,9 @@ const GETPOSTBYID = gql`
       skills {
         value
       }
+      creator {
+        nickname
+      }
     }
   }
 `;
@@ -21,7 +24,8 @@ const GETPOSTBYID = gql`
 interface PostProps {
   title: string;
   wysiwyg: string;
-  skills: Skill[];
+  skills: [{ value: string; label: string }];
+  creator: [{ nickname: string }];
 }
 
 const Post = (): JSX.Element => {
@@ -32,7 +36,8 @@ const Post = (): JSX.Element => {
   const [postInfo, setPostInfo] = useState<PostProps>({
     title: "",
     wysiwyg: "",
-    skills: [],
+    skills: [{ value: "", label: "" }],
+    creator: [{ nickname: "" }],
   });
 
   useEffect(() => {
@@ -47,13 +52,27 @@ const Post = (): JSX.Element => {
         <h3 className="text-warning text-center mt-4">{postInfo.title}</h3>
         <Card className="border rounded border-warning bg-transparent p-4">
           <Card.Body>
-            <Card.Title className="d-flex mb-4">
-              {postInfo.skills.map((skill) => (
-                <div className="list_skills">{skill.value}</div>
-              ))}
+            <Card.Title className="d-flex flex-column mb-4">
+              <div>
+                Auteur :{" "}
+                {postInfo.creator.map((createBy) => {
+                  return createBy.nickname;
+                })}
+              </div>
+              <div className="d-flex align-items-center">
+                <p className="mb-0">Technologie(s) concernée(s) : </p>
+                {convertStringToLogo(postInfo.skills).map((skill, i) => {
+                  const key = `skill-${i}`;
+                  return (
+                    <div key={key} className="list_skills_post">
+                      <img className="w-100" src={skill} alt="logo" />
+                    </div>
+                  );
+                })}
+              </div>
             </Card.Title>
             <Row className="mb-4">
-              <Markup content={postInfo.wysiwyg} />
+              <Markup className="description" content={postInfo.wysiwyg} />
             </Row>
           </Card.Body>
         </Card>

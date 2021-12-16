@@ -11,7 +11,7 @@ const AuthRoute = (props: Props): JSX.Element => {
   const { type } = props;
 
   if (type === "guest" && user) {
-    return <Redirect to="/AskingHelpForm" />;
+    return <Redirect to="/formulaire" />;
   }
   if (type === "private" && !user) {
     return <Redirect to="/" />;

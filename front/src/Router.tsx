@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
@@ -27,8 +27,7 @@ const WHOAMI = gql`
 `;
 
 function Router(): JSX.Element {
-  const { updateUser } = useContext(Context);
-  const [isTokenChecked, setIsTokenChecked] = useState(false);
+  const { updateUser, isTokenChecked, setIsTokenChecked } = useContext(Context);
   const [whoAmI, { data: whoAmiData, error: whoAmiError }] = useLazyQuery(
     WHOAMI,
     {
@@ -49,7 +48,7 @@ function Router(): JSX.Element {
       }
       setIsTokenChecked(true);
     }
-  }, [updateUser, whoAmiData, whoAmiError]);
+  }, [setIsTokenChecked, updateUser, whoAmiData, whoAmiError]);
 
   return isTokenChecked ? (
     <BrowserRouter>
@@ -58,24 +57,24 @@ function Router(): JSX.Element {
           <AuthRoute exact path="/" type="guest">
             <Login />
           </AuthRoute>
-          <AuthRoute path="/register" type="guest">
+          <AuthRoute path="/inscription" type="guest">
             <Register />
           </AuthRoute>
-          <AuthRoute path="/AskingHelpPosts" type="private">
+          <AuthRoute exact path="/aides/:id" type="private">
+            <Navbar />
+            <Post />
+          </AuthRoute>
+          <AuthRoute exact path="/aides" type="private">
             <Navbar />
             <AskingHelpPosts />
           </AuthRoute>
-          <AuthRoute path="/AskingHelpForm" type="private">
+          <AuthRoute path="/formulaire" type="private">
             <Navbar />
             <AskingHelpForm />
           </AuthRoute>
-          <AuthRoute path="/profileUpdate" type="private">
+          <AuthRoute path="/parametres" type="private">
             <Navbar />
             <UpdateUserProfile />
-          </AuthRoute>
-          <AuthRoute path="/post/:id" type="private">
-            <Navbar />
-            <Post />
           </AuthRoute>
         </Switch>
       </Container>
