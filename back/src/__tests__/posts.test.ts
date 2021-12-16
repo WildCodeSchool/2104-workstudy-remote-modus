@@ -5,12 +5,7 @@ import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-
-
-// type Context =  {
-//   user: string
-// }
-
+import jwt from 'jsonwebtoken';
 
 const ADD_POST = gql`
   mutation AddPost($input: inputAddPost!) {
@@ -69,73 +64,86 @@ describe('Post Mutation test on with GraphQL', () => {
       resolvers: [PostResolver, AuthResolver],
     });
 
-    apollo = new ApolloServer({schema });
+    apollo = new ApolloServer({ schema });
   });
 
   afterAll(async () => {
     await mongoose.disconnect().then(() => console.log('Succesfully disconnect from database'));
   });
 
-  it('Should list something from the DB', async () => {
-    
+  it('Create an User, log with it then create a post', async () => {
     const resultRegister = await apollo.executeOperation({
       query: REGISTER,
-      variables:{ input: {
-        email: 'test@wcs.com',
-        password:'test',
-        nickname:'TESTEUR'
-      }}
+      variables: {
+        input: {
+          email: 'test@wcs.com',
+          password: 'test',
+          nickname: 'TESTEUR',
+        },
+      },
     });
 
-    if(resultRegister.data !== null){
-      console.log('resultRegister :>> ', resultRegister);
+    expect(resultRegister?.errors).toBeUndefined();
+    expect(resultRegister?.data?.register.user).toBeDefined();
+    expect(resultRegister?.data?.register.user.email).toEqual('test@wcs.com');
+    expect(resultRegister?.data?.register.user.nickname).toEqual('TESTEUR');
+    expect(resultRegister?.data?.register.token).toBeDefined();
+
+    if (resultRegister.data !== null) {
       const resultLogin = await apollo.executeOperation({
         query: LOGIN,
-        variables:{ input: {
-          email: 'test@wcs.com',
-          password:'test'
-        }}
+        variables: {
+          input: {
+            email: 'test@wcs.com',
+            password: 'test',
+          },
+        },
       });
-      const userId = resultLogin?.data?.login.user._id;
 
-      if(!resultLogin) console.log('User connexion échouée');
-  
+      expect(resultLogin?.errors).toBeUndefined();
+      expect(resultLogin?.data?.login.user).toBeDefined();
+      expect(resultLogin?.data?.login.user.email).toEqual('test@wcs.com');
+      expect(resultLogin?.data?.login.user.nickname).toEqual('TESTEUR');
+      expect(resultLogin?.data?.login.user._id).toBeDefined();
+      expect(resultLogin?.data?.login.token).toBeDefined();
+
       if (resultLogin.data !== null) {
-        
-        console.log('resultLogin :>> ', resultLogin);
-        
         const schema = await buildSchema({
           resolvers: [PostResolver],
         });
 
-        
         const newApollo = new ApolloServer({
           schema,
-        })
-        console.log('newApollo :>> ', newApollo);
+          context: () => {
+            const token = resultLogin?.data?.login.token;
+            try {
+              const payload = jwt.verify(token, 'testuntilweputdotenv');
+              if (typeof payload !== 'string') {
+                return { userId: payload.userId };
+              }
+              return;
+            } catch (err) {
+              throw new Error(`Error: ${err}`);
+            }
+          },
+        });
 
         const resultAddPost = await newApollo.executeOperation({
           query: ADD_POST,
-          variables : { input: { 
-            title: "Je créer un post",
-            wysiwyg:"<h1> Je suis un Test </h1>",
-            skills:[{ "value": "ANG" }]
-          }}},
-        );
-        if(resultAddPost.data !== null){
-      
-          console.log('resultAddPost :>> ', resultAddPost);
-          expect(resultAddPost?.data?.addPost.title).toEqual('Je créer un post');
-         }else{
-           console.log('userId#2 :>> ', userId);
-          console.log('resultAddPostError :>> ', resultAddPost);
+          variables: {
+            input: {
+              title: 'Je créer un post',
+              wysiwyg: '<h1> Je suis un Test </h1>',
+              skills: [{ value: 'ANG' }],
+            },
+          },
+        });
 
-         }
-      } 
-      
+        expect(resultAddPost?.errors).toBeUndefined();
+        expect(resultAddPost?.data?.addPost.title).toEqual('Je créer un post');
+        expect(resultAddPost?.data?.addPost.wysiwyg).toEqual('<h1> Je suis un Test </h1>');
+        expect(resultAddPost?.data?.addPost.skills).toHaveLength(1);
+      }
     }
-    
-   
-    
   });
 });
