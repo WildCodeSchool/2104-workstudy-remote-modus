@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import Wysiwyg from "./Wysiwyg";
 import Skill from "../../models/Skill";
-import skillHandler from "../../utils/skillHandler";
+import { skillHandler } from "../../utils/skillHandler";
 
 const ADD_POST = gql`
   mutation AddPost($input: inputAddPost!) {

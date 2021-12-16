@@ -2,6 +2,8 @@ import React from "react";
 import { Col, Button, Accordion } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "../../css/styles.css";
+import { convertStringToLogo } from "../../utils/skillHandler";
+// import img from "../../img/angular.png";
 
 export type PostContainerProps = {
   title: string;
@@ -20,10 +22,20 @@ const PostContainer = (props: PostContainerProps): JSX.Element => {
     <Accordion.Item eventKey={eventKey} className="bg-transparent">
       <Accordion.Header>
         <Col xs="1">
-          {skills.map((skill: { value: string; label: string }, id: number) => {
+          {convertStringToLogo(skills).map((skill, id) => {
             const key = `skill-${id}`;
-            return <div key={key}>{skill.value}</div>;
+            console.log(skill);
+            return (
+              <div key={key}>
+                <img src={skill} alt="logo" />;{/* <img alt="" src={img} /> */}
+              </div>
+            );
           })}
+          {/* {skills.map((skill: { value: string; label: string }, id: number) => {
+            const key = `skill-${id}`;
+            // return <div key={key}>{skill.value}</div>;
+            return <img src="/img" />;
+          })} */}
         </Col>
         <Col className="title-post">{title}</Col>
       </Accordion.Header>
