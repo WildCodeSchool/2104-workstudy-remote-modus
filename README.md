@@ -9,8 +9,3 @@
 
 # Stop all the containers
 -       docker-compose down
-# Test....Alexis
-
-# Test CD
-ça fonctionne ?
-OUI
